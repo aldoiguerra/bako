@@ -1,0 +1,160 @@
+
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Numero de resultado obtidos: 1
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Numero de resultado obtidos: 1
+Wednesday 9 de October 2013 04:22:50 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Recebido pedido para salvar categoria: 
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Iniciando transação.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Buscando se categoria existe.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto WHERE id = ''
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Categoria localizado: 
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Efetuando consulta: INSERT INTO categoriaProduto (id,descricao,categoriaProdutoPaiId) VALUES ('','Importadas','1')
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Recupenrando ultimo id.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Ultimo Id: 2
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto WHERE id = '2'
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Realizando commit.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Categoria salvo com sucesso
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:23:11 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:23:52 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:23:53 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:24:06 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:24:07 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:24:11 AM - DEBUG: Recebido pedido para consultar categoria: 2
+Wednesday 9 de October 2013 04:24:11 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:11 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:11 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto WHERE id = '2'
+Wednesday 9 de October 2013 04:24:11 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:11 AM - DEBUG: Categoria consultado: 2
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:24:59 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:25:00 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:25:01 AM - DEBUG: Recebido pedido para consultar categoria: 2
+Wednesday 9 de October 2013 04:25:01 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:01 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:01 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto WHERE id = '2'
+Wednesday 9 de October 2013 04:25:01 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:01 AM - DEBUG: Categoria consultado: 2
+Wednesday 9 de October 2013 04:25:06 AM - DEBUG: Recebido pedido para consultar categoria: 1
+Wednesday 9 de October 2013 04:25:06 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:06 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:06 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto WHERE id = '1'
+Wednesday 9 de October 2013 04:25:06 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:06 AM - DEBUG: Categoria consultado: 1
+Wednesday 9 de October 2013 04:25:10 AM - DEBUG: Recebido pedido para consultar categoria: 1
+Wednesday 9 de October 2013 04:25:10 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:10 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:10 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto WHERE id = '1'
+Wednesday 9 de October 2013 04:25:10 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:10 AM - DEBUG: Categoria consultado: 1
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Recebido pedido para listar os dados.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Efetuando consulta: SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Retorno retornarDadosLista: 1
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Recebido pedido para select dos dados.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Efetuando consulta: SELECT id,descricao FROM categoriaProduto
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Numero de resultado obtidos: 2
+Wednesday 9 de October 2013 04:25:23 AM - DEBUG: Retorno retornarDadosLista: 1
