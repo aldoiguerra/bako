@@ -44,7 +44,7 @@ require_once ('../controller/categoria.php');
             </div>
             <div class="field">
                     <label class="label">Categoria pai</label>
-                    <select id="slCategoria" onchange="document.getElementById('prefixo').value=this.value;this.title = this.selectedIndex.innerHTML" style="max-width:280px;">
+                    <select id="slCategoria" onchange="document.getElementById('prefixo').value=this.value;this.title = this.selectedIndex.innerHTML;" style="max-width:280px;">
 
                     </select>
             </div>

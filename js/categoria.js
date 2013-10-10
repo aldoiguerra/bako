@@ -61,7 +61,7 @@ function listarDados(){
                 var tamanhoDados = dados.length; 
                 for(var i=0;i<tamanhoDados;i++){
                     lista = lista + '<li>';
-                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" />';
+                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />';
                     lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["id"]+'<h3>';

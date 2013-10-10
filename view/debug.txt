@@ -31,3 +31,19 @@ Tuesday 8 de October 2013 11:54:32 PM - DEBUG: Criando nova instancia para conex
 Tuesday 8 de October 2013 11:54:32 PM - DEBUG: Conectando com o banco de dados.
 Tuesday 8 de October 2013 11:54:32 PM - DEBUG: Efetuando consulta: SELECT usuario,senha,tipo,nome FROM usuario WHERE usuario = 'sysadmin'
 Tuesday 8 de October 2013 11:54:32 PM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 10:02:56 PM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 10:02:56 PM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 10:03:57 PM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 10:03:57 PM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 10:04:40 PM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 10:04:40 PM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 10:05:47 PM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 10:05:47 PM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 10:05:47 PM - DEBUG: Efetuando consulta: SELECT usuario,senha,tipo,nome FROM usuario WHERE usuario = 'sysadmin'
+Wednesday 9 de October 2013 10:05:47 PM - DEBUG: Consulta executada com sucesso.
+Wednesday 9 de October 2013 11:09:41 PM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 11:09:41 PM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 11:09:58 PM - DEBUG: Criando nova instancia para conexão.
+Wednesday 9 de October 2013 11:09:58 PM - DEBUG: Conectando com o banco de dados.
+Wednesday 9 de October 2013 11:09:58 PM - DEBUG: Efetuando consulta: SELECT usuario,senha,tipo,nome FROM usuario WHERE usuario = 'sysadmin'
+Wednesday 9 de October 2013 11:09:58 PM - DEBUG: Consulta executada com sucesso.

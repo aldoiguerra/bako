@@ -24,7 +24,7 @@ function listarDados(){
             if(data.retorno){
                 var colunas = data.colunas;
                 var dados = data.dados;
-                var tabela = '<table cellspacing="0" cellpadding="0">';
+                /*var tabela = '<table cellspacing="0" cellpadding="0">';
                 tabela = tabela + '<tr>';
                 tabela = tabela + '<th>Usuário</th>';
                 tabela = tabela + '<th>Nome</th>';
@@ -43,9 +43,24 @@ function listarDados(){
                     tabela = tabela + '</tr>';
                 }
                 tabela = tabela + '</tbody>';
-                tabela = tabela + '</table>';
-                document.getElementById("lista").innerHTML = tabela;
+                tabela = tabela + '</table>';*/
+                var lista = "";
+                var tamanhoDados = dados.length; 
+                for(var i=0;i<tamanhoDados;i++){
+                    lista = lista + '<li>';
+                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onclick="populaDados(\''+dados[i]["usuario"]+'\',\''+dados[i]["nome"]+'\',\''+dados[i]["tipo"]+'\');" />'
+                    lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
+				lista = lista + '<span class="indicator">&nbsp;</span>';
+				lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
+				lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
+				lista = lista + '<p>'+dados[i]["tipo"]+'</p>';
+                    lista = lista + '</label>';
+                    lista = lista + '</li>';
+                }
+                document.getElementById("lista").innerHTML = lista;
                 editar();
+            }else{
+                document.getElementById("lista").innerHTML = "";
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar dados: ".textStatus);});                
 }
@@ -55,6 +70,12 @@ function limparCampos(){
     $("#nome").val("");
     $("#senha").val("");
     $("#tipo").val("");    
+}
+
+function populaDados(usuario,nome,tipo){
+    document.getElementById("usuario").value = usuario;
+    document.getElementById("nome").value = nome;
+    document.getElementById("tipo").value = tipo;    
 }
 
 $(document).ready(function(){
