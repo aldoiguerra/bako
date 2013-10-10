@@ -18,30 +18,24 @@ if (isset($_SESSION["usuario"]) && ($_SESSION["usuario"] != "")) {
 }
 ?>
 
-<div>
-<div>
-    <div>
-        <a href="<?php echo $caminho . "view/index.php"; ?>">home</a>
-    </div>
-    <div>
-        <a href="<?php echo $caminho . "view/sobre.php"; ?>">sobre</a>
-    </div>
-    <?php if ($usuario) { ?>
-        <?php if ($usuario->__get("tipo") == 1) { ?>
-            <div>
-                <a href="javascript:mudarMenu('menuAdmin');">Administração</a>
-            </div>
-            <div id="menuAdmin" style="display:none;">
-                <ul>
-                        <li><a href="<?php echo $caminho . "view/cadastro_usuario.php"; ?>">Usuários</a></li>
-                        <li><a href="<?php echo $caminho . "view/cadastro_produto.php"; ?>">Produtos</a></li>
-                        <li><a href="<?php echo $caminho . "view/cadastro_categoria.php"; ?>">Categorias</a></li>
-                </ul>
-            </div>
+<nav>
+    <ul>
+        <li><a href="<?php echo $caminho . "view/index.php"; ?>">home</a></li>
+        <li><a href="<?php echo $caminho . "view/sobre.php"; ?>">sobre</a></li>
+        <?php if ($usuario) { ?>
+            <?php if ($usuario->__get("tipo") == 1) { ?>
+                <li>
+                    <a href="javascript:mudarMenu('menuAdmin');">Administração</a>
+                    <div id="menuAdmin" style="display:none;">
+                        <ul>
+                            <li><a href="<?php echo $caminho . "view/cadastro_usuario.php"; ?>">Usuários</a></li>
+                            <li><a href="<?php echo $caminho . "view/cadastro_produto.php"; ?>">Produtos</a></li>
+                            <li><a href="<?php echo $caminho . "view/cadastro_categoria.php"; ?>">Categorias</a></li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+            <li><a href="<?php echo $caminho . "controller/sair.php"; ?>">sair</a></li>
         <?php } ?>
-        <div>
-            <a href="<?php echo $caminho . "controller/sair.php"; ?>">sair</a>
-        </div>
-    <?php } ?>
-</div>
-</div>
+    </ul>
+</nav>

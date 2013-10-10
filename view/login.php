@@ -17,32 +17,33 @@ if(isset($_POST["logar"])){
 <!Doctype html>
 <html>
 <head>
-<title>Home</title>
+<title>Login</title>
 <?php include 'css_include.php';?> 
 </head>
 <body>
 <?php include 'cabecalho.php';?>
 
-<main>
-<h1>Login</h1>
-<div style="display:<?php echo $divres;?>;">
-    <h3><?php echo $mensagem;?></h3><br />
-</div>
-<form method="POST">
-    <div>
-            <label>Usuário</label>
-            <input type="text" size="30" name="usuario" />
+    <div class="row">
+        <div class="col-9">
+            <h1>Login</h1>
+            <div style="display:<?php echo $divres;?>;">
+                <h3><?php echo $mensagem;?></h3><br />
+            </div>
+            <form method="POST">
+                <div class="field">
+                        <span class="label">Usuário</span>
+                        <input type="text" size="30" name="usuario" />
+                </div>
+                <div  class="field">
+                        <span class="label">Senha</span>
+                        <input type="password" size="30" name="senha" />
+                </div>
+                <div class="button-bar">
+                        <input type="submit" name="logar" value="Logar" class="bt-success" />
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-            <label>Senha</label>
-            <input type="password" size="30" name="senha" />
-    </div>
-    <div style="margin-top:20px;">
-            <input type="submit" name="logar" value="Logar" />
-    </div>
-</form>
-
-</main>
 
 <?php include 'rodape.php';?>
 <?php include 'js_include.php';?> 
