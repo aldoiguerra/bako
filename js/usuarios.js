@@ -1,7 +1,7 @@
 
 function editar(){
-    $("a[name='editar']").click(function(){
-        var variaveis = {"consultar": $(this).attr("id")};
+    $("input[name='editar']").click(function(){
+        var variaveis = {"consultar": $(this).val()};
         $.post(urlUsuario, variaveis,
             function(data) {
                 if(data.retorno){
@@ -48,7 +48,7 @@ function listarDados(){
                 var tamanhoDados = dados.length; 
                 for(var i=0;i<tamanhoDados;i++){
                     lista = lista + '<li>';
-                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onclick="populaDados(\''+dados[i]["usuario"]+'\',\''+dados[i]["nome"]+'\',\''+dados[i]["tipo"]+'\');" />'
+                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
                     lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
@@ -70,12 +70,6 @@ function limparCampos(){
     $("#nome").val("");
     $("#senha").val("");
     $("#tipo").val("");    
-}
-
-function populaDados(usuario,nome,tipo){
-    document.getElementById("usuario").value = usuario;
-    document.getElementById("nome").value = nome;
-    document.getElementById("tipo").value = tipo;    
 }
 
 $(document).ready(function(){

@@ -1,7 +1,7 @@
 
 function editar(){
-    $("a[name='editar']").click(function(){
-        var variaveis = {"consultar": $(this).attr("id")};
+    $("input[name='editar']").click(function(){
+        var variaveis = {"consultar": $(this).val()};
         $.post(urlCategoria, variaveis,
             function(data) {
                 if(data.retorno){
