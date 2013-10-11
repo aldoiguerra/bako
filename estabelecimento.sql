@@ -55,6 +55,35 @@ create table pedido(
 	foreign key (contaId) references conta(id)
 )engine = InnoDB;
 
+DELIMITER //
+--DROP FUNCTION IF EXISTS buscarDescricao//
+CREATE FUNCTION buscarDescricao(idPai INT)
+    RETURNS VARCHAR(500)
+    DETERMINISTIC
+    BEGIN
+        DECLARE pai INT;
+        DECLARE desc1 VARCHAR(50);
+        DECLARE descFinal VARCHAR(50);
+        SET descFinal = '';
+        busca1: LOOP
+            IF idPai IS NOT NULL THEN
+                SELECT descricao,categoriaProdutoPaiId INTO desc1,pai FROM categoriaProduto WHERE id = idPai;
+                If descFinal = '' THEN
+                    SET descFinal = desc1;
+                ELSE
+                    SET descFinal = CONCAT(desc1,'->',descFinal);
+                END IF;
+                IF pai IS NOT NULL THEN
+                    SET idPai = pai;
+                    ITERATE busca1;
+                END IF;
+            END IF;
+        LEAVE busca1;
+        END LOOP busca1;
+        RETURN  descFinal;
+    END//
+DELIMITER ;
+
 --S%s@dm1n
 insert into usuario (nome,usuario,senha,tipo) values ('Administrador','sysadmin','742379261b4ba6149a2c3bc7ca8d1cb31f176642',1);
 

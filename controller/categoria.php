@@ -29,7 +29,7 @@ function popularSelect(){
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,descricao,categoriaProdutoPaiId FROM categoriaProduto");
+    $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaProdutoPaiId) AS categoriaProdutoPaiId FROM categoriaProduto");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);

@@ -3,7 +3,7 @@
 function debug($nivel,$conteudo){
 
     $nivelDefinido = 3;
-    $arquivo = "debug.txt";
+    $arquivo = "../debug.txt";
     
     if($nivel <= $nivelDefinido){
 
