@@ -4,7 +4,7 @@ require_once ('../model/Categoria.class.php');
 
 function popularSelect(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,descricao FROM categoriaProduto");
+    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao FROM categoriaProduto");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
