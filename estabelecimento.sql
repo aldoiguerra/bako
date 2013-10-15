@@ -56,7 +56,7 @@ create table pedido(
 )engine = InnoDB;
 
 DELIMITER //
---DROP FUNCTION IF EXISTS buscarDescricao//
+DROP FUNCTION IF EXISTS buscarDescricao//
 CREATE FUNCTION buscarDescricao(idPai INT)
     RETURNS VARCHAR(500)
     DETERMINISTIC
@@ -73,7 +73,7 @@ CREATE FUNCTION buscarDescricao(idPai INT)
                 ELSE
                     SET descFinal = CONCAT(desc1,'->',descFinal);
                 END IF;
-                IF pai IS NOT NULL THEN
+                IF pai IS NOT NULL && pai != idPai THEN
                     SET idPai = pai;
                     ITERATE busca1;
                 END IF;
