@@ -1,5 +1,7 @@
 <?php
 require_once ('../controller/debug.php');
+require_once ('../dao/dados.php');
+
 /**
  * @author aldoig
  * @version 1.0
@@ -20,10 +22,10 @@ class ConexaoSingleton
     private $dados = null;
     
     private function __construct() {
-        $this->usuario = "root";
-        $this->senha = "";
-        $this->host = "localhost";
-        $this->banco = "dbestabelecimento";
+        $this->usuario = $GLOBALS["usuario"];
+        $this->senha = $GLOBALS["senha"];
+        $this->host = $GLOBALS["host"];
+        $this->banco = $GLOBALS["banco"];
         $this->consulta = "";
         $this->dados = array();
     }

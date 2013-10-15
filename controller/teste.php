@@ -9,6 +9,15 @@ $tamanho = sizeof($ret);
 if(ConexaoSingleton::getConexao()->getNumResultados() == 0) return null;
 */
 
+//$GLOBALS["usuario"] = "admin";
+
+function teste(){
+    echo $GLOBALS["usuario"];    
+}
+
+teste();
+echo $GLOBALS["usuario"];
+
 //echo "Teste: ".sha1("S%s@dm1n")."<br />";
 
 $con=mysqli_connect("localhost","root","","dbestabelecimento");
