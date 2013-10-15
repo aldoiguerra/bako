@@ -5,7 +5,7 @@ require_once ('../model/Produto.class.php');
 function retornarArray(){
     $string = "";
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, p.categoriaId, p.preco FROM dbestabelecimento.produto p");
+    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, p.categoriaId, p.preco FROM produto p");
     return $connect->get_array($result);
 }
 
@@ -35,7 +35,7 @@ function popularSelect(){
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, buscarDescricao(p.categoriaId) As categoria, p.preco FROM dbestabelecimento.produto p");
+    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, buscarDescricao(p.categoriaId) As categoria, p.preco FROM produto p");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
