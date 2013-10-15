@@ -39,7 +39,7 @@ class Produto extends DaoPadrao
 
     function getTableName()
     {
-        return "Produto";
+        return "produto";
     }
     
     function getIdValue()
