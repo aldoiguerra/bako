@@ -33,7 +33,7 @@ require_once ('../controller/produto.php');
         </div>
         <div class="row">
             <div class="col-12" id="cadastro">
-                <div class="field">
+                <div class="field" style="display: none">
                         <label class="label">Código</label>
                         <input type="text" size="30" id="codigo" disabled/>
                 </div>
@@ -55,6 +55,14 @@ require_once ('../controller/produto.php');
 
                     </select>
                 </div>
+                <div class="field">
+                    <span class="label">Status</span>
+                    <div class="toggle">
+                        <label><input type="radio" name="rAI" id="ckAtivo" checked="true" value="1"/><span>Ativo</span></label>
+                        <label><input type="radio" name="rAI" id="ckInativo" value="0"/><span>Inativo</span></label>
+                    </div>
+                </div>
+
             </div>
          </div>
         <div class="button-bar">

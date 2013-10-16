@@ -8,6 +8,13 @@ function editar(){
                     $("#id").val(data.id);
                     $("#descricao").val(data.descricao);
                     $("#slCategoria").val(data.categoriaPai);
+                    if (data.status == 1){
+                        $("#ckInativo").attr("checked",false);
+                        $("#ckAtivo").attr("checked",true);
+                    }else{
+                        $("#ckAtivo").attr("checked",false);
+                        $("#ckInativo").attr("checked",true);
+                    }
                     $("#btnNovo").show();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();                    
@@ -127,13 +134,27 @@ $(document).ready(function(){
                     }
                 }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao excluir categoria: "+textStatus);});
         }
+        popularSelect();
     });
     
     $("#btnSalvar").click(function(){
+        if ($("#descricao").val()==""){
+            $("#retorno").html("Obrigatório preencher a descrição.");
+            $("#descricao").focus();
+            return
+        }
+        var status = "";
+        //Executa Loop entre todas as Radio buttons com o name de valor
+        $('input:radio[name=rAI]').each(function() {
+            //Verifica qual está selecionado
+            if ($(this).is(':checked'))
+                status = parseInt($(this).val());
+        })
         var variaveis = {"salvar": "1",
                         "id": $("#id").val(),
                         "descricao": $("#descricao").val(),
-                        "categoriaPai": $("#slCategoria").val()
+                        "categoriaPai": $("#slCategoria").val(),
+                        "status": status
                         };
         $.post(urlCategoria, variaveis,
             function(data) {
@@ -147,6 +168,7 @@ $(document).ready(function(){
                     $("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
+        popularSelect();
     });
 
 });

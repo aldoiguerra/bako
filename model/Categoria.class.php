@@ -10,6 +10,7 @@ class Categoria extends DaoPadrao
     private $id = null;
     private $descricao = null;
     private $categoriaPaiId = null;
+    private $status = null;
     
     public function __construct() {
         
@@ -47,24 +48,24 @@ class Categoria extends DaoPadrao
 
     function getSelectList()
     {
-        return "id,descricao,categoriaPaiId";
+        return "id,descricao,categoriaPaiId,status";
     }
 
     function getInsertList()
     {
         if($this->categoriaPaiId == ""){
-            return "'$this->id','$this->descricao',NULL";
+            return "'$this->id','$this->descricao',NULL,'$this->status'";
         }else{
-            return "'$this->id','$this->descricao','$this->categoriaPaiId'";
+            return "'$this->id','$this->descricao','$this->categoriaPaiId','$this->status'";
         }
     }
 
     function getUpdateList()
     {
         if($this->categoriaPaiId == ""){
-            return "id='$this->id',descricao='$this->descricao',categoriaPaiId=NULL";
+            return "id='$this->id',descricao='$this->descricao',categoriaPaiId=NULL,status='$this->status'";
         }else{
-            return "id='$this->id',descricao='$this->descricao',categoriaPaiId='$this->categoriaPaiId'";
+            return "id='$this->id',descricao='$this->descricao',categoriaPaiId='$this->categoriaPaiId',status='$this->status'";
         }
     }
 
@@ -81,6 +82,7 @@ class Categoria extends DaoPadrao
             $this->id = $r[0];
             $this->descricao = $r[1];
             $this->categoriaPaiId = $r[2];
+            $this->status = $r[3];
         }
         return $ret;
     }

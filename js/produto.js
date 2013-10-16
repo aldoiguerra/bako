@@ -10,6 +10,17 @@ function editar(){
                     $("#descricao").val(data.descricao);
                     $("#slCategoria").val(data.categoriaId);
                     $("#preco").val(data.preco);
+                    if (data.status == 1){
+                        //$("#ckAtivo").attr("checked",true);
+                        //$("#ckInativo").attr("checked",false);
+                        document.getElementById("ckAtivo").setAttribute("checked",true);
+                        document.getElementById("ckInativo").removeAttribute("checked");
+                    }else{
+                        document.getElementById("ckInativo").setAttribute("checked",true);
+                        document.getElementById("ckAtivo").removeAttribute("checked");
+                        //$("#ckAtivo").attr("checked",false);
+                        //$("#ckInativo").attr("checked",true);
+                    }
                     $("#btnNovo").show();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();
@@ -82,7 +93,7 @@ $(document).ready(function(){
         $("#btnNovo").show();
         $("#btnEditar").hide();
         $("#btnSalvar").hide();
-        $("#btnExcluir").hide();
+        //$("#btnExcluir").hide();
     });
     
     $("#btnNovo").click(function() {
@@ -91,17 +102,17 @@ $(document).ready(function(){
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
-        $("#btnExcluir").hide();
+        //$("#btnExcluir").hide();
     });
     
     $("#btnEditar").click(function() {
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
-        $("#btnExcluir").show();
+        //$("#btnExcluir").show();
     });
     
-    $("#btnExcluir").click(function() {
+    /*$("#btnExcluir").click(function() {
         if(confirm("Confirma a exclusão do produto "+$("#codigo").val()+"'")){
             var variaveis = {"excluir": $("#codigo").val()};
             $.post(urlProduto, variaveis,
@@ -117,7 +128,7 @@ $(document).ready(function(){
                     }
                 }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao excluir usuário: "+textStatus);});
         }
-    });
+    });*/
     
     $("#btnSalvar").click(function(){
         if ($("#nome").val() == ""){
@@ -133,12 +144,20 @@ $(document).ready(function(){
             $("#slCategoria").focus();
             return
         }
+        var status = "";
+        //Executa Loop entre todas as Radio buttons com o name de valor
+        $('input:radio[name=rAI]').each(function() {
+            //Verifica qual está selecionado
+            if ($(this).is(':checked'))
+                status = parseInt($(this).val());
+        })
         var variaveis = {"salvar": "1",
                         "codigo": $("#codigo").val(),
                         "nome": $("#nome").val(),
                         "descricao": $("#descricao").val(),
                         "categoriaId": $("#slCategoria").val(),
-                        "preco": $("#preco").val()
+                        "preco": $("#preco").val(),
+                        "status": status
                         };
         $.post(urlProduto, variaveis,
             function(data) {
@@ -149,13 +168,13 @@ $(document).ready(function(){
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
                     $("#btnSalvar").hide();
-                    $("#btnExcluir").hide();
+                    //$("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
     $("#btnNovo").show();
     $("#btnEditar").hide();
     $("#btnSalvar").hide();
-    $("#btnExcluir").hide();
+    //$("#btnExcluir").hide();
     listarDados();
     limparCampos();
 });
