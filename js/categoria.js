@@ -66,7 +66,7 @@ function listarDados(){
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
 				lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
-				lista = lista + '<p>'+dados[i]["categoriaProdutoPaiId"]+'</p>';
+				lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
                     lista = lista + '</label>';
                     lista = lista + '</li>';
                 }

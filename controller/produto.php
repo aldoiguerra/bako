@@ -11,7 +11,7 @@ function retornarArray(){
 
 function popularSelect(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao FROM categoriaProduto");
+    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao FROM categoria");
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         

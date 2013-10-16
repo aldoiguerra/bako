@@ -4,7 +4,7 @@ require_once ('../model/Categoria.class.php');
 
 function popularSelect(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao FROM categoriaProduto");
+    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao FROM categoria");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
@@ -29,13 +29,13 @@ function popularSelect(){
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaProdutoPaiId) AS categoriaProdutoPaiId FROM categoriaProduto");
+    $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaPaiId) AS categoriaPaiId FROM categoria");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
             "retorno"=>true,
-            "colunas"=>array("id","descricao","categoriaProdutoPaiId"),
+            "colunas"=>array("id","descricao","categoriaPaiId"),
             "dados"=>$arraydados
         );
         
@@ -61,7 +61,7 @@ function salvar($id,$descricao,$categoriaPai){
         
         $objC->__set("id",$id);
         $objC->__set("descricao",$descricao);
-        $objC->__set("categoriaProdutoPaiId",$categoriaPai);
+        $objC->__set("categoriaPaiId",$categoriaPai);
 
         if($idAntigo){
             $ret = $objC->update();
@@ -104,7 +104,7 @@ if(isset($_POST["salvar"])){
             "retorno"=>true,
             "id"=>$objC->__get("id"),
             "descricao"=>$objC->__get("descricao"),
-            "categoriaPai"=>$objC->__get("categoriaProdutoPaiId")
+            "categoriaPai"=>$objC->__get("categoriaPaiId")
             );
     }else{
         $array = array(

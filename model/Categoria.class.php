@@ -9,7 +9,7 @@ class Categoria extends DaoPadrao
 
     private $id = null;
     private $descricao = null;
-    private $categoriaProdutoPaiId = null;
+    private $categoriaPaiId = null;
     
     public function __construct() {
         
@@ -37,7 +37,7 @@ class Categoria extends DaoPadrao
 
     function getTableName()
     {
-        return "categoriaProduto";
+        return "categoria";
     }
     
     function getIdValue()
@@ -47,24 +47,24 @@ class Categoria extends DaoPadrao
 
     function getSelectList()
     {
-        return "id,descricao,categoriaProdutoPaiId";
+        return "id,descricao,categoriaPaiId";
     }
 
     function getInsertList()
     {
-        if($this->categoriaProdutoPaiId == ""){
+        if($this->categoriaPaiId == ""){
             return "'$this->id','$this->descricao',NULL";
         }else{
-            return "'$this->id','$this->descricao','$this->categoriaProdutoPaiId'";
+            return "'$this->id','$this->descricao','$this->categoriaPaiId'";
         }
     }
 
     function getUpdateList()
     {
-        if($this->categoriaProdutoPaiId == ""){
-            return "id='$this->id',descricao='$this->descricao',categoriaProdutoPaiId=NULL";
+        if($this->categoriaPaiId == ""){
+            return "id='$this->id',descricao='$this->descricao',categoriaPaiId=NULL";
         }else{
-            return "id='$this->id',descricao='$this->descricao',categoriaProdutoPaiId='$this->categoriaProdutoPaiId'";
+            return "id='$this->id',descricao='$this->descricao',categoriaPaiId='$this->categoriaPaiId'";
         }
     }
 
@@ -80,7 +80,7 @@ class Categoria extends DaoPadrao
             $r = mysqli_fetch_array($ret);
             $this->id = $r[0];
             $this->descricao = $r[1];
-            $this->categoriaProdutoPaiId = $r[2];
+            $this->categoriaPaiId = $r[2];
         }
         return $ret;
     }
