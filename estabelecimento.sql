@@ -13,14 +13,41 @@ create table usuario(
 	primary key (usuario)
 )engine = InnoDB;
 
-create table categoriaProduto(
+create table adicional(
 	id integer not null auto_increment,
 	descricao varchar(50) not null,
-        categoriaProdutoPaiId integer,
 	primary key (id)
 )engine = InnoDB;
 
-alter table categoriaProduto add foreign key (categoriaProdutoPaiId) references categoriaProduto(id);
+create table categoria(
+	id integer not null auto_increment,
+	descricao varchar(50) not null,
+        categoriaPaiId integer,
+	primary key (id)
+)engine = InnoDB;
+
+alter table categoria add foreign key (categoriaPaiId) references categoria(id);
+
+create table categoriaAdicional(
+	id integer not null auto_increment,
+        categoriaId integer not null,
+        adicionalId integer not null,
+	primary key (id),
+        foreign key (categoriaId) references categoria(id),
+        foreign key (adicionalId) references adicional(id)
+)engine = InnoDB;
+
+create table produto(
+	id integer not null auto_increment,
+	codigo varchar(50) not null,
+	nome varchar(50) not null,
+	descricao varchar(250) not null,
+	preco float(15,2) not null,
+        foto varchar(100) not null,
+        categoriaId integer,
+	primary key (id),
+        foreign key (categoriaId) references categoria(id)
+)engine = InnoDB;
 
 create table conta(
 	id integer not null auto_increment,
@@ -33,26 +60,24 @@ create table conta(
 	primary key (id)
 )engine = InnoDB;
 
-create table produto(
-	id integer not null auto_increment,
-	codigo varchar(50) not null,
-	nome varchar(50) not null,
-	descricao varchar(250) not null,
-	preco float(0) not null,
-        foto varchar(100) not null,
-        categoriaId integer,
-	primary key (id),
-        foreign key (categoriaId) references categoriaProduto(id)
-)engine = InnoDB;
-
 create table pedido(
 	id integer not null auto_increment,
-	quantidade float(0) not null,
+	quantidade float(15,2) not null,
 	produtoId integer not null,
 	contaId integer not null,
+        observacao varchar(250),
 	primary key (id),
 	foreign key (produtoId) references produto(id),
 	foreign key (contaId) references conta(id)
+)engine = InnoDB;
+
+create table pedidoAdicional(
+	id integer not null auto_increment,
+        pedidoId integer not null,
+        adicionalId integer not null,
+	primary key (id),
+        foreign key (pedidoId) references pedido(id),
+        foreign key (adicionalId) references adicional(id)
 )engine = InnoDB;
 
 DELIMITER //
@@ -67,7 +92,7 @@ CREATE FUNCTION buscarDescricao(idPai INT)
         SET descFinal = '';
         busca1: LOOP
             IF idPai IS NOT NULL THEN
-                SELECT descricao,categoriaProdutoPaiId INTO desc1,pai FROM categoriaProduto WHERE id = idPai;
+                SELECT descricao,categoriaPaiId INTO desc1,pai FROM categoria WHERE id = idPai;
                 If descFinal = '' THEN
                     SET descFinal = desc1;
                 ELSE
