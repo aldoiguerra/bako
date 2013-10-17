@@ -20,7 +20,7 @@ require_once ('../controller/categoria.php');
 
 <aside>
     <div class="search-page">
-            <input type="text" placeholder="Pesquise pelo produto desejado" size="34" />
+            <input type="text" id="pesquisar" placeholder="Pesquise pelo produto desejado" size="34" />
     </div>
     <ul id="lista"></ul>
 </aside>

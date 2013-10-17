@@ -19,7 +19,7 @@ require_once ('../controller/produto.php');
     
     <aside>
         <div class="search-page">
-                <input type="text" placeholder="Pesquise pelo produto desejado" size="34" />
+                <input type="text" id="pesquisar" placeholder="Pesquise pelo produto desejado" size="34" />
         </div>
         <ul id="lista"></ul>
     </aside>
@@ -33,7 +33,7 @@ require_once ('../controller/produto.php');
         </div>
         <div class="row">
             <div class="col-12" id="cadastro">
-                <div class="field" style="display: none">
+                <div class="field">
                         <label class="label">Código</label>
                         <input type="text" size="30" id="codigo" disabled/>
                 </div>
