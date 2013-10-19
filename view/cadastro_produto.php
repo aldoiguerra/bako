@@ -19,7 +19,7 @@ require_once ('../controller/produto.php');
     
     <aside>
         <div class="search-page">
-                <input type="text" placeholder="Pesquise pelo produto desejado" size="34" />
+                <input type="text" id="pesquisar" placeholder="Pesquise pelo produto desejado" size="34" />
         </div>
         <ul id="lista"></ul>
     </aside>
@@ -55,6 +55,14 @@ require_once ('../controller/produto.php');
 
                     </select>
                 </div>
+                <div class="field">
+                    <span class="label">Status</span>
+                    <div class="toggle">
+                        <label><input type="radio" name="rAI" id="ckAtivo" checked="true" value="1"/><span>Ativo</span></label>
+                        <label><input type="radio" name="rAI" id="ckInativo" value="0"/><span>Inativo</span></label>
+                    </div>
+                </div>
+
             </div>
          </div>
         <div class="button-bar">

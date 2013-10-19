@@ -5,7 +5,7 @@ require_once ('../model/Produto.class.php');
 function retornarArray(){
     $string = "";
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, p.categoriaId, p.preco FROM produto p");
+    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, p.categoriaId, p.preco, p.status FROM produto p");
     return $connect->get_array($result);
 }
 
@@ -35,13 +35,13 @@ function popularSelect(){
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, buscarDescricao(p.categoriaId) As categoria, p.preco FROM produto p");
+    $result = $connect->executar("SELECT p.id, p.nome, p.descricao, buscarDescricao(p.categoriaId) As categoria, p.preco, p.status FROM produto p");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
             "retorno"=>true,
-            "colunas"=>array("id","nome","descricao","categoria","preco"),
+            "colunas"=>array("id","nome","descricao","categoria","preco","status"),
             "dados"=>$arraydados
         );
         
@@ -54,7 +54,7 @@ function retornarDadosLista(){
     return $array;
 }
 
-function salvar($codigo,$nome,$descricao,$categoriaId,$preco){
+function salvar($codigo,$nome,$descricao,$categoriaId,$preco,$status){
     
     try {
         ConexaoSingleton::getConexao()->startTransaction();
@@ -70,6 +70,7 @@ function salvar($codigo,$nome,$descricao,$categoriaId,$preco){
         $objP->__set("descricao",$descricao);
         $objP->__set("categoriaId",$categoriaId);
         $objP->__set("preco",$preco);
+        $objP->__set("status",$status);
         if($idAntigo){
             $ret = $objP->update();
         }else{
@@ -90,7 +91,7 @@ function salvar($codigo,$nome,$descricao,$categoriaId,$preco){
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar produto: ".$_POST["codigo"]);
-    $ret = salvar($_POST["codigo"],$_POST["nome"],$_POST["descricao"],$_POST["categoriaId"],$_POST["preco"]);
+    $ret = salvar($_POST["codigo"],$_POST["nome"],$_POST["descricao"],$_POST["categoriaId"],$_POST["preco"],$_POST["status"]);
     if($ret){
         echo json_encode(array(
             "retorno"=>true,
@@ -113,7 +114,8 @@ if(isset($_POST["salvar"])){
             "nome"=>$objP->__get("nome"),
             "descricao"=>$objP->__get("descricao"),
             "categoriaId"=>$objP->__get("categoriaId"),
-            "preco"=>$objP->__get("preco")
+            "preco"=>$objP->__get("preco"),
+            "status"=>$objP->__get("status")
             );
     }else{
         $array = array(
@@ -123,7 +125,7 @@ if(isset($_POST["salvar"])){
 }else if(isset($_POST["listar"])){
     debug(3, "Recebido pedido para listar os dados.");
     echo json_encode(retornarDadosLista());
-}else if(isset($_POST["excluir"])){
+}/*else if(isset($_POST["excluir"])){
     debug(3, "Recebido pedido para excluir produto: ".$_POST["excluir"]);
     $objP = new Produto();
     $ret = $objP->load($_POST["excluir"]);
@@ -141,7 +143,7 @@ if(isset($_POST["salvar"])){
             );
     }
     echo json_encode($array);
-}else if(isset($_POST["popularSelect"])){
+}*/else if(isset($_POST["popularSelect"])){
     debug(3, "Recebido pedido para select dos dados.");
     echo json_encode(popularSelect());
 }

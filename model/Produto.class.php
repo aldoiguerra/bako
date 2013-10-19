@@ -12,6 +12,7 @@ class Produto extends DaoPadrao
     private $descricao = null;
     private $categoriaId = null;
     private $preco = null;
+    private $status = null;
     
     public function __construct() {
         
@@ -49,17 +50,17 @@ class Produto extends DaoPadrao
 
     function getSelectList()
     {
-        return "id,nome,descricao,categoriaId,preco";
+        return "id,nome,descricao,categoriaId,preco,status";
     }
 
     function getInsertList()
     {
-        return "'$this->id','$this->nome','$this->descricao','$this->categoriaId','$this->preco'";
+        return "'$this->id','$this->nome','$this->descricao','$this->categoriaId','$this->preco','$this->status'";
     }
 
     function getUpdateList()
     {
-        return "nome='$this->nome',descricao='$this->descricao',categoriaId='$this->categoriaId',preco='$this->preco'";
+        return "nome='$this->nome',descricao='$this->descricao',categoriaId='$this->categoriaId',preco='$this->preco',status='$this->status'";
     }
 
     function isAutoIncrement()
@@ -77,6 +78,7 @@ class Produto extends DaoPadrao
             $this->descricao = $r[2];
             $this->categoriaId = $r[3];
             $this->preco = $r[4];
+            $this->status = $r[5];
         }
         return $ret;
     }

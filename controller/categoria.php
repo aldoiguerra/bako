@@ -4,7 +4,7 @@ require_once ('../model/Categoria.class.php');
 
 function popularSelect(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao FROM categoria");
+    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao, status FROM categoria");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
@@ -29,13 +29,13 @@ function popularSelect(){
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaPaiId) AS categoriaPaiId FROM categoria");
+    $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaPaiId) AS categoriaPaiId, status FROM categoria");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
             "retorno"=>true,
-            "colunas"=>array("id","descricao","categoriaPaiId"),
+            "colunas"=>array("id","descricao","categoriaPaiId","status"),
             "dados"=>$arraydados
         );
         
@@ -48,7 +48,7 @@ function retornarDadosLista(){
     return $array;
 }
 
-function salvar($id,$descricao,$categoriaPai){
+function salvar($id,$descricao,$categoriaPai,$status){
     
     try {
         ConexaoSingleton::getConexao()->startTransaction();
@@ -62,6 +62,7 @@ function salvar($id,$descricao,$categoriaPai){
         $objC->__set("id",$id);
         $objC->__set("descricao",$descricao);
         $objC->__set("categoriaPaiId",$categoriaPai);
+        $objC->__set("status",$status);
 
         if($idAntigo){
             $ret = $objC->update();
@@ -83,7 +84,7 @@ function salvar($id,$descricao,$categoriaPai){
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar categoria: ".$_POST["id"]);
-    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"]);
+    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"],$_POST["status"]);
     if($ret){
         echo json_encode(array(
             "retorno"=>true,
@@ -104,7 +105,8 @@ if(isset($_POST["salvar"])){
             "retorno"=>true,
             "id"=>$objC->__get("id"),
             "descricao"=>$objC->__get("descricao"),
-            "categoriaPai"=>$objC->__get("categoriaPaiId")
+            "categoriaPai"=>$objC->__get("categoriaPaiId"),
+            "status"=>$objC->__get("status")
             );
     }else{
         $array = array(

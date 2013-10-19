@@ -16,14 +16,56 @@ function editar(){
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     });
 }
+function pesquisar(texto){
+    texto = texto.toUpperCase()
+    if(texto=="") {
+        var lista = "";
+        var tamanhoDados = dados.length;
+        for(var i=0;i<tamanhoDados;i++){
+            lista = lista + '<li>';
+            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
+            lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
+                lista = lista + '<span class="indicator">&nbsp;</span>';
+                lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
+                lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
+                lista = lista + '<p>'+dados[i]["tipo"]+'</p>';
+            lista = lista + '</label>';
+            lista = lista + '</li>';
+        }
+        document.getElementById("lista").innerHTML = lista;
+        editar();
+        return;
+    }
+    var tamanhoDados = dados.length;
+    var lista = ""
+    document.getElementById("lista").innerHTML = lista;
+    for(var i=0;i<tamanhoDados;i++){
+        var string = dados[i]["nome"];
+        string = string.toUpperCase()
+        if(string.indexOf(texto)>=0){
+            lista = lista + '<li>';
+            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
+            lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
+                lista = lista + '<span class="indicator">&nbsp;</span>';
+                lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
+                lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
+                lista = lista + '<p>'+dados[i]["tipo"]+'</p>';
+            lista = lista + '</label>';
+            lista = lista + '</li>';
+        }
+        document.getElementById("lista").innerHTML = lista;
+        editar();
+        popularSelect();
+    }
+}
 
 function listarDados(){
     var variaveis = {"listar": 1};
     $.post(urlUsuario, variaveis,
         function(data) {
             if(data.retorno){
-                var colunas = data.colunas;
-                var dados = data.dados;
+                colunas = data.colunas;
+                dados = data.dados;
                 /*var tabela = '<table cellspacing="0" cellpadding="0">';
                 tabela = tabela + '<tr>';
                 tabela = tabela + '<th>Usuário</th>';
@@ -76,6 +118,10 @@ $(document).ready(function(){
     
     listarDados();
 
+    $("#pesquisar").keyup(function() {
+        pesquisar($("#pesquisar").val());
+    });
+    
     $("#btnLimpar").click(function() {
         limparCampos();
         $("#btnNovo").show();
