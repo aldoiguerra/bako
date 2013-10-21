@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8",true);
-require_once ('../controller/categoria.php');
+require_once ('../controller/adicionalCategoria.php');
 ?>
 <!Doctype html>
 <html>
@@ -9,7 +9,7 @@ require_once ('../controller/categoria.php');
 <?php include 'css_include.php';?> 
 <script>
     document.createElement("main");
-    urlCategoria = "<?php echo retornaUrl()."controller/categoria.php"; ?>";
+    urlAdicional = "<?php echo retornaUrl()."controller/adicionalCategoria.php"; ?>";
 </script>
 </head>
 <body>
@@ -26,7 +26,7 @@ require_once ('../controller/categoria.php');
 </aside>
     
 <section id="section">
-    <h1>Cadastro de categoria</h1>
+    <h1>Cadastro de adicionais de categoria</h1>
     <div class="row">
         <div id="retorno">
 
@@ -42,13 +42,7 @@ require_once ('../controller/categoria.php');
                     <label class="label">Descrição</label>
                     <input type="text" size="50" id="descricao" >
             </div>
-            <div class="field">
-                    <label class="label">Categoria pai</label>
-                    <select id="slCategoria" onchange="document.getElementById('prefixo').value=this.value;this.title = this.selectedIndex.innerHTML;" style="max-width:280px;">
-
-                    </select>
-            </div>
-            <div class="field">
+            <!--div class="field">
                 <span class="label">Status</span>
                 <div class="toggle">
                     <label><input type="radio" name="rAI" id="ckAtivo" checked="true" value="1"/><span>Ativo</span></label>
@@ -58,7 +52,7 @@ require_once ('../controller/categoria.php');
             <div class="field">
                     <label class="label">Adicional</label>
                     <input type="text" size="40" id="adicional" >
-            </div>            
+            </div-->            
         </div>
      </div>
     <div class="button-bar">
@@ -74,7 +68,7 @@ require_once ('../controller/categoria.php');
 
 <?php include 'rodape.php';?>
 <?php include 'js_include.php';?> 
-<script type="text/javascript" src="../js/categoria.js"></script>
+<script type="text/javascript" src="../js/adicionalCategoria.js"></script>
 
 </body>
 </html>

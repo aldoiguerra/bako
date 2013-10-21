@@ -2,19 +2,18 @@
 function editar(){
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
-        $.post(urlCategoria, variaveis,
+        $.post(urlAdicional, variaveis,
             function(data) {
                 if(data.retorno){
                     $("#id").val(data.id);
                     $("#descricao").val(data.descricao);
-                    $("#slCategoria").val(data.categoriaPai);
-                    if (data.status == 1){
+                    /*if (data.status == 1){
                         $("#ckInativo").attr("checked",false);
                         $("#ckAtivo").attr("checked",true);
                     }else{
                         $("#ckAtivo").attr("checked",false);
                         $("#ckInativo").attr("checked",true);
-                    }
+                    }*/
                     $("#btnNovo").show();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();                    
@@ -34,7 +33,6 @@ function pesquisar(texto){
                 lista = lista + '<span class="indicator">&nbsp;</span>';
                 lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
-                lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
             lista = lista + '</label>';
             lista = lista + '</li>';
         }
@@ -54,29 +52,18 @@ function pesquisar(texto){
                 lista = lista + '<span class="indicator">&nbsp;</span>';
                 lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
-                lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
-            lista = lista + '</label>';
-            lista = lista + '</li>';
-        }else if(dados[i]["id"].indexOf(texto)>=0){
-            lista = lista + '<li>';
-            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />';
-            lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
-                lista = lista + '<span class="indicator">&nbsp;</span>';
-                lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
-                lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
-                lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
             lista = lista + '</label>';
             lista = lista + '</li>';
         }
         document.getElementById("lista").innerHTML = lista;
         editar();
-        popularSelect();
+        //popularSelect();
     }
 }
-
+/*
 function popularSelect(){
     var variaveis = {"popularSelect": 1};
-    $.post(urlCategoria, variaveis,
+    $.post(urlAdicional, variaveis,
         function(data) {
             if(data.retorno){
                 var dados = data.dados;
@@ -88,33 +75,14 @@ function popularSelect(){
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar dados: ".textStatus);});                
 }
-
+*/
 function listarDados(){
     var variaveis = {"listar": 1};
-    $.post(urlCategoria, variaveis,
+    $.post(urlAdicional, variaveis,
         function(data) {
             if(data.retorno){
                 colunas = data.colunas;
                 dados = data.dados;
-                /*var tabela = '<table cellspacing="0" cellpadding="0">';
-                tabela = tabela + '<tr>';
-                tabela = tabela + '<th>Código</th>';
-                tabela = tabela + '<th>Descrição</th>';
-                tabela = tabela + '<th>Categoria pai</th>';
-                tabela = tabela + '</tr>';
-                tabela = tabela + '<tbody id="corpoTabela">';
-                var tamanhoDados = dados.length; 
-                for(var i=0;i<tamanhoDados;i++){
-                    tabela = tabela + '<tr>';
-                    var tamanhoLinha = colunas.length;
-                    for(var j=0;j<tamanhoLinha;j++){
-                        tabela = tabela + '<td>'+dados[i][colunas[j]]+'</td>';
-                    }
-                    tabela = tabela + '<td><a name="editar" href="javascript:#;" id="'+dados[i][colunas[0]]+'">Editar</a></td>';
-                    tabela = tabela + '</tr>';
-                }
-                tabela = tabela + '</tbody>';
-                tabela = tabela + '</table>';*/
                 var lista = "";
                 var tamanhoDados = dados.length; 
                 for(var i=0;i<tamanhoDados;i++){
@@ -124,7 +92,6 @@ function listarDados(){
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
 				lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
-				lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
                     lista = lista + '</label>';
                     lista = lista + '</li>';
                 }
@@ -138,14 +105,13 @@ function listarDados(){
 
 function limparCampos(){
     $("#id").val("");
-    $("#descricao").val("");
-    $("#retorno").attr("hidden",true);
+    $("#descricao").val(""); 
 }
 
 $(document).ready(function(){
     
     listarDados();
-    popularSelect();
+    //popularSelect();
 
     $("#pesquisar").keyup(function() {
         pesquisar($("#pesquisar").val());
@@ -158,7 +124,6 @@ $(document).ready(function(){
         $("#btnSalvar").hide();
         $("#btnExcluir").hide();
     });
-    
     $("#btnNovo").click(function() {
         //limparCampos();
         $("#btnNovo").hide();
@@ -177,7 +142,7 @@ $(document).ready(function(){
     $("#btnExcluir").click(function() {
         if(confirm("Confirma a exclusão da categoria "+$("#id").val()+"'")){
             var variaveis = {"excluir": $("#id").val()};
-            $.post(urlCategoria, variaveis,
+            $.post(urlAdicional, variaveis,
                 function(data) {
                     $("#retorno").html(data.msg);
                     if(data.retorno){
@@ -209,11 +174,8 @@ $(document).ready(function(){
         var variaveis = {"salvar": "1",
                         "id": $("#id").val(),
                         "descricao": $("#descricao").val(),
-                        "categoriaPai": $("#slCategoria").val(),
-                        "status": status,
-                        "adicional": $("#adicional").val()
                         };
-        $.post(urlCategoria, variaveis,
+        $.post(urlAdicional, variaveis,
             function(data) {
                 $("#retorno").html(data.msg);
                 if(data.retorno){

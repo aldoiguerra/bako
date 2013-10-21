@@ -18,9 +18,9 @@ function editar(){
 }
 function pesquisar(texto){
     texto = texto.toUpperCase()
+    var tamanhoDados = dados.length;
     if(texto=="") {
         var lista = "";
-        var tamanhoDados = dados.length;
         for(var i=0;i<tamanhoDados;i++){
             lista = lista + '<li>';
             lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
@@ -36,7 +36,6 @@ function pesquisar(texto){
         editar();
         return;
     }
-    var tamanhoDados = dados.length;
     var lista = ""
     document.getElementById("lista").innerHTML = lista;
     for(var i=0;i<tamanhoDados;i++){
@@ -55,7 +54,6 @@ function pesquisar(texto){
         }
         document.getElementById("lista").innerHTML = lista;
         editar();
-        popularSelect();
     }
 }
 
@@ -111,7 +109,8 @@ function limparCampos(){
     $("#usuario").val("");
     $("#nome").val("");
     $("#senha").val("");
-    $("#tipo").val("");    
+    $("#tipo").val("");
+    $("#retorno").attr("hidden",true);
 }
 
 $(document).ready(function(){
@@ -131,7 +130,7 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
-        limparCampos();
+        //limparCampos();
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
