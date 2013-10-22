@@ -50,18 +50,21 @@ create table produto(
 
 create table conta(
 	id integer not null auto_increment,
-	dataAbertura date,
-	horaAbertura time,
-	dataFechamento date,
-	horaFechamento time,
+	dataHoraAbertura dateTime,
+	dataHoraFechamento dateTime,
 	numMesa integer,
 	qtdPessoas integer,
+        descricao varchar(50),
+        taxaServico tinyint,
+        status tinyint not null,
 	primary key (id)
 )engine = InnoDB;
 
 create table pedido(
 	id integer not null auto_increment,
-	quantidade float(15,2) not null,
+	dataHora dateTime,
+	quantidade integer not null,
+        valorUnitario float(15,2) not null,
 	produtoId integer not null,
 	contaId integer not null,
         observacao varchar(250),
@@ -77,6 +80,26 @@ create table pedidoAdicional(
 	primary key (id),
         foreign key (pedidoId) references pedido(id),
         foreign key (adicionalId) references adicional(id)
+)engine = InnoDB;
+
+create table formaPagamento(
+	id integer not null auto_increment,
+        descricao varchar(50) not null,
+        pedeObservacao tinyint,
+	primary key (id)
+)engine = InnoDB;
+
+create table pagamento(
+	id integer not null auto_increment,
+        contaId integer not null,
+        valor float(15,2),
+	primary key (id)
+)engine = InnoDB;
+
+create table mesa(
+	id integer not null auto_increment,
+        numMesa integer not null,
+	primary key (id)
 )engine = InnoDB;
 
 DELIMITER //
