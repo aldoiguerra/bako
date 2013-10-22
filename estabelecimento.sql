@@ -56,7 +56,7 @@ create table conta(
 	qtdPessoas integer,
         descricao varchar(50),
         taxaServico tinyint,
-        status tinyint not null,
+        status tinyint not null, /*1-aberta,2-fechada,3-paga*/
 	primary key (id)
 )engine = InnoDB;
 
@@ -67,12 +67,12 @@ create table pedido(
         valorUnitario float(15,2) not null,
 	produtoId integer not null,
 	contaId integer not null,
-        usuarioId integer not null,
+        usuarioId varchar(20) not null,
         observacao varchar(250),
 	primary key (id),
 	foreign key (produtoId) references produto(id),
 	foreign key (contaId) references conta(id),
-        foreign key (usuarioId) references usuario(id)
+        foreign key (usuarioId) references usuario(usuario)
 )engine = InnoDB;
 
 create table pedidoAdicional(
@@ -101,9 +101,8 @@ create table pagamento(
 )engine = InnoDB;
 
 create table mesa(
-	id integer not null auto_increment,
-        numMesa integer not null,
-	primary key (id)
+	numMesa integer not null,
+	primary key (numMesa)
 )engine = InnoDB;
 
 DELIMITER //
