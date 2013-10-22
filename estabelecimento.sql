@@ -92,7 +92,9 @@ create table formaPagamento(
 create table pagamento(
 	id integer not null auto_increment,
         contaId integer not null,
+        observacao varchar(250),
         valor float(15,2),
+        foreign key (contaId) references conta(id),
 	primary key (id)
 )engine = InnoDB;
 
