@@ -1,10 +1,10 @@
 <?php
 require_once ('../controller/sessao.php');
-require_once ('../model/Categoria.class.php');
-
+require_once ('../model/AdicionalCategoria.class.php');
+/*
 function popularSelect(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao, status FROM categoria");
+    $result = $connect->executar("SELECT id,descricao FROM adicional");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
@@ -26,16 +26,17 @@ function popularSelect(){
     debug(3, "Retorno retornarDadosLista: ".$array["retorno"]);
     return $array;
 }
-
+*/
 function retornarDadosLista(){
+    debug(3, "inicio: ");
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaPaiId) AS categoriaPaiId, status FROM categoria");
+    $result = $connect->executar("SELECT id,descricao FROM adicional");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
             "retorno"=>true,
-            "colunas"=>array("id","descricao","categoriaPaiId","status"),
+            "colunas"=>array("id","descricao"),
             "dados"=>$arraydados
         );
         
@@ -48,26 +49,24 @@ function retornarDadosLista(){
     return $array;
 }
 
-function salvar($id,$descricao,$categoriaPai,$status,$adicional){
+function salvar($id,$descricao){
     
     try {
         ConexaoSingleton::getConexao()->startTransaction();
         
         debug(3, "Buscando se categoria existe.");
-        $objC = new Categoria();
-        $ret = $objC->load($id);
-        $idAntigo = $objC->__get("id");
+        $obj = new Adicional();
+        $ret = $obj->load($id);
+        $idAntigo = $obj->__get("id");
         debug(3, "Categoria localizado: ".$idAntigo);
         
-        $objC->__set("id",$id);
-        $objC->__set("descricao",$descricao);
-        $objC->__set("categoriaPaiId",$categoriaPai);
-        $objC->__set("status",$status);
-
+        $obj->__set("id",$id);
+        $obj->__set("descricao",$descricao);
+        
         if($idAntigo){
-            $ret = $objC->update();
+            $ret = $obj->update();
         }else{
-            $ret = $objC->add();            
+            $ret = $obj->add();            
         }
         if(!$ret) throw new Exception ("");
         
@@ -84,7 +83,7 @@ function salvar($id,$descricao,$categoriaPai,$status,$adicional){
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar categoria: ".$_POST["id"]);
-    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"],$_POST["status"]);
+    $ret = salvar($_POST["id"],$_POST["descricao"]);
     if($ret){
         echo json_encode(array(
             "retorno"=>true,
@@ -97,16 +96,14 @@ if(isset($_POST["salvar"])){
     }
 }else if(isset($_POST["consultar"])){
     debug(3, "Recebido pedido para consultar categoria: ".$_POST["consultar"]);
-    $objC = new Categoria();
-    $ret = $objC->load($_POST["consultar"]);
-    debug(3, "Categoria consultado: ".$objC->__get("id"));
-    if($objC->__get("id")){
+    $obj = new Adicional();
+    $ret = $obj->load($_POST["consultar"]);
+    debug(3, "Categoria consultado: ".$obj->__get("id"));
+    if($obj->__get("id")){
         $array = array(
             "retorno"=>true,
-            "id"=>$objC->__get("id"),
-            "descricao"=>$objC->__get("descricao"),
-            "categoriaPai"=>$objC->__get("categoriaPaiId"),
-            "status"=>$objC->__get("status")
+            "id"=>$obj->__get("id"),
+            "descricao"=>$obj->__get("descricao"),
             );
     }else{
         $array = array(
@@ -121,10 +118,10 @@ if(isset($_POST["salvar"])){
     echo json_encode(retornarDadosLista());
 }else if(isset($_POST["excluir"])){
     debug(3, "Recebido pedido para excluir categoria: ".$_POST["excluir"]);
-    $objC = new Categoria();
-    $ret = $objC->load($_POST["excluir"]);
-    $ret = $objC->remove();
-    debug(3, "Categoria excluido: ".$objC->__get("id"));
+    $obj = new Adicional();
+    $ret = $obj->load($_POST["excluir"]);
+    $ret = $obj->remove();
+    debug(3, "Categoria excluido: ".$obj->__get("id"));
     if($ret){
         $array = array(
             "retorno"=>true,
