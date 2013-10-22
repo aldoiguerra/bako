@@ -67,10 +67,12 @@ create table pedido(
         valorUnitario float(15,2) not null,
 	produtoId integer not null,
 	contaId integer not null,
+        usuarioId integer not null,
         observacao varchar(250),
 	primary key (id),
 	foreign key (produtoId) references produto(id),
-	foreign key (contaId) references conta(id)
+	foreign key (contaId) references conta(id),
+        foreign key (usuarioId) references usuario(id)
 )engine = InnoDB;
 
 create table pedidoAdicional(
