@@ -32,6 +32,7 @@ if (isset($_SESSION["usuario"]) && ($_SESSION["usuario"] != "")) {
                             <li><a href="<?php echo $caminho . "view/cadastro_produto.php"; ?>">Produtos</a></li>
                             <li><a href="<?php echo $caminho . "view/cadastro_categoria.php"; ?>">Categorias</a></li>
                             <li><a href="<?php echo $caminho . "view/cadastro_adicional.php"; ?>">Adicionais</a></li>
+                            <li><a href="<?php echo $caminho . "view/cadastro_formaPagamento.php"; ?>">Forma de Pagamento</a></li>
                         </ul>
                     </div>
                 </li>

@@ -7,16 +7,10 @@ function editar(){
                 if(data.retorno){
                     $("#id").val(data.id);
                     $("#descricao").val(data.descricao);
-                    /*if (data.status == 1){
-                        $("#ckInativo").attr("checked",false);
-                        $("#ckAtivo").attr("checked",true);
-                    }else{
-                        $("#ckAtivo").attr("checked",false);
-                        $("#ckInativo").attr("checked",true);
-                    }*/
-                    $("#btnNovo").show();
+                    $("#btnNovo").hide();
                     $("#btnEditar").show();
-                    $("#btnSalvar").hide();                    
+                    $("#btnSalvar").hide();
+                    $("#btnExcluir").hide();
                 }             
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     });
@@ -57,25 +51,9 @@ function pesquisar(texto){
         }
         document.getElementById("lista").innerHTML = lista;
         editar();
-        //popularSelect();
     }
 }
-/*
-function popularSelect(){
-    var variaveis = {"popularSelect": 1};
-    $.post(urlAdicional, variaveis,
-        function(data) {
-            if(data.retorno){
-                var dados = data.dados;
-                var select = '<option value=""></option>';
-                for(var dado in dados){
-                    var select = select + '<option value="'+dado+'">'+dados[dado]+'</option>'; 
-                }
-                document.getElementById("slCategoria").innerHTML = select;
-            }
-        }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar dados: ".textStatus);});                
-}
-*/
+
 function listarDados(){
     var variaveis = {"listar": 1};
     $.post(urlAdicional, variaveis,
@@ -105,13 +83,13 @@ function listarDados(){
 
 function limparCampos(){
     $("#id").val("");
-    $("#descricao").val(""); 
+    $("#descricao").val("");
+    $("#btnExcluir").hide();
 }
 
 $(document).ready(function(){
     
     listarDados();
-    //popularSelect();
 
     $("#pesquisar").keyup(function() {
         pesquisar($("#pesquisar").val());
@@ -125,7 +103,6 @@ $(document).ready(function(){
         $("#btnExcluir").hide();
     });
     $("#btnNovo").click(function() {
-        //limparCampos();
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
@@ -140,7 +117,7 @@ $(document).ready(function(){
     });
     
     $("#btnExcluir").click(function() {
-        if(confirm("Confirma a exclusão da categoria "+$("#id").val()+"'")){
+        if(confirm("Confirma a exclusão de adicional de categoria "+$("#id").val()+"'")){
             var variaveis = {"excluir": $("#id").val()};
             $.post(urlAdicional, variaveis,
                 function(data) {
@@ -153,7 +130,7 @@ $(document).ready(function(){
                         $("#btnSalvar").hide();
                         $("#btnExcluir").hide();
                     }
-                }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao excluir categoria: "+textStatus);});
+                }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao excluir dados: "+textStatus);});
         }
         popularSelect();
     });
@@ -180,13 +157,13 @@ $(document).ready(function(){
                 $("#retorno").html(data.msg);
                 if(data.retorno){
                     listarDados();
-                    limparCampos();
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
                     $("#btnSalvar").hide();
                     $("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
+        limparCampos();
         popularSelect();
     });
 

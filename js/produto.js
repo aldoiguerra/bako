@@ -11,17 +11,11 @@ function editar(){
                     $("#slCategoria").val(data.categoriaId);
                     $("#preco").val(data.preco);
                     if (data.status == 1){
-                        //$("#ckAtivo").attr("checked",true);
-                        //$("#ckInativo").attr("checked",false);
-                        document.getElementById("ckAtivo").setAttribute("checked",true);
-                        document.getElementById("ckInativo").removeAttribute("checked");
+                        document.getElementById("ckAtivo").checked=true
                     }else{
-                        document.getElementById("ckInativo").setAttribute("checked",true);
-                        document.getElementById("ckAtivo").removeAttribute("checked");
-                        //$("#ckAtivo").attr("checked",false);
-                        //$("#ckInativo").attr("checked",true);
+                        document.getElementById("ckInativo").checked=true;
                     }
-                    $("#btnNovo").show();
+                    $("#btnNovo").hide();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();
                 }             
@@ -94,7 +88,6 @@ function pesquisar(texto){
         }
         document.getElementById("lista").innerHTML = lista;
         editar();
-        popularSelect();
     }
 }
 function listarDados(){
@@ -120,7 +113,6 @@ function listarDados(){
                 }
                 document.getElementById("lista").innerHTML = lista;
                 editar();
-                popularSelect();
             }else{
                 document.getElementById("lista").innerHTML = "";
             }
@@ -133,29 +125,27 @@ function limparCampos(){
     $("#descricao").val("");
     $("#slCategoria").val("");
     $("#preco").val("");
-    $("#retorno").attr("hidden",true);
-    
+    document.getElementById("ckAtivo").checked=true
 }
 
 $(document).ready(function(){
     
     listarDados();
-    
+    popularSelect();
     $("#btnLimpar").click(function() {
         limparCampos();
+        $("#retorno").attr("hidden",true);
         $("#btnNovo").show();
         $("#btnEditar").hide();
         $("#btnSalvar").hide();
-        //$("#btnExcluir").hide();
     });
     
     $("#btnNovo").click(function() {
-        //limparCampos();
         popularSelect();
+        document.getElementById("ckAtivo").checked=true
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
-        //$("#btnExcluir").hide();
     });
     
     $("#pesquisar").keyup(function() {
@@ -166,26 +156,7 @@ $(document).ready(function(){
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
-        //$("#btnExcluir").show();
     });
-    
-    /*$("#btnExcluir").click(function() {
-        if(confirm("Confirma a exclusão do produto "+$("#codigo").val()+"'")){
-            var variaveis = {"excluir": $("#codigo").val()};
-            $.post(urlProduto, variaveis,
-                function(data) {
-                    $("#retorno").html(data.msg);
-                    if(data.retorno){
-                        listarDados();
-                        limparCampos();
-                        $("#btnNovo").show();
-                        $("#btnEditar").hide();
-                        $("#btnSalvar").hide();
-                        $("#btnExcluir").hide();
-                    }
-                }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao excluir usuário: "+textStatus);});
-        }
-    });*/
     
     $("#btnSalvar").click(function(){
         if ($("#nome").val() == ""){
@@ -224,16 +195,15 @@ $(document).ready(function(){
                     limparCampos();
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
-                    $("#btnSalvar").hide();
-                    //$("#btnExcluir").hide();
+                    $("#btnSalvar").hide();                    //$("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
-    $("#btnNovo").show();
-    $("#btnEditar").hide();
-    $("#btnSalvar").hide();
-    //$("#btnExcluir").hide();
-    listarDados();
-    limparCampos();
-});
+        $("#btnNovo").show();
+        $("#btnEditar").hide();
+        $("#btnSalvar").hide();
+        listarDados();
+        limparCampos();
+        popularSelect();
+    });
 
 });

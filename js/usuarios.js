@@ -1,5 +1,6 @@
 
 function editar(){
+    limparCampos();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlUsuario, variaveis,
@@ -9,7 +10,7 @@ function editar(){
                     $("#nome").val(data.nome);
                     $("#senha").val("");
                     $("#tipo").val(data.tipo);
-                    $("#btnNovo").show();
+                    $("#btnNovo").hide();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();                    
                 }             
@@ -64,26 +65,6 @@ function listarDados(){
             if(data.retorno){
                 colunas = data.colunas;
                 dados = data.dados;
-                /*var tabela = '<table cellspacing="0" cellpadding="0">';
-                tabela = tabela + '<tr>';
-                tabela = tabela + '<th>Usuário</th>';
-                tabela = tabela + '<th>Nome</th>';
-                tabela = tabela + '<th>Acesso</th>';
-                tabela = tabela + '<th>Editar</th>';
-                tabela = tabela + '</tr>';
-                tabela = tabela + '<tbody id="corpoTabela">';
-                var tamanhoDados = dados.length; 
-                for(var i=0;i<tamanhoDados;i++){
-                    tabela = tabela + '<tr>';
-                    var tamanhoLinha = colunas.length;
-                    for(var j=0;j<tamanhoLinha;j++){
-                        tabela = tabela + '<td>'+dados[i][colunas[j]]+'</td>';
-                    }
-                    tabela = tabela + '<td><a name="editar" href="javascript:#;" id="'+dados[i][colunas[0]]+'">Editar</a></td>';
-                    tabela = tabela + '</tr>';
-                }
-                tabela = tabela + '</tbody>';
-                tabela = tabela + '</table>';*/
                 var lista = "";
                 var tamanhoDados = dados.length; 
                 for(var i=0;i<tamanhoDados;i++){
@@ -109,8 +90,8 @@ function limparCampos(){
     $("#usuario").val("");
     $("#nome").val("");
     $("#senha").val("");
-    $("#tipo").val("");
-    $("#retorno").attr("hidden",true);
+    $("#tipo").val("0");
+    $("#btnExcluir").hide();
 }
 
 $(document).ready(function(){
@@ -130,7 +111,6 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
-        //limparCampos();
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
@@ -163,6 +143,23 @@ $(document).ready(function(){
     });
     
     $("#btnSalvar").click(function(){
+        if ($("#usuario").val() == ""){
+            $("#retorno").html("Obrigatório preencher o usuário.");
+            $("#usuario").focus();
+            return
+        }else if ($("#nome").val() == ""){
+            $("#retorno").html("Obrigatório preencher nome do usuário.");
+            $("#nome").focus();
+            return
+        }else if ($("#senha").val() == ""){
+            $("#retorno").html("Obrigatório preencher senha.");
+            $("#senha").focus();
+            return
+        }else if ($("#tipo").val() < 1){
+            $("#retorno").html("Obrigatório selecionar tipo do usuário.");
+            $("#tipo").focus();
+            return
+        }
         var variaveis = {"salvar": "1",
                         "usuario": $("#usuario").val(),
                         "nome": $("#nome").val(),
@@ -173,14 +170,14 @@ $(document).ready(function(){
             function(data) {
                 $("#retorno").html(data.msg);
                 if(data.retorno){
-                    listarDados();
-                    limparCampos();
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
                     $("#btnSalvar").hide();
                     $("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
+        limparCampos();
+        listarDados();
     });
 
 });

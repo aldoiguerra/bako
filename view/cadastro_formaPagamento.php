@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8",true);
-require_once ('../controller/usuario.php');
+require_once ('../controller/formaPagamento.php');
 ?>
 <!Doctype html>
 <html>
@@ -9,7 +9,7 @@ require_once ('../controller/usuario.php');
 <?php include 'css_include.php';?> 
 <script>
     document.createElement("main");
-    urlUsuario = "<?php echo retornaUrl()."controller/usuario.php"; ?>";
+    urlFormaPagamento = "<?php echo retornaUrl()."controller/formaPagamento.php"; ?>";
 </script>
 </head>
 <body>
@@ -18,14 +18,14 @@ require_once ('../controller/usuario.php');
 <?php include 'menu.php';?>
     
     <aside>
-        <div class="search-page">
-                <input type="text" id="pesquisar" placeholder="Pesquise pelo usuário desejado" size="34" />
-        </div>
+        <!--div class="search-page">
+                <input type="text" id="pesquisar" placeholder="Pesquise pelo produto desejado" size="34" />
+        </div-->
         <ul id="lista"></ul>
     </aside>
 
     <section id="section">
-        <h1>Cadastro de usuários</h1>
+        <h1>Cadastro de Forma de Pagamento</h1>
         <div class="row">
             <div id="retorno">
 
@@ -34,24 +34,16 @@ require_once ('../controller/usuario.php');
         <div class="row">
             <div class="col-12" id="cadastro">
                 <div class="field">
-                        <label class="label">Usuário</label>
-                        <input type="text" size="30" id="usuario" />
+                        <label class="label">Código</label>
+                        <input type="text" size="30" id="codigo" disabled/>
                 </div>
                 <div class="field">
-                        <label class="label">Nome</label>
-                        <input type="text" size="50" id="nome" >
+                        <label class="label">Descrição</label>
+                        <input type="text" size="50" id="descricao" >
                 </div>
                 <div class="field">
-                        <label class="label">Senha</label>
-                        <input type="text" size="30" id="senha" />
-                </div>
-                <div class="field">
-                        <label class="label">Tipo</label>
-                        <select id="tipo">
-                            <option value="0"></option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Garçom</option>
-                        </select>
+                        <label class="label">Pede Observação</label>
+                        <input type="checkbox" name="pObs"  id="pObs" />
                 </div>
             </div>
          </div>
@@ -64,10 +56,10 @@ require_once ('../controller/usuario.php');
         </div>
 
     </section>
-
+  
 <?php include 'rodape.php';?>
 <?php include 'js_include.php';?> 
-<script type="text/javascript" src="../js/usuarios.js"></script>
+<script type="text/javascript" src="../js/formaPagamento.js"></script>
 
 </body>
 </html>

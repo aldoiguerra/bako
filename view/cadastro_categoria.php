@@ -57,8 +57,15 @@ require_once ('../controller/categoria.php');
             </div>
             <div class="field">
                     <label class="label">Adicional</label>
-                    <input type="text" size="40" id="adicional" >
-            </div>            
+                    <input type="list" size="40" list="adicional" id="adicionais"/>
+                    <datalist id="adicional">
+                        <option value="teste"></option>
+                    </datalist>
+            </div>
+            <div class="field">
+                <label class="label">Adicionais categoria</label>
+                <ul id="adicionaisCategoria"></ul>
+            </div>
         </div>
      </div>
     <div class="button-bar">

@@ -4,11 +4,12 @@ require_once ('../dao/DaoPadrao.class.php');
 /**
  * @author Aluno
  */
-class Adicional extends DaoPadrao
+class FormaPagamento extends DaoPadrao
 {
 
     private $id = null;
     private $descricao = null;
+    private $pedeObservacao = null;
     
     public function __construct() {
         
@@ -16,7 +17,7 @@ class Adicional extends DaoPadrao
     
     public function __toString()
     {
-        return get_class()."[adicional: $this->id]";
+        return get_class()."[descricao: $this->descricao]";
     }
 
     function __get($propriedade)
@@ -36,7 +37,7 @@ class Adicional extends DaoPadrao
 
     function getTableName()
     {
-        return "adicional";
+        return "formaPagamento";
     }
     
     function getIdValue()
@@ -46,22 +47,22 @@ class Adicional extends DaoPadrao
 
     function getSelectList()
     {
-        return "id,descricao";
+        return "id,descricao,pedeObservacao";
     }
 
     function getInsertList()
     {
-        return "'$this->id','$this->descricao'";
+        return "'$this->id','$this->descricao','$this->pedeObservacao'";
     }
 
     function getUpdateList()
     {
-        return "id='$this->id',descricao='$this->descricao'";
+        return "descricao='$this->descricao',pedeObservacao='$this->pedeObservacao'";
     }
 
     function isAutoIncrement()
     {
-        return false;
+        return true;
     }
 
     function load($id)
@@ -71,6 +72,7 @@ class Adicional extends DaoPadrao
             $r = mysqli_fetch_array($ret);
             $this->id = $r[0];
             $this->descricao = $r[1];
+            $this->pedeObservacao = $r[2];
         }
         return $ret;
     }

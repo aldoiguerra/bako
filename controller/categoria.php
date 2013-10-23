@@ -27,6 +27,31 @@ function popularSelect(){
     return $array;
 }
 
+function pesquisarAdicionais(){
+    $connect = ConexaoSingleton::getConexao();
+    $result = $connect->executar("SELECT id, descricao FROM adicional");
+    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    if($connect->getNumResultados() > 0){
+        $arraydados = $connect->get_array($result);
+        
+        $tamanho = $connect->getNumResultados();
+        for($i=0;$i<$tamanho;$i++){
+            $arraylinha = $arraydados[$i];
+            $arrayFinal[$arraylinha["id"]] = $arraylinha["descricao"];
+        }
+        $array = array(
+            "retorno"=>true,
+            "dados"=>$arrayFinal
+        );        
+    }else{
+        $array = array(
+            "retorno"=>false
+        );
+    }
+    debug(3, "Retorno retornar listaAdicionais: ".$array["retorno"]);
+    return $array;
+}
+
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
     $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaPaiId) AS categoriaPaiId, status FROM categoria");
@@ -37,8 +62,7 @@ function retornarDadosLista(){
             "retorno"=>true,
             "colunas"=>array("id","descricao","categoriaPaiId","status"),
             "dados"=>$arraydados
-        );
-        
+        );        
     }else{
         $array = array(
             "retorno"=>false
@@ -137,6 +161,8 @@ if(isset($_POST["salvar"])){
             );
     }
     echo json_encode($array);
+}else if(isset($_POST["pesquisarAdicionais"])){
+    debug(3, "Recebido pedido para listar os adicionais categoria.");
+    echo json_encode(pesquisarAdicionais());
 }
-
 ?>

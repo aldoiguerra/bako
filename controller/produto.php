@@ -125,25 +125,7 @@ if(isset($_POST["salvar"])){
 }else if(isset($_POST["listar"])){
     debug(3, "Recebido pedido para listar os dados.");
     echo json_encode(retornarDadosLista());
-}/*else if(isset($_POST["excluir"])){
-    debug(3, "Recebido pedido para excluir produto: ".$_POST["excluir"]);
-    $objP = new Produto();
-    $ret = $objP->load($_POST["excluir"]);
-    $ret = $objP->remove();
-    debug(3, "Produto excluido: ".$objP->__get("codigo"));
-    if($ret){
-        $array = array(
-            "retorno"=>true,
-            "msg"=>"Produto excluido com sucesso!"
-            );
-    }else{
-        $array = array(
-            "retorno"=>false,
-            "msg"=>"Erro ao excluir protudo!"
-            );
-    }
-    echo json_encode($array);
-}*/else if(isset($_POST["popularSelect"])){
+}else if(isset($_POST["popularSelect"])){
     debug(3, "Recebido pedido para select dos dados.");
     echo json_encode(popularSelect());
 }

@@ -42,16 +42,6 @@ require_once ('../controller/adicionalCategoria.php');
                     <label class="label">Descrição</label>
                     <input type="text" size="50" id="descricao" >
             </div>
-            <!--div class="field">
-                <span class="label">Status</span>
-                <div class="toggle">
-                    <label><input type="radio" name="rAI" id="ckAtivo" checked="true" value="1"/><span>Ativo</span></label>
-                    <label><input type="radio" name="rAI" id="ckInativo" value="0"/><span>Inativo</span></label>
-                </div>
-            </div>
-            <div class="field">
-                    <label class="label">Adicional</label>
-                    <input type="text" size="40" id="adicional" >
             </div-->            
         </div>
      </div>
