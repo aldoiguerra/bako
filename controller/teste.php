@@ -10,7 +10,7 @@ if(ConexaoSingleton::getConexao()->getNumResultados() == 0) return null;
 */
 
 //$GLOBALS["usuario"] = "admin";
-
+/*
 function teste(){
     echo $GLOBALS["usuario"];    
 }
@@ -94,7 +94,7 @@ while($row = mysqli_fetch_array($result))
         }
      $i++;
   }
-*/
+
 echo "stmt update<br />";
 
 $dados[0] = "ss";
@@ -149,12 +149,40 @@ echo $con->affected_rows."<br />";
 //$statement->free_result();
   
 mysqli_close($con);    
-    
+
 echo "Iniando teste com logar<br />";
 
 require_once ('../controller/login.php');
 
 echo "Logar: ".logar("sysadmin", "123456");
+*/
 
+//dados de teste
+
+require_once ('../dao/ConexaoSingleton.class.php');
+
+//Mesa
+for($i=1;$i<50;$i++){
+    $sql= "INSERT INTO mesa (numMesa) VALUES ($i)";
+    echo $sql."<br />";
+    $ret = ConexaoSingleton::getConexao()->executar($sql);
+    echo $ret."<br />";
+}
+
+//Categoria
+for($i=1;$i<10;$i++){
+    $sql = "INSERT INTO categoria (id,descricao,categoriaPaiId,status) VALUES ('','Categoria $i',NULL,'1')";
+    echo $sql."<br />";
+    $ret = ConexaoSingleton::getConexao()->executar($sql);
+    echo $ret."<br />";
+}
+
+//Categoria
+for($i=1;$i<100;$i++){
+    $sql = "INSERT INTO produto (id,nome,descricao,categoriaId,preco,status) VALUES ('','Produto $i','Produto $i','".($i%10)."','".($i%10*1.87)."','1')";
+    echo $sql."<br />";
+    $ret = ConexaoSingleton::getConexao()->executar($sql);
+    echo $ret."<br />";
+}
 
 ?>
