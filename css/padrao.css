@@ -26,6 +26,7 @@ aside ul li > input[type="radio"]:checked + label {background:teal;opacity:1;col
 aside .indicator {float:left;width:4px;height:64px;background:limegreen;margin-right:15px;}
 aside .indicator-negative {background:crimson;}
 aside .number {float:left;width:64px;height:64px;background:limegreen;margin-right:15px;font-size:42px;line-height:60px;color:#FFF;text-align:center;font-weight:300;}
+aside .number-close {float:left;width:64px;height:64px;background:crimson;margin-right:15px;font-size:42px;line-height:60px;color:#FFF;text-align:center;font-weight:300;}
 
 section {position:absolute;right:0;left:475px;top:0;bottom:0;background:#EEE;padding:0 30px;overflow-y:auto;z-index:2;}
 
@@ -150,3 +151,5 @@ input.bt-alert {background:goldenrod;}
 ::-webkit-scrollbar-track-piece {background: none;}
 ::-webkit-scrollbar-thumb:vertical {background: rgba(0,0,0,.3);border:0;border-radius:1px;}
 ::-webkit-scrollbar-thumb:horizontal {background: rgba(0,0,0,.3);border: 1px solid rgba(255,255,255,.2);}
+
+.estiloPopup{display: none;position: absolute;top:0px;left:0px;background-color: #EEE;border: 2px #000 solid;}

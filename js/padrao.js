@@ -65,7 +65,7 @@ function dataHoraDisplayToLogical(dataHora,formato){
 
 function dataHoraLogicalToDisplay(dataHora,formato){
     var retorno = "";
-    if(dataHora){
+    if((dataHora) && (dataHora != "")){
         var lista = dataHora.toString().split(" ");
         var data = lista[0];
         var hora = lista[1];
@@ -86,6 +86,14 @@ function numeroLogicalToDisplay(valor){
     var retorno = "0,00";
     if (valor){
         retorno = valor.replace(/\./,",");
+    }
+    return retorno;
+}
+
+function numeroDisplayToLogical(valor){
+    var retorno = "0.00";
+    if (valor){
+        retorno = valor.replace(/,/,".");
     }
     return retorno;
 }

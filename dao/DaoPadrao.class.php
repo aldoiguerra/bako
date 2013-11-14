@@ -28,7 +28,8 @@ abstract class DaoPadrao implements iDao
             " (".$this->getInsertList().")";
         $ret = ConexaoSingleton::getConexao()->executar($sql);
         if ($ret){
-            $this->load(ConexaoSingleton::getConexao()->getLastId());
+            $ret = ConexaoSingleton::getConexao()->getLastId();
+            $this->load($ret);
         }
         return $ret;
     }

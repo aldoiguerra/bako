@@ -55,8 +55,9 @@ create table conta(
 	numMesa integer,
 	qtdPessoas integer,
         descricao varchar(50),
+        desconto float(15,2),
         taxaServico tinyint,
-        status tinyint not null, /*1-aberta,2-fechada,3-paga*/
+        status tinyint not null, /*1-aberta,2-fechada,3-livre*/
 	primary key (id)
 )engine = InnoDB;
 
@@ -94,9 +95,14 @@ create table formaPagamento(
 create table pagamento(
 	id integer not null auto_increment,
         contaId integer not null,
+        formaPagamentoId integer not null,
         observacao varchar(250),
         valor float(15,2),
+        usuarioId varchar(20) not null,
+        dataHora dateTime,
         foreign key (contaId) references conta(id),
+        foreign key (formaPagamentoId) references formaPagamento(id),
+        foreign key (usuarioId) references usuario(usuario),
 	primary key (id)
 )engine = InnoDB;
 

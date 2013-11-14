@@ -11,6 +11,11 @@ if (isset($_SESSION["usuario"])){
     header("location: ../view/login.php");
 }
 
+$usuarioLogado = null;
+if (isset($_SESSION["usuario"]) && ($_SESSION["usuario"] != "")) {
+    $usuarioLogado = unserialize($_SESSION["usuario"]);
+}
+
 function retornaUrl(){
     $protocolo    = (strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === false) ? 'http' : 'https';
     $host         = $_SERVER['HTTP_HOST'];

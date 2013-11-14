@@ -162,7 +162,7 @@ echo "Logar: ".logar("sysadmin", "123456");
 require_once ('../dao/ConexaoSingleton.class.php');
 
 //Mesa
-for($i=1;$i<50;$i++){
+/*for($i=1;$i<50;$i++){
     $sql= "INSERT INTO mesa (numMesa) VALUES ($i)";
     echo $sql."<br />";
     $ret = ConexaoSingleton::getConexao()->executar($sql);
@@ -183,6 +183,15 @@ for($i=1;$i<100;$i++){
     echo $sql."<br />";
     $ret = ConexaoSingleton::getConexao()->executar($sql);
     echo $ret."<br />";
-}
+}*/
+
+/*for($i=4;$i<=10;$i++){
+    $sql = "INSERT INTO conta (id,dataHoraAbertura,dataHoraFechamento,numMesa,qtdPessoas,descricao,taxaServico,status) VALUE (NULL,now() - interval 1 day,NOW(),$i,".($i+3).",'',1,1)";
+    echo $sql."<br />";
+    $ret = ConexaoSingleton::getConexao()->executar($sql);
+    echo $ret."<br />";
+}*/
+      
+
 
 ?>
