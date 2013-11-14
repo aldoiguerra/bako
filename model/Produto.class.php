@@ -55,12 +55,20 @@ class Produto extends DaoPadrao
 
     function getInsertList()
     {
-        return "'$this->id','$this->nome','$this->descricao','$this->categoriaId','$this->preco','$this->status'";
+        if ($this->categoriaId == ""){
+            return "'$this->id','$this->nome','$this->descricao',NULL,'$this->preco','$this->status'";
+        }else{
+            return "'$this->id','$this->nome','$this->descricao','$this->categoriaId','$this->preco','$this->status'";
+        }
     }
 
     function getUpdateList()
     {
-        return "nome='$this->nome',descricao='$this->descricao',categoriaId='$this->categoriaId',preco='$this->preco',status='$this->status'";
+        if ($this->categoriaId == ""){
+            return "nome='$this->nome',descricao='$this->descricao',categoriaId=NULL, preco='$this->preco',status='$this->status'";
+        }else{
+            return "nome='$this->nome',descricao='$this->descricao',categoriaId='$this->categoriaId',preco='$this->preco',status='$this->status'";
+        }
     }
 
     function isAutoIncrement()

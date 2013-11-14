@@ -11,6 +11,7 @@ class Categoria extends DaoPadrao
     private $descricao = null;
     private $categoriaPaiId = null;
     private $status = null;
+    private $adicional = null;
     
     public function __construct() {
         

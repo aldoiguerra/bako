@@ -94,9 +94,21 @@ function salvar($id,$descricao,$categoriaPai,$status,$adicional){
             $ret = $objC->add();            
         }
         if(!$ret) throw new Exception ("");
+        debug(3, "Categoria Criada: ".$objC->__get("id"));
         
-        ConexaoSingleton::getConexao()->commit();
-        
+        if($adicional != ""){
+            $array = explode(",",$adicional);
+            debug(3, "Quantidade Adicionais da Categoria: ".count($array));
+            for ($i=0;$i<count($array);$i++){
+                $idAdicional = $array[$i];
+                $sql = "INSERT INTO categoriaAdicional (categoriaId,adicionalId) VALUES ('".$objC->__get("id")."','".$idAdicional."')";
+                $connect = ConexaoSingleton::getConexao();
+                $result = $connect->executar($sql);
+                debug(3, "Adicionais da Categoria inserido: ".$idAdicional);
+                debug(3, "Adicionais da Categoria inserido SQL: ".$sql);
+            }
+        }
+        ConexaoSingleton::getConexao()->commit();  
         debug(3, "Categoria salvo com sucesso");
     }catch(Exception $e){
         debug(1, "Erro ao salvar categoria: ".$e->getMessage());
@@ -108,7 +120,7 @@ function salvar($id,$descricao,$categoriaPai,$status,$adicional){
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar categoria: ".$_POST["id"]);
-    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"],$_POST["status"]);
+    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"],$_POST["status"],$_POST["adicional"]);
     if($ret){
         echo json_encode(array(
             "retorno"=>true,
@@ -125,12 +137,18 @@ if(isset($_POST["salvar"])){
     $ret = $objC->load($_POST["consultar"]);
     debug(3, "Categoria consultado: ".$objC->__get("id"));
     if($objC->__get("id")){
+        $sql = "SELECT adicionalId,(SELECT descricao FROM adicional a WHERE a.id = adicionalId) As descricao FROM categoriaAdicional WHERE categoriaId = '".$objC->__get("id")."'";
+        $connect = ConexaoSingleton::getConexao();
+        $result = $connect->executar($sql);
+        $arraydados = $connect->get_array($result);
+        
         $array = array(
             "retorno"=>true,
             "id"=>$objC->__get("id"),
             "descricao"=>$objC->__get("descricao"),
             "categoriaPai"=>$objC->__get("categoriaPaiId"),
-            "status"=>$objC->__get("status")
+            "status"=>$objC->__get("status"),
+            "adicionais"=>$arraydados
             );
     }else{
         $array = array(
@@ -145,10 +163,17 @@ if(isset($_POST["salvar"])){
     echo json_encode(retornarDadosLista());
 }else if(isset($_POST["excluir"])){
     debug(3, "Recebido pedido para excluir categoria: ".$_POST["excluir"]);
+    $sql = "UPDATE produto SET categoriaId = NULL WHERE categoriaId = '".$_POST["excluir"]."'";
+    $connect = ConexaoSingleton::getConexao();
+    $retorno = $connect->executar($sql);
+    debug(3, "Update produto antes de excluir: ".$sql."--".$retorno);
+    $sql = "DELETE FROM categoriaAdicional WHERE categoriaId = '".$_POST["excluir"]."'";
+    $retorno = $connect->executar($sql);
+    debug(3, "Delete categAdicional antes de excluir: ".$sql."--".$retorno);
     $objC = new Categoria();
     $ret = $objC->load($_POST["excluir"]);
     $ret = $objC->remove();
-    debug(3, "Categoria excluido: ".$objC->__get("id"));
+    debug(3, "Categoria excluido: ".$objC->__get("id").$ret);
     if($ret){
         $array = array(
             "retorno"=>true,

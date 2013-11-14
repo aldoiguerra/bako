@@ -153,6 +153,7 @@ $(document).ready(function(){
     });
     
     $("#btnEditar").click(function() {
+        $("#pesquisar").val("");
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
@@ -167,11 +168,11 @@ $(document).ready(function(){
             $("#retorno").html("Obrigatório preencher preço.");
             $("#preco").focus();
             return
-        }else if ($("#slCategoria").val() == ""){
+        }/*else if ($("#slCategoria").val() == ""){
             $("#retorno").html("Obrigatório selecionar a categoria.");
             $("#slCategoria").focus();
             return
-        }
+        }*/
         var status = "";
         //Executa Loop entre todas as Radio buttons com o name de valor
         $('input:radio[name=rAI]').each(function() {

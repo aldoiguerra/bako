@@ -55,16 +55,16 @@ require_once ('../controller/categoria.php');
                     <label><input type="radio" name="rAI" id="ckInativo" value="0"/><span>Inativo</span></label>
                 </div>
             </div>
-            <div class="field">
+            <!--div class="field">
                     <label class="label">Adicional</label>
                     <input type="list" size="40" list="adicional" id="adicionais"/>
                     <datalist id="adicional">
                         <option value="teste"></option>
                     </datalist>
-            </div>
+            </div-->
             <div class="field">
                 <label class="label">Adicionais categoria</label>
-                <ul id="adicionaisCategoria"></ul>
+                <div id="divAdicionais"></div>
             </div>
         </div>
      </div>

@@ -1,6 +1,5 @@
 
 function editar(){
-    pesquisarAdicionais();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlCategoria, variaveis,
@@ -14,6 +13,15 @@ function editar(){
                     }else{
                         document.getElementById("ckInativo").checked=true;
                     }
+                    //desmarca todos.
+                    $("[name=ckAdicionais]").attr("checked",false);
+                    
+                    //marca os adicionais da categoria.
+                    for (i=0;i<data.adicionais.length;i++){
+                        var dados = data.adicionais[i]["adicionalId"];
+                        document.getElementById("ckAdicionais"+dados).checked=true;
+                    }
+                    
                     $("#btnNovo").hide();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();
@@ -81,9 +89,9 @@ function pesquisarAdicionais(){
                 var dados = data.dados;
                 var select = '';
                 for(var dado in dados){
-                    var select = select + '<option value="'+dados[dado]+'">'+dado+'</option>'; 
+                    var select = select + '<input type="checkbox" name="ckAdicionais" id="ckAdicionais'+dado+'" value="'+dado+'">'+dados[dado]+'</checkbox><br/>'; 
                 }
-                document.getElementById("adicional").innerHTML = select;
+                document.getElementById("divAdicionais").innerHTML = select;
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar dados: ".textStatus);});                
 }
@@ -131,10 +139,12 @@ function listarDados(){
 }
 
 function limparCampos(){
+    $("[name=ckAdicionais]").attr("checked",false);
     $("#id").val("");
     $("#descricao").val("");
     $("#slCategoria").val("");
     $("#btnExcluir").hide();
+    $("#btnSalvar").hide();
     document.getElementById("ckAtivo").checked=true
 }
 
@@ -142,7 +152,8 @@ $(document).ready(function(){
     
     listarDados();
     popularSelect();
-
+    pesquisarAdicionais();
+    
     $("#pesquisar").keyup(function() {
         pesquisar($("#pesquisar").val());
     });
@@ -171,7 +182,7 @@ $(document).ready(function(){
     });
     
     $("#btnExcluir").click(function() {
-        if(confirm("Confirma a exclusão da categoria "+$("#id").val()+"'")){
+        if(confirm("Confirma a exclusão da categoria "+$("#descricao").val()+"'")){
             var variaveis = {"excluir": $("#id").val()};
             $.post(urlCategoria, variaveis,
                 function(data) {
@@ -202,12 +213,17 @@ $(document).ready(function(){
             if ($(this).is(':checked'))
                 status = parseInt($(this).val());
         })
+        var camposMarcados = new Array();
+        $("[name='ckAdicionais']:checked").each(function(){
+            camposMarcados.push($(this).val());
+        });
+        
         var variaveis = {"salvar": "1",
                         "id": $("#id").val(),
                         "descricao": $("#descricao").val(),
                         "categoriaPai": $("#slCategoria").val(),
                         "status": status,
-                        "adicional": $("#adicional").val()
+                        "adicional": camposMarcados.toString()
                         };
         $.post(urlCategoria, variaveis,
             function(data) {
