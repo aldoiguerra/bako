@@ -10,11 +10,16 @@ function editar(){
                     $("#nome").val(data.nome);
                     $("#senha").val("");
                     $("#tipo").val(data.tipo);
+                    if (data.status == 1){
+                        document.getElementById("ckAtivo").checked=true;
+                    }else{
+                        document.getElementById("ckInativo").checked=true;
+                    }
                     $("#btnNovo").hide();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();                    
                 }             
-            }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
+            }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar usuário: ".textStatus);});
     });
 }
 function pesquisar(texto){
@@ -54,8 +59,8 @@ function pesquisar(texto){
             lista = lista + '</li>';
         }
         document.getElementById("lista").innerHTML = lista;
-        editar();
     }
+    editar();
 }
 
 function listarDados(){
@@ -83,7 +88,7 @@ function listarDados(){
             }else{
                 document.getElementById("lista").innerHTML = "";
             }
-        }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar dados: ".textStatus);});                
+        }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar usuário: ".textStatus);});                
 }
 
 function limparCampos(){
@@ -92,6 +97,7 @@ function limparCampos(){
     $("#senha").val("");
     $("#tipo").val("0");
     $("#btnExcluir").hide();
+    
 }
 
 $(document).ready(function(){
@@ -160,14 +166,22 @@ $(document).ready(function(){
             $("#tipo").focus();
             return
         }
+        $('input:radio[name=rAI]').each(function() {
+            //Verifica qual está selecionado
+            if ($(this).is(':checked'))
+                status = parseInt($(this).val());
+        })
+        alert(status);
         var variaveis = {"salvar": "1",
                         "usuario": $("#usuario").val(),
                         "nome": $("#nome").val(),
                         "senha": $("#senha").val(),
-                        "tipo": $("#tipo").val()
+                        "tipo": $("#tipo").val(),
+                        "status": status
                         };
         $.post(urlUsuario, variaveis,
             function(data) {
+                return
                 $("#retorno").html(data.msg);
                 if(data.retorno){
                     $("#btnNovo").show();
@@ -175,9 +189,9 @@ $(document).ready(function(){
                     $("#btnSalvar").hide();
                     $("#btnExcluir").hide();
                 }
-            }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
-        limparCampos();
+            }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar usuário: ".textStatus);});
         listarDados();
+        limparCampos();
     });
 
 });

@@ -1,5 +1,6 @@
 
 function editar(){
+    limparCampos();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlProduto, variaveis,
@@ -87,8 +88,8 @@ function pesquisar(texto){
             lista = lista + '</li>';
         }
         document.getElementById("lista").innerHTML = lista;
-        editar();
     }
+    editar();
 }
 function listarDados(){
     var variaveis = {"listar": 1};
@@ -131,7 +132,9 @@ function limparCampos(){
 $(document).ready(function(){
     
     listarDados();
+    limparCampos();
     popularSelect();
+    
     $("#btnLimpar").click(function() {
         limparCampos();
         $("#retorno").attr("hidden",true);

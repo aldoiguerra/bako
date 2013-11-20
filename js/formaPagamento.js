@@ -1,5 +1,6 @@
 
 function editar(){
+    limparCampos();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlFormaPagamento, variaveis,

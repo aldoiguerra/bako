@@ -12,7 +12,7 @@ function retornarArray(){
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
     $result = $connect->executar("SELECT f.id, f.descricao, f.pedeObservacao FROM formaPagamento f");
-    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    debug(3, "Numero de formas de pagamento listadas: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
@@ -26,7 +26,7 @@ function retornarDadosLista(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornarDadosLista: ".$array["retorno"]);
+    debug(3, "Retorno formas de pagamento listadas: ".$array["retorno"]);
     return $array;
 }
 
@@ -35,11 +35,11 @@ function salvar($id,$descricao,$pedeObservacao){
     try {
         ConexaoSingleton::getConexao()->startTransaction();
         
-        debug(3, "Buscando se produto existe.");
+        debug(3, "Buscando se forma de pagamento existe.");
         $objF = new FormaPagamento();
         $ret = $objF->load($id);
         $idAntigo = $objF->__get("id");
-        debug(3, "Código localizado: ".$idAntigo);
+        debug(3, "Forma de pagamento localizada: ".$idAntigo);
         
         $objF->__set("id",$id);
         $objF->__set("descricao",$descricao);
@@ -53,9 +53,9 @@ function salvar($id,$descricao,$pedeObservacao){
         
         ConexaoSingleton::getConexao()->commit();
         
-        debug(3, "formaPagamento salvo com sucesso");
+        debug(3, "Forma de pagamento salvo com sucesso");
     }catch(Exception $e){
-        debug(1, "Erro ao salvar formaPagamento: ".$e->getMessage());
+        debug(1, "Erro ao salvar forma de pagamento: ".$e->getMessage());
         
         ConexaoSingleton::getConexao()->rollback();
     }
@@ -63,7 +63,7 @@ function salvar($id,$descricao,$pedeObservacao){
 }
 
 if(isset($_POST["salvar"])){
-    debug(3, "Recebido pedido para salvar formaPagamento: ".$_POST["id"]);
+    debug(3, "Recebido pedido para salvar forma de pagamento: ".$_POST["id"]);
     $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["pedeObservacao"]);
     if($ret){
         echo json_encode(array(
@@ -76,10 +76,10 @@ if(isset($_POST["salvar"])){
             "msg"=>"Erro ao salvar forma de pagamento!"));
     }
 }else if(isset($_POST["consultar"])){
-    debug(3, "Recebido pedido para consultar formaPagemtno: ".$_POST["consultar"]);
+    debug(3, "Recebido pedido para consultar forma de pagemtno: ".$_POST["consultar"]);
     $obj = new FormaPagamento();
     $ret = $obj->load($_POST["consultar"]);
-    debug(3, "formaPagametno consultado: ".$obj->__get("id"));
+    debug(3, "Forma de pagametno consultado: ".$obj->__get("id"));
     if($obj->__get("id")){
         $array = array(
             "retorno"=>true,
@@ -93,18 +93,18 @@ if(isset($_POST["salvar"])){
     }
     echo json_encode($array);
 }else if(isset($_POST["listar"])){
-    debug(3, "Recebido pedido para listar os dados.");
+    debug(3, "Recebido pedido para listar os dados das formas de pagamento.");
     echo json_encode(retornarDadosLista());
 }else if(isset($_POST["excluir"])){
-    debug(3, "Recebido pedido para excluir formaPagamento: ".$_POST["excluir"]);
+    debug(3, "Recebido pedido para excluir forma de pagamento: ".$_POST["excluir"]);
     $obj = new FormaPagamento();
     $ret = $obj->load($_POST["excluir"]);
     $ret = $obj->remove();
-    debug(3, "Forma Pagamento excluido: ".$obj->__get("id")."-".$ret);
+    debug(3, "Forma Pagamento excluida: ".$obj->__get("id")."-".$ret);
     if($ret){
         $array = array(
             "retorno"=>true,
-            "msg"=>"Forma de pagamento excluido com sucesso!"
+            "msg"=>"Forma de pagamento excluida com sucesso!"
             );
     }else{
         $array = array(

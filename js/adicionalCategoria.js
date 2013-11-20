@@ -1,5 +1,6 @@
 
 function editar(){
+    limparCampos();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlAdicional, variaveis,
@@ -50,8 +51,8 @@ function pesquisar(texto){
             lista = lista + '</li>';
         }
         document.getElementById("lista").innerHTML = lista;
-        editar();
     }
+    editar();
 }
 
 function listarDados(){
@@ -156,13 +157,13 @@ $(document).ready(function(){
             function(data) {
                 $("#retorno").html(data.msg);
                 if(data.retorno){
-                    listarDados();
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
                     $("#btnSalvar").hide();
                     $("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
+        listarDados();
         limparCampos();
         popularSelect();
     });

@@ -29,14 +29,14 @@ function popularSelect(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornarDadosLista1: ".$array["retorno"]);
+    debug(3, "Retorno popular select produtos: ".$array["retorno"]);
     return $array;
 }
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
     $result = $connect->executar("SELECT p.id, p.nome, p.descricao, buscarDescricao(p.categoriaId) As categoria, p.preco, p.status FROM produto p");
-    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    debug(3, "Numero de produtos listados: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
@@ -50,7 +50,7 @@ function retornarDadosLista(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornarDadosLista: ".$array["retorno"]);
+    debug(3, "Retorno produtos listados: ".$array["retorno"]);
     return $array;
 }
 
@@ -63,7 +63,7 @@ function salvar($codigo,$nome,$descricao,$categoriaId,$preco,$status){
         $objP = new Produto();
         $ret = $objP->load($codigo);
         $idAntigo = $objP->__get("id");
-        debug(3, "Código localizado: ".$idAntigo);
+        debug(3, "Código do produto localizado: ".$idAntigo);
         
         $objP->__set("codigo",$codigo);
         $objP->__set("nome",$nome);
@@ -123,10 +123,10 @@ if(isset($_POST["salvar"])){
     }
     echo json_encode($array);
 }else if(isset($_POST["listar"])){
-    debug(3, "Recebido pedido para listar os dados.");
+    debug(3, "Recebido pedido para listar os dados produto.");
     echo json_encode(retornarDadosLista());
 }else if(isset($_POST["popularSelect"])){
-    debug(3, "Recebido pedido para select dos dados.");
+    debug(3, "Recebido pedido para select dos dados produto.");
     echo json_encode(popularSelect());
 }
 ?>

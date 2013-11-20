@@ -5,19 +5,19 @@ require_once ('../model/Usuario.class.php');
 function retornarArray(){
     $string = "";
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT u.usuario,u.nome,u.tipo FROM usuario u");
+    $result = $connect->executar("SELECT u.usuario,u.nome,u.tipo,u.status FROM usuario u");
     return $connect->get_array($result);
 }
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT u.usuario,u.nome,u.tipo FROM usuario u");
-    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    $result = $connect->executar("SELECT u.usuario,u.nome,u.tipo,u.status FROM usuario u");
+    debug(3, "Numero de usuários retornados na listagem: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
             "retorno"=>true,
-            "colunas"=>array("usuario","nome","tipo"),
+            "colunas"=>array("usuario","nome","tipo","status"),
             "dados"=>$arraydados
         );
         
@@ -26,36 +26,39 @@ function retornarDadosLista(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornarDadosLista: ".$array["retorno"]);
+    debug(3, "Retorno retornarDadosLista usuario: ".$array["retorno"]);
     return $array;
 }
 
-function salvar($usuario,$nome,$senha,$tipo){
+function salvar($usuario,$nome,$senha,$tipo,$status){
     
     try {
         ConexaoSingleton::getConexao()->startTransaction();
         
-        debug(3, "Buscando se usuário existe.");
+        debug(3, "Buscando se usuário existe. ".$usuario);
         $objU = new Usuario();
         $ret = $objU->load($usuario);
         $idAntigo = $objU->__get("usuario");
-        debug(3, "Usuário localizado: ".$idAntigo);
+        debug(3, "Usuário ".$usuario." localizado: ".$idAntigo.".");
         
         $objU->__set("usuario",$usuario);
         $objU->__set("nome",$nome);
+        
         if($senha != ""){
            $objU->__set("senha",sha1($senha));
         }else{
            $objU->__set("senha",$objU->__get("senha"));
         }
         $objU->__set("tipo",$tipo);
-
+        $objU->__set("status",$status);
+        
         if($idAntigo){
             $ret = $objU->update();
         }else{
             $ret = $objU->add();            
         }
-        if(!$ret) throw new Exception ("");
+        
+        if(!$ret) throw new Exception ();
         
         ConexaoSingleton::getConexao()->commit();
         
@@ -70,7 +73,7 @@ function salvar($usuario,$nome,$senha,$tipo){
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar usuário: ".$_POST["usuario"]);
-    $ret = salvar($_POST["usuario"],$_POST["nome"],$_POST["senha"],$_POST["tipo"]);
+    $ret = salvar($_POST["usuario"],$_POST["nome"],$_POST["senha"],$_POST["tipo"],$_POST["status"]);
     if($ret){
         echo json_encode(array(
             "retorno"=>true,
@@ -92,7 +95,8 @@ if(isset($_POST["salvar"])){
             "usuario"=>$objU->__get("usuario"),
             "nome"=>$objU->__get("nome"),
             "senha"=>$objU->__get("senha"),
-            "tipo"=>$objU->__get("tipo")
+            "tipo"=>$objU->__get("tipo"),
+            "status"=>$objU->__get("status")
             );
     }else{
         $array = array(
