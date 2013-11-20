@@ -11,7 +11,7 @@ nav {height:100%;background:rgb(37, 42, 58);width:150px;position:absolute;top:0;
 nav ul {list-style:none;margin-top:30px;}
 nav ul li a {display:block;padding:10px 15px;color:#FFF;}
 
-.search-page {position:fixed;background:lightsteelblue;opacity:.98;padding:10px;width:100%;box-shadow:0 1px 3px 1px rgba(0,0,0,.4);}
+.search-page {position:fixed;background:rgb(255,69,0);padding:10px;box-shadow:0 1px 3px 1px rgba(0,0,0,.4);}
 .search-page input[type="text"] {background:rgba(255,255,255,.15);box-shadow:none;}
 
 aside {position:absolute;top:0;z-index:3;bottom:0;width:325px;left:150px;border-right:1px solid #EEE;overflow-x:hidden;overflow-y:auto;background:#FFF;-webkit-overflow-scrolling:touch;z-index:1;}
@@ -28,10 +28,10 @@ aside .indicator-negative {background:crimson;}
 aside .number {float:left;width:64px;height:64px;background:limegreen;margin-right:15px;font-size:42px;line-height:60px;color:#FFF;text-align:center;font-weight:300;}
 aside .number-close {float:left;width:64px;height:64px;background:crimson;margin-right:15px;font-size:42px;line-height:60px;color:#FFF;text-align:center;font-weight:300;}
 
-section {position:absolute;right:0;left:475px;top:0;bottom:0;background:#EEE;padding:0 30px;overflow-y:auto;z-index:2;}
+section {position:absolute;right:0;left:475px;top:0;bottom:0;background:#CCC;padding:0 30px;overflow-y:auto;z-index:2;}
 
 
-h1 {font-size:50px;font-weight:100;text-align:center;line-height:182%;border-bottom:1px solid #DDD;margin-bottom:15px;}
+h1 {font-size:23px;font-weight:700;text-align:center;line-height:60px;background:rgb(255,69,0);margin:0 -30px;box-shadow:0 1px 3px 1px rgba(0,0,0,.4);color:#FFF;}
 
 h3 {font-size:19px;font-weight:700;}
 h4 {font-size:11px;font-weight:600;text-transform:uppercase;}
@@ -42,7 +42,7 @@ p {font-size:13px;font-weight:400;text-overflow:ellipsis;white-space:nowrap;over
 .field {padding:15px 0;float:left;width:100%;}
 .label {display:block;font-size:16px;font-weight:400;padding-bottom:2px;}
 
-input[type="text"], select, textarea {
+ input[type="text"], input[type="password"], select, textarea {
 	height:40px;
 	background:#FFF;
 	border:0;
@@ -50,7 +50,7 @@ input[type="text"], select, textarea {
 	padding:4px 10px;
 	font-family:'Roboto';
 	box-shadow:0 0 6px -2px rgba(0,0,0,.1);
-	float:left;
+	/*float:left;*/
 	-webkit-appearance:none;
 	margin-right:5px;
 }
@@ -58,12 +58,12 @@ input[type="text"], select, textarea {
 select {overflow-x:hidden;}
 textarea {height:auto;width:100%;}
 
-input[type="button"]{background:rgb(27, 152, 248);border:0;height:40px;padding:10px 15px;border-radius:2px;font-weight:600;font-size:14px;color:#FFF;cursor:pointer;float:left;margin-right:5px;}
-input[type="button"]:hover {background:rgb(0, 122, 248);}
+input[type="button"],input[type="submit"]{background:rgb(27, 152, 248);border:0;height:40px;padding:10px 15px;border-radius:2px;font-weight:600;font-size:14px;color:#FFF;cursor:pointer;/*float:left;*/margin-right:5px;}
+input[type="button"]:hover, input[type="submit"] {background:rgb(0, 122, 248);}
 
-input.bt-success {background:limegreen;}
-input.bt-negative {background:crimson;}
-input.bt-alert {background:goldenrod;}
+.bt-success {background:limegreen;}
+.bt-negative {background:crimson;}
+.bt-alert {background:goldenrod;}
 
 .button-bar {padding:30px 0;}
 .button-bar input[type="button"] {float:none;}
@@ -76,8 +76,11 @@ input.bt-alert {background:goldenrod;}
 .check-set-vt {display:inline-block;}
 .check-set-vt label {width:100%;}
 
+table {width:100%} 
+table th {background:#AAA;padding:5px 15px;}
+table td {background:#EEE;border-right:1px solid #BBB;border-right:1px solid #BBB;padding:5px 15px;}
 
-.row {display:table;}
+.row {display:table;width:100%;}
 
 .col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12 {
 	float:left;
@@ -153,3 +156,5 @@ input.bt-alert {background:goldenrod;}
 ::-webkit-scrollbar-thumb:horizontal {background: rgba(0,0,0,.3);border: 1px solid rgba(255,255,255,.2);}
 
 .estiloPopup{display: none;position: absolute;top:0px;left:0px;background-color: #EEE;border: 2px #000 solid;}
+
+.inline-block {display:inline-block}
