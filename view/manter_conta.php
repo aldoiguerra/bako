@@ -34,43 +34,46 @@ require_once ('../controller/conta.php');
     </div>
     <div class="row">
         <input type="text" id="idConta" style="display:none;" />
-        <div class="col-2">
+        <div class="col-4">
             <div class="field">
                 <label class="label">Mesa</label>
-                <input type="text" size="10" id="mesa" />
+                <input type="text" size="15" id="mesa" />
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-4">
             <div class="field">
-                <label class="label">&nbsp;</label>
+                <label class="label">Descrição adicional</label>
+                <input type="text" size="15" maxlength="1" id="descricao" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="field">
+                <label class="label">Pessoas</label>
+                <input type="text" size="15" id="qtdPessoas" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="field">
+                <label class="label">Situação</label>
                 <h3 id="status"></h3>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-4">
             <div class="field">
-                <label class="label">Pessoas</label>
-                <input type="text" size="10" id="qtdPessoas" />
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="field">
-                <label class="label">Descrição</label>
-                <input type="text" size="30" id="descricao" />
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="field">
-                <label class="label">Aberta em:</label>
+                <label class="label">Aberta em</label>
                 <h3 id="dataHora"></h3>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-4">
             <div class="field">
-                <label class="label">Fechada em:</label>
+                <label class="label">Fechada em</label>
                 <h3 id="dataHoraFechamento"></h3>
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-12">
             <div class="check-set">
@@ -80,21 +83,69 @@ require_once ('../controller/conta.php');
             </div>
         </div>
     </div>
-    <div class="button-bar">
-        <input type="button" value="Abrir mesa" id="btnAbrirMesa" style='display: none;' class="bt-success"/>
-        <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
-        <input type="button" value="Liberar mesa" style='display: none;' id="btnExcluir" style='display: none;' class="bt-negative" />
-        <input type="button" value="Novo pedido" style='display: none;' id="btnNovoPedido" class="bt-success"/>
-        <input type="button" value="Fechar conta" style='display: none;' id="btnFecharConta" class="bt-success"/>
-        <input type="button" value="Trocar mesa" style='display: none;' id="btnTrocarMesa" class="bt-success"/>
-        <input type="button" value="Desconto..." style='display: none;' id="btnDesconto" class="bt-success"/>
-        <input type="button" value="Pagamento..." style='display: none;' id="btnRealizarPagamento" class="bt-success"/>
+    
+    <div id="popupPedido">
+        <div class="row">
+      
+            <input type="hidden" id="codigoPedido" />
+           
+            
+            <div class="col-3">
+                <div class="field">
+                    <label class="label">Código Produto</label>
+                    <input type="text" size="10" id="codigoProduto" />
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="field">
+                    <label class="label">Produto</label>
+                    <select id="selectProduto" width="100px"></select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="field">
+                    <label class="label">Quantidade</label>
+                    <input type="text" size="10" id="quantidadePedido" />
+                </div>
+            </div>
+            <input type="hidden" id="valorProduto" />
+            <input type="hidden" size="10" id="totalPedido" />
+
+            <div class="col-3">
+                <div class="field">
+                    <label class="label">Adicionais</label>
+                    <select id="selectAdicionais" multiple="multiple" width="100px"></select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="field">
+                    <label class="label">Observação</label>
+                    <input type="text" size="10" id="observacaoPedido" />
+                </div>
+            </div>
+            <input type="button" value="Salvar" id="btnSalvarPedido" class="bt-success"/>
+            <input type="button" value="Cancelar" id="btnCancelarPedido" class="bt-negative"/>
+        </div>
+        
     </div>
+
+    
     <div class="row">
-        <div class="col-12">
-            <table id="tabelaPedidos">
-                
-            </table>
+        <table id="tabelaPedidos">
+
+        </table>
+    </div>
+            
+    <div class="row">    
+        <div class="button-bar">
+            <input type="button" value="Abrir mesa" id="btnAbrirMesa" style='display: none;' class="bt-success"/>
+            <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
+            <input type="button" value="Liberar mesa" style='display: none;' id="btnExcluir" style='display: none;' class="bt-negative" />
+            <input type="button" value="Novo pedido" style='display: none;' id="btnNovoPedido" class="bt-success"/>
+            <input type="button" value="Fechar conta" style='display: none;' id="btnFecharConta" class="bt-success"/>
+            <input type="button" value="Trocar mesa" style='display: none;' id="btnTrocarMesa" class="bt-success"/>
+            <input type="button" value="Desconto..." style='display: none;' id="btnDesconto" class="bt-success"/>
+            <input type="button" value="Pagamento..." style='display: none;' id="btnRealizarPagamento" class="bt-success"/>
         </div>
     </div>
     
@@ -157,79 +208,7 @@ require_once ('../controller/conta.php');
         </div>
         
     </div>
-    
-    <div id="popupPedido" class="estiloPopup">
-        <div class="row">
-            <div class="col-12">
-                <div class="field">
-                    <label class="label">Codigo</label>
-                    <input type="text" size="10" id="codigoPedido" disabled="disabled" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="field">
-                    <label class="label">Quantidade</label>
-                    <input type="text" size="10" id="quantidadePedido" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                <div class="field">
-                    <label class="label">Código Produto</label>
-                    <input type="text" size="10" id="codigoProduto" />
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="field">
-                    <label class="label">Produto</label>
-                    <select id="selectProduto" width="100px"></select>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="field">
-                    <label class="label">Valor</label>
-                    <input type="text" size="10" id="valorProduto" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="field">
-                    <label class="label">Total do pedido</label>
-                    <input type="text" size="10" id="totalPedido" disabled="disabled" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="field">
-                    <label class="label">Adicionais</label>
-                    <select id="selectAdicionais" multiple="multiple" width="100px"></select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="field">
-                    <label class="label">Observação</label>
-                    <input type="text" size="10" id="observacaoPedido" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="button-bar">
-                <input type="button" value="Salvar" id="btnSalvarPedido" class="bt-success"/>
-                <input type="button" value="Cancelar" id="btnCancelarPedido" class="bt-negative"/>
-            </div>
-        </div>
-        
-    </div>
-
-    
-    
+     
 </section>
 
 

@@ -1,15 +1,15 @@
 <?php
 require_once ('../controller/login.php');
 
-$divres = "none";
+$divres = "hidden";
 $mensagem = "";
 if(isset($_POST["logar"])){
     $ret = logar($_POST["usuario"], $_POST["senha"]);
     if($ret){
         header("location: ../view/index.php");
     }else{
-        $divres = "block";
-        $mensagem = "Erro. Usuário ou senha incorreto.";
+        $divres = "visible";
+        $mensagem = "Usuário e/ou senha incorreto.";
     }
 }
 
@@ -20,28 +20,25 @@ if(isset($_POST["logar"])){
 <title>Login</title>
 <?php include 'css_include.php';?> 
 </head>
-<body>
+<body style="background:rgb(255,69,0)">
 <?php include 'cabecalho.php';?>
 
-    <div class="row">
-        <div class="col-9">
-            <h1>Login</h1>
-            <div style="display:<?php echo $divres;?>;">
-                <h3><?php echo $mensagem;?></h3><br />
-            </div>
-            <form method="POST">
-                <div class="field">
-                        <span class="label">Usuário</span>
-                        <input type="text" size="30" name="usuario" />
+    <div class="container">
+        <div class="row">
+            <form method="POST" style="width:300px;margin:0 auto;">
+                <div>
+                    <div>
+                        <input type="text" size="30" placeholder="Usuário" autofocus name="usuario" />
+                    </div>
+                    <div style="margin:1px 0 5px 0">
+                        <input type="password" placeholder="Senha" size="30" name="senha" />
+                    </div>
+                    <p class="inline-block" style="width:191px;visibility:<?php echo $divres;?>;"><?php echo $mensagem;?></p>
+                    <input type="submit" name="logar" value="Logar" />
                 </div>
-                <div  class="field">
-                        <span class="label">Senha</span>
-                        <input type="password" size="30" name="senha" />
-                </div>
-                <div class="button-bar">
-                        <input type="submit" name="logar" value="Logar" class="bt-success" />
-                </div>
+             
             </form>
+            
         </div>
     </div>
 
