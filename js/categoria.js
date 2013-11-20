@@ -161,6 +161,7 @@ $(document).ready(function(){
     
     $("#btnLimpar").click(function() {
         limparCampos();
+        $("#retorno").html("");
         $("#btnNovo").show();
         $("#btnEditar").hide();
         $("#btnSalvar").hide();
@@ -168,6 +169,7 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
+        $("#retorno").html("");
         document.getElementById("ckAtivo").checked=true
         $("#btnNovo").hide();
         $("#btnEditar").hide();

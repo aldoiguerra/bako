@@ -97,6 +97,7 @@ function limparCampos(){
     $("#senha").val("");
     $("#tipo").val("0");
     $("#btnExcluir").hide();
+    document.getElementById("ckAtivo").checked=true
     
 }
 
@@ -110,6 +111,7 @@ $(document).ready(function(){
     
     $("#btnLimpar").click(function() {
         limparCampos();
+        $("#retorno").html("");
         $("#btnNovo").show();
         $("#btnEditar").hide();
         $("#btnSalvar").hide();
@@ -117,6 +119,7 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
+        $("#retorno").html("");
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
@@ -171,7 +174,6 @@ $(document).ready(function(){
             if ($(this).is(':checked'))
                 status = parseInt($(this).val());
         })
-        alert(status);
         var variaveis = {"salvar": "1",
                         "usuario": $("#usuario").val(),
                         "nome": $("#nome").val(),
@@ -181,7 +183,6 @@ $(document).ready(function(){
                         };
         $.post(urlUsuario, variaveis,
             function(data) {
-                return
                 $("#retorno").html(data.msg);
                 if(data.retorno){
                     $("#btnNovo").show();
@@ -190,8 +191,8 @@ $(document).ready(function(){
                     $("#btnExcluir").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar usuário: ".textStatus);});
-        listarDados();
         limparCampos();
+        listarDados();
     });
 
 });

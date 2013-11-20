@@ -98,12 +98,14 @@ $(document).ready(function(){
     
     $("#btnLimpar").click(function() {
         limparCampos();
+        $("#retorno").html("");
         $("#btnNovo").show();
         $("#btnEditar").hide();
         $("#btnSalvar").hide();
         $("#btnExcluir").hide();
     });
     $("#btnNovo").click(function() {
+        $("#retorno").html("");
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();

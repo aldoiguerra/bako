@@ -137,7 +137,7 @@ $(document).ready(function(){
     
     $("#btnLimpar").click(function() {
         limparCampos();
-        $("#retorno").attr("hidden",true);
+        $("#retorno").html("");
         $("#btnNovo").show();
         $("#btnEditar").hide();
         $("#btnSalvar").hide();
@@ -145,6 +145,7 @@ $(document).ready(function(){
     
     $("#btnNovo").click(function() {
         popularSelect();
+        $("#retorno").html("");
         document.getElementById("ckAtivo").checked=true
         $("#btnNovo").hide();
         $("#btnEditar").hide();
@@ -195,8 +196,6 @@ $(document).ready(function(){
             function(data) {
                 $("#retorno").html(data.msg);
                 if(data.retorno){
-                    listarDados();
-                    limparCampos();
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
                     $("#btnSalvar").hide();                    //$("#btnExcluir").hide();

@@ -36,7 +36,7 @@ require_once ('../controller/categoria.php');
         <div class="col-12" id="cadastro">
             <div class="field">
                     <label class="label">Código</label>
-                    <input type="text" size="30" id="id" />
+                    <input type="text" size="30" id="id" readonly/>
             </div>
             <div class="field">
                     <label class="label">Descrição</label>

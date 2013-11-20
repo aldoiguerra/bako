@@ -92,6 +92,13 @@ create table formaPagamento(
 	primary key (id)
 )engine = InnoDB;
 
+create table parametroSistema(
+	id integer not null auto_increment,
+        qtdMesas varchar(50),
+        valorTxServico float(5,2),
+	primary key (id)
+)engine = InnoDB;
+
 create table pagamento(
 	id integer not null auto_increment,
         contaId integer not null,
@@ -141,5 +148,6 @@ CREATE FUNCTION buscarDescricao(idPai INT)
 DELIMITER ;
 
 insert into usuario (nome,usuario,senha,tipo,status) values ('Administrador','sysadmin','742379261b4ba6149a2c3bc7ca8d1cb31f176642',1,1);
+INSERT INTO parametroSistema (qtdMesas,valorTxServico) VALUES ('','0');
 
 commit;
