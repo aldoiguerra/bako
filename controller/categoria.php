@@ -5,7 +5,7 @@ require_once ('../model/Categoria.class.php');
 function popularSelect(){
     $connect = ConexaoSingleton::getConexao();
     $result = $connect->executar("SELECT id,buscarDescricao(id) AS descricao, status FROM categoria");
-    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    debug(3, "Numero de categorias obtidas: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         
@@ -23,14 +23,14 @@ function popularSelect(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornarDadosLista: ".$array["retorno"]);
+    debug(3, "Retorno retornarDadosLista categorias: ".$array["retorno"]);
     return $array;
 }
 
 function pesquisarAdicionais(){
     $connect = ConexaoSingleton::getConexao();
     $result = $connect->executar("SELECT id, descricao FROM adicional");
-    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    debug(3, "Numero de adicionais na categorias obtidas: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         
@@ -48,14 +48,14 @@ function pesquisarAdicionais(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornar listaAdicionais: ".$array["retorno"]);
+    debug(3, "Retorno pesquisar adicionais na categoria: ".$array["retorno"]);
     return $array;
 }
 
 function retornarDadosLista(){
     $connect = ConexaoSingleton::getConexao();
     $result = $connect->executar("SELECT id,descricao,buscarDescricao(categoriaPaiId) AS categoriaPaiId, status FROM categoria");
-    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    debug(3, "Numero de categorias retornados na listagem: ".$connect->getNumResultados());
     if($connect->getNumResultados() > 0){
         $arraydados = $connect->get_array($result);
         $array = array(
@@ -68,7 +68,7 @@ function retornarDadosLista(){
             "retorno"=>false
         );
     }
-    debug(3, "Retorno retornarDadosLista: ".$array["retorno"]);
+    debug(3, "Retorno de categorias retornadas na listagem: ".$array["retorno"]);
     return $array;
 }
 
@@ -105,7 +105,6 @@ function salvar($id,$descricao,$categoriaPai,$status,$adicional){
                 $connect = ConexaoSingleton::getConexao();
                 $result = $connect->executar($sql);
                 debug(3, "Adicionais da Categoria inserido: ".$idAdicional);
-                debug(3, "Adicionais da Categoria inserido SQL: ".$sql);
             }
         }
         ConexaoSingleton::getConexao()->commit();  
@@ -156,20 +155,20 @@ if(isset($_POST["salvar"])){
     }
     echo json_encode($array);
 }else if(isset($_POST["popularSelect"])){
-    debug(3, "Recebido pedido para select dos dados.");
+    debug(3, "Recebido pedido para select dos dados da categoria.");
     echo json_encode(popularSelect());
 }else if(isset($_POST["listar"])){
-    debug(3, "Recebido pedido para listar os dados.");
+    debug(3, "Recebido pedido para listar os dados da categoria.");
     echo json_encode(retornarDadosLista());
 }else if(isset($_POST["excluir"])){
     debug(3, "Recebido pedido para excluir categoria: ".$_POST["excluir"]);
     $sql = "UPDATE produto SET categoriaId = NULL WHERE categoriaId = '".$_POST["excluir"]."'";
     $connect = ConexaoSingleton::getConexao();
     $retorno = $connect->executar($sql);
-    debug(3, "Update produto antes de excluir: ".$sql."--".$retorno);
+    debug(3, "Update produto antes de excluir categoria: ".$sql."--".$retorno);
     $sql = "DELETE FROM categoriaAdicional WHERE categoriaId = '".$_POST["excluir"]."'";
     $retorno = $connect->executar($sql);
-    debug(3, "Delete categAdicional antes de excluir: ".$sql."--".$retorno);
+    debug(3, "Delete categAdicional antes de excluir categoria: ".$sql."--".$retorno);
     $objC = new Categoria();
     $ret = $objC->load($_POST["excluir"]);
     $ret = $objC->remove();

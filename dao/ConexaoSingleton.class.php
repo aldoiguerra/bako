@@ -78,6 +78,7 @@ class ConexaoSingleton
     public function getLastId() {
         debug(3, "Recupenrando ultimo id.");
         $tmp = mysqli_insert_id($this->link);
+        debug(3, "tmp: ".$tmp.".");
         if ($tmp > 0) ConexaoSingleton::$lastId = $tmp;
         debug(3, "Ultimo Id: ".ConexaoSingleton::$lastId);
         return ConexaoSingleton::$lastId;

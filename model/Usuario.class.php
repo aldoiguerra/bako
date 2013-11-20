@@ -11,6 +11,7 @@ class Usuario extends DaoPadrao
     private $usuario = null;
     private $senha = null;
     private $tipo = null;
+    private $status = null;
     
     public function __construct() {
         
@@ -48,17 +49,17 @@ class Usuario extends DaoPadrao
 
     function getSelectList()
     {
-        return "usuario,senha,tipo,nome";
+        return "usuario,senha,tipo,nome,status";
     }
 
     function getInsertList()
     {
-        return "'$this->usuario','$this->senha','$this->tipo','$this->nome'";
+        return "'$this->usuario','$this->senha','$this->tipo','$this->nome','$this->status'";
     }
 
     function getUpdateList()
     {
-        return "usuario='$this->usuario',senha='$this->senha',tipo='$this->tipo',nome='$this->nome'";
+        return "usuario='$this->usuario',senha='$this->senha',tipo='$this->tipo',nome='$this->nome',status='$this->status'";
     }
 
     function isAutoIncrement()
@@ -75,11 +76,12 @@ class Usuario extends DaoPadrao
             $this->senha = $r[1];
             $this->tipo = $r[2];
             $this->nome = $r[3];
+            $this->status = $r[4];
         }
         return $ret;
     }
     
-    function add() {
+    /*function add() {
         try{
             $ret = parent::add();
             return $ret;
@@ -87,7 +89,18 @@ class Usuario extends DaoPadrao
             echo($e->getMessage());
             return 0;
         }
+    }*/
+    function add()
+    {
+        $sql = 
+            "INSERT INTO ".$this->getTableName().
+            " (".$this->getSelectList().") ".
+            "VALUES".
+            " (".$this->getInsertList().")";
+        $ret = ConexaoSingleton::getConexao()->executar($sql);
+        return $ret;
     }
+    
 
     function remove()
     {

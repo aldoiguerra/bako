@@ -1,5 +1,6 @@
 
 function editar(){
+    limparCampos();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlCategoria, variaveis,
@@ -77,9 +78,9 @@ function pesquisar(texto){
             lista = lista + '</li>';
         }
         document.getElementById("lista").innerHTML = lista;
-        editar();
-        popularSelect();
     }
+    editar();
+    popularSelect();
 }
 function pesquisarAdicionais(){
     var variaveis = {"pesquisarAdicionais": 1};
