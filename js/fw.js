@@ -30,14 +30,22 @@ function hideDialog(pId) {
 	elSection.classList.remove('show-dialog')
 }
 
-function buscarAssync(url,parms,funcaoOk){
+function requestAssync(url,parms,funcaoOk,tipoRetorno){
     var xmlhttp;
     if (window.XMLHttpRequest) {
         xmlhttp=new XMLHttpRequest();
     }
+    if(!tipoRetorno){
+        tipoRetorno = "json";
+    }
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            funcaoOk(eval('(' + xmlhttp.responseText + ')'));
+            if(tipoRetorno == "json"){
+                var retorno = eval('(' + xmlhttp.responseText + ')');
+            }else{
+                var retorno = xmlhttp.responseText;
+            }
+            funcaoOk(retorno);
         }
     }        
     xmlhttp.open("POST",url,true);
@@ -45,16 +53,23 @@ function buscarAssync(url,parms,funcaoOk){
     xmlhttp.send(parms);
 }
 
-function buscarSync(url,parms){
+function resquestSync(url,parms,tipoRetorno){
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
+    }
+    if(!tipoRetorno){
+        tipoRetorno = "json";
     }
     xmlhttp.open("POST",url,false);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(parms);
     if((xmlhttp.readyState == 4) && (xmlhttp.status == 200)){
-        return eval('(' + xmlhttp.responseText + ')');
+        if(tipoRetorno == "json"){
+            return eval('(' + xmlhttp.responseText + ')');
+        }else{
+            return xmlhttp.responseText;
+        }
     }else{
         return null;
     }
