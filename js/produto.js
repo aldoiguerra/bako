@@ -7,8 +7,8 @@ function editar(){
             function(data) {
                 if(data.retorno){
                     $("#codigo").val(data.codigo);
-                    $("#nome").val(data.nome);
-                    $("#descricao").val(data.descricao);
+                    $("#nome").val(unescape(data.nome));
+                    $("#descricao").val(unescape(data.descricao));
                     $("#slCategoria").val(data.categoriaId);
                     $("#preco").val(data.preco);
                     if (data.status == 1){
@@ -23,7 +23,7 @@ function editar(){
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     });
 }
-
+//Popular Categorias
 function popularSelect(){
     var variaveis = {"popularSelect": 1};
     $.post(urlProduto, variaveis,
@@ -106,7 +106,7 @@ function listarDados(){
                     lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
-				lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
+				lista = lista + '<h3>'+unescape(dados[i]["nome"])+'</h3>';
 				lista = lista + '<p>'+dados[i]["categoria"]+'</p>';
                                 lista = lista + '<p>R$ '+dados[i]["preco"]+'</p>';
                     lista = lista + '</label>';
@@ -186,8 +186,8 @@ $(document).ready(function(){
         })
         var variaveis = {"salvar": "1",
                         "codigo": $("#codigo").val(),
-                        "nome": $("#nome").val(),
-                        "descricao": $("#descricao").val(),
+                        "nome": escape($("#nome").val()),
+                        "descricao": escape($("#descricao").val()),
                         "categoriaId": $("#slCategoria").val(),
                         "preco": $("#preco").val(),
                         "status": status
