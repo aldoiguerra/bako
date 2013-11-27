@@ -20,7 +20,7 @@ if(isset($_POST["logar"])){
 <title>Login</title>
 <?php include 'css_include.php';?> 
 </head>
-<body style="background:rgb(255,69,0)">
+<body>
 <?php include 'cabecalho.php';?>
 
     <div class="container">
