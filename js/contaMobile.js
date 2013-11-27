@@ -275,11 +275,11 @@ function confirmarPedido() {
 function buscarDados() {
     var parms = "buscarDados=1";
     requestAssync(urlControle,parms,function(data){
-        alert(data);
-                                    categoria = data.categorais;
+                                    categoria = data.categorias;
                                     produto = data.produtos;
-                                    adicional = data.adicionais;
-                                    },"text");
+                                    adicional = data.adicionais; 
+                                   desenharCardapio();
+                                    });
 }
 
 function desenharCardapio() {

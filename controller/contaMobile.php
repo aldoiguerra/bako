@@ -72,13 +72,13 @@ if (isset($_SESSION["usuario"]) && ($_SESSION["usuario"] != "")) {
 if(isset($_POST["buscarDados"])){
     debug(3, "Recebido pedido para buscar os dados. ");
     $array = array("produtos"=>buscarProdutos(),
-                    "categorais"=>buscarCategorias(),
+                    "categorias"=>buscarCategorias(),
                     "adicionais"=>buscarAdicionais()
         );
     echo json_encode($array);
     return;    
 }else if(isset($_POST["buscarMesas"])){
-    debug(3, "Recebido pedido para buscar contas. ");
+    debug(3, "Recebido pedido para buscar mesas. ");
     $array = array("contas"=>buscarContas());
     echo json_encode($array);
     return;    
