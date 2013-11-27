@@ -17,8 +17,10 @@ require_once ('../controller/parametrosSistema.php');
 <?php include 'cabecalho.php';?>
 <?php include 'menu.php';?>
     
-    <section id="section">
-        <h1>Cadastro dos parâmetros do sistema</h1>
+    <section id="section" style="left:150px;">
+        <div class="title">
+            <h1>Cadastro dos parâmetros do sistema</h1>
+        </div>
         <div class="row">
             <div id="retorno">
 
@@ -28,7 +30,7 @@ require_once ('../controller/parametrosSistema.php');
             <div class="col-12" id="cadastro">
                 <div class="field">
                         <label class="label">Quantidade de mesas</label>
-                        <input type="text" size="50" id="qtdMesas" >
+                        <input type="number" size="50" id="qtdMesas" >
                 </div>
                 <div class="field">
                         <label class="label">Valor da taxa de serviço %</label>

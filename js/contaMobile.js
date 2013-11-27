@@ -1,12 +1,54 @@
 
-function verificarLogin(){
-    
-   
+//montar URL de controller
+function retornarURL(){
+    var url = window.location;
+    var urlString = url.toString();
+    var urlArray = urlString.split("/");
+    var url = "";
+    for (var i = 0; i < (urlArray.length-2); i++) {
+        url = url + urlArray[i] + "/";
+    }
+    return url;
 }
 
-function efetuarLogin() {
-	showSection('inicio');
-	listarMesas();
+urlControle = retornarURL()+"controller/contaMobile.php";
+
+function usuarioLogado(){
+    var parms = "verificarLogin=1";
+    var retorno = resquestSync(urlControle,parms,"text");
+    var usuarioLogado = (retorno == "1")?true:false;
+    return usuarioLogado;
+}
+
+function efetuarLogin(){
+   var usuario = document.getElementById("usuarioLogin").value; 
+   var senha = document.getElementById("senhaLogin").value; 
+   if(usuario == ""){
+       alert("Digite o usuário");
+       return;
+   }
+   if(senha == ""){
+       alert("Digite a senha");
+       return;
+   }
+   var parms = "efetuarLogin=1&usuario="+usuario+"&senha="+senha;
+   var retorno = resquestSync(urlControle,parms,"text");
+   var usuarioLogado = (retorno=="1")?true:false;
+   if(usuarioLogado){
+        acaoLogado();
+   }else{
+        showSection('login');
+   }
+}
+
+function sairSistema(){
+    var parms = "sairSistema=1";
+    var retorno = resquestSync(urlControle,parms,"text");
+    retorno = (retorno == "1")?true:false;
+    if(retorno){
+        hideSection('inicio');
+        showSection('login');
+    }
 }
 
 function listarItensCardapio(pId,pThis) {
@@ -17,15 +59,15 @@ function listarItensCardapio(pId,pThis) {
 	document.getElementById('listaCategoria').parentNode.appendChild(newUlCategoria);
 	
 	for(var c in categoria) {
-		if(categoria[c].pai == pId) {
+		if(categoria[c].categoriaPaiId == pId) {
 			var liCat = document.createElement('li');
 			newUlCategoria.appendChild(liCat);
-			liCat.innerHTML = '<a href="javascript:;" onclick="listarItensCardapio('+categoria[c].codigo+',this)">'+categoria[c].descricao+'</a>';
+			liCat.innerHTML = '<a href="javascript:;" onclick="listarItensCardapio('+categoria[c].id+',this)">'+categoria[c].descricao+'</a>';
 		}
 	}
 	
 	for(var p in produto) {
-		if(categoria[produto[p].categoria].codigo == pId) {
+		if(categoria[produto[p].categoriaId].id == pId) {
 			var liProd = document.createElement('li')
 			liProd.innerHTML = '<label><span><h2>'+produto[p].nome+'</h2><small>'+produto[p].descricao+'</small></span><input type="checkbox" class="icon-check-empty" value="'+p+'" /></label>'
 			newUlCategoria.appendChild(liProd)
@@ -34,11 +76,16 @@ function listarItensCardapio(pId,pThis) {
 }
 
 //buscarAssync('listarContas=1',listarMesas)
-function listarMesas() {   
-//function listarMesas(conta) {
-	
-	getContas(); // exemplo
-	
+function listarMesas() {
+    var parms = "buscarMesas=1";
+    requestAssync(urlControle,parms,function(data){
+                                    conta = data.contas;
+                                    desenharMesas();
+                                    });
+}
+
+function desenharMesas() {
+		
 	showAside('mesas');
 	var ulMesas = document.getElementById('listaMesas') 
 	ulMesas.innerHTML = ""
@@ -53,8 +100,8 @@ function listarMesas() {
 		}
 		var liMesa = document.createElement('li')
 		ulMesas.appendChild(liMesa)
-		liMesa.innerHTML =	'<a href="javascript:;" data-idconta="'+conta[j].idConta+'" data-qtdpessoas="'+conta[j].qtdPessoas+'" data-mesa="'+conta[j].numeroMesa+'" data-status="'+conta[j].status+'">' +
-								'<h2 class="li-thumb" style="background-color:'+backColor+'">'+conta[j].numeroMesa+'</h2>'+
+		liMesa.innerHTML =	'<a href="javascript:;" data-idconta="'+conta[j].id+'" data-qtdpessoas="'+conta[j].qtdPessoas+'" data-mesa="'+conta[j].numMesa+'" data-status="'+conta[j].status+'">' +
+								'<h2 class="li-thumb" style="background-color:'+backColor+'">'+conta[j].numMesa+'</h2>'+
 								'<h3>R$ '+conta[j].totalAtual+'</h3>' +
 							'</a>'
 		
@@ -225,109 +272,45 @@ function confirmarPedido() {
 	hideSection('pedido');
 }
 
-// Metodo de exemplo
-function getContas()  {
-	conta = new Array();
-	conta[0] = {
-		idConta: 1,
-		numeroMesa: 7,
-		descricaoMesa: 'A',
-		qtdPessoas: 4,
-		totalAtual: 120.20,
-		status: 1,
-	}
-
-	conta[1] = {
-		idConta: 2,
-		numeroMesa: 10,
-		descricaoMesa: '',
-		qtdPessoas: 3,
-		totalAtual: 80.32,
-		status: 2,
-	}
-
-	conta[2] = {
-		idConta: 3,
-		numeroMesa: 11,
-		descricaoMesa: '',
-		qtdPessoas: 8,
-		totalAtual: 0,
-		status: 3,
-	}
-	return conta;
+function buscarDados() {
+    var parms = "buscarDados=1";
+    requestAssync(urlControle,parms,function(data){
+                                    categoria = data.categorias;
+                                    produto = data.produtos;
+                                    adicional = data.adicionais; 
+                                   desenharCardapio();
+                                    });
 }
 
-var novoPedido = new Array();
+function desenharCardapio() {
+    var ulCategoria = document.getElementById('listaCategoria')
 
-var adicional = ['Copo com gelo','Copo com lim�o','Sem a�ucar','Bem passado','Mal passado','Cortado no meio']
-
-var categoria = new Array()
-
-categoria[0] = {
-	codigo: 0,
-	descricao: 'Importadas',
-	adicionais: [0,1,2],
-	pai:2
-}
-categoria[1] = {
-	codigo: 1,
-	descricao: 'Nacionais',
-	adicionais: [3,4,5],
-	pai:null
+    for(var i in categoria) {
+            if(categoria[i].categoriaPaiId == null) {
+                    var liCat = document.createElement('li');
+                    liCat.innerHTML = '<a href="javascript:;"  onclick="listarItensCardapio('+categoria[i].id+',this)">'+categoria[i].descricao+'</a>';
+                    ulCategoria.appendChild(liCat);
+            }
+    }
 }
 
-categoria[2] = {
-	codigo: 2,
-	descricao: 'Cervejas',
-	adicionais: null,
-	pai:null
+function acaoLogado(){
+    showSection('inicio');
+    buscarDados();
+    listarMesas();    
 }
 
-categoria[0];
-categoria[1].pai = 2;
-categoria[2].pai = null;
+categoria = new Array();
+produto = new Array();
+adicional = new Array();
+conta = new Array();
+novoPedido = new Array();
 
-var produto = new Array()
-
-
-produto[0] = {
-	codigo: 0,
-	categoria: 0,
-	nome: 'Budy',
-	descricao: 'Lorem ipsum necque porro dolor sit amet',
-	preco: 5.50
-}
-produto[1] = {
-	codigo: 1,
-	categoria: 0,
-	nome: 'Stella',
-	descricao: 'Lorem ipsum necque porro dolor sit amet',
-	preco: 5.50
-}
-produto[2] = {
-	codigo: 2,
-	categoria: 1,
-	nome: 'Skol',
-	descricao: 'Lorem ipsum necque porro dolor sit amet',
-	preco: 5.50
-}
-produto[3] = {
-	codigo: 3,
-	categoria: 1,
-	nome: 'Brahma',
-	descricao: 'Lorem ipsum necque porro dolor sit amet',
-	preco: 5.50
-}
-
-
-var ulCategoria = document.getElementById('listaCategoria')
-
-for(var i in categoria) {
-	if(categoria[i].pai == null) {
-		var liCat = document.createElement('li');
-		liCat.innerHTML = '<a href="javascript:;"  onclick="listarItensCardapio('+categoria[i].codigo+',this)">'+categoria[i].descricao+'</a>';
-		ulCategoria.appendChild(liCat);
-	}
+if(!usuarioLogado()){
+    hideSection('inicio');
+    showSection('login');
+}else{
+    acaoLogado();
 }
 
 var inicio = document.getElementById('inicio')
@@ -337,6 +320,5 @@ Hammer(inicio).on('dragleft',listarPedidos);
 var mesas = document.getElementById('mesas')
 Hammer(mesas).on('dragleft',function() {hideAside('mesas')});
 
-var conta = document.getElementById('conta')
-Hammer(conta).on('dragright',function() {hideAside('conta')});
-
+var eleConta = document.getElementById('conta')
+Hammer(eleConta).on('dragright',function() {hideAside('conta')});

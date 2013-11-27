@@ -56,7 +56,7 @@ function desenharContas(){
         for(var i=0;i<tamanho;i++){
             var classe = 'class=""';
             var pessoas = arrayContas[i]["qtdPessoas"]+' pessoas';
-            var subTotal = numeroLogicalToDisplay(arrayContas[i]["subTotal"]);
+            var subTotal = numeroLogicalToDisplay(arrayContas[i]["totalAtual"]);
             var dataHora = dataHoraLogicalToDisplay(arrayContas[i]["dataHoraAbertura"],1);
             var classeMesa = "number";
             var idConta = arrayContas[i]["id"];
