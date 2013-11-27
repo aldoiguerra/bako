@@ -36,10 +36,7 @@ require_once ('../controller/categoria.php');
     </div>
     <div class="row">
         <div class="col-12" id="cadastro">
-            <div class="field">
-                    <label class="label">Código</label>
-                    <input type="text" size="30" id="id" readonly/>
-            </div>
+                    <input type="hidden" id="id" readonly/>
             <div class="field">
                     <label class="label">Descrição</label>
                     <input type="text" size="50" id="descricao" >
@@ -66,7 +63,8 @@ require_once ('../controller/categoria.php');
             </div-->
             <div class="field">
                 <label class="label">Adicionais categoria</label>
-                <div id="divAdicionais"></div>
+                <div id="divAdicionais" class="check-set">
+                </div>
             </div>
         </div>
      </div>

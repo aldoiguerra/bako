@@ -90,7 +90,7 @@ function pesquisarAdicionais(){
                 var dados = data.dados;
                 var select = '';
                 for(var dado in dados){
-                    var select = select + '<input type="checkbox" name="ckAdicionais" id="ckAdicionais'+dado+'" value="'+dado+'">'+dados[dado]+'</checkbox><br/>'; 
+                    var select = select + '<label><input type="checkbox" name="ckAdicionais" id="ckAdicionais'+dado+'" value="'+dado+'">'+dados[dado]+'</label>'; 
                 }
                 document.getElementById("divAdicionais").innerHTML = select;
             }
