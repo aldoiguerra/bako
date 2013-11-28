@@ -17,8 +17,8 @@ function editar(){
                         document.getElementById("ckInativo").checked=true;
                     }
                     $("#btnNovo").show();
-                    $("#btnEditar").show();
-                    $("#btnSalvar").hide();
+                    $("#btnEditar").hide();
+                    $("#btnSalvar").show();
                 }             
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     });
