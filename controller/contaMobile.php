@@ -82,6 +82,18 @@ if(isset($_POST["buscarDados"])){
     $array = array("contas"=>buscarContas());
     echo json_encode($array);
     return;    
+}else if(isset($_POST["consultar"])){
+    debug(3, "Recebido pedido para consultar conta: ".$_POST["consultar"]);
+    $objC = new Conta();
+    $ret = $objC->load($_POST["consultar"]);
+    debug(3, "Conta consultado: ".$objC->__get("id"));
+    if($objC->__get("id")){
+        $array = desenharArray($objC);
+    }else{
+        $array = array(
+            "retorno"=>false);
+    }
+    echo json_encode($array);
 }
 
 ?>
