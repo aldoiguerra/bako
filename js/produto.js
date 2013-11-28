@@ -16,7 +16,7 @@ function editar(){
                     }else{
                         document.getElementById("ckInativo").checked=true;
                     }
-                    $("#btnNovo").hide();
+                    $("#btnNovo").show();
                     $("#btnEditar").show();
                     $("#btnSalvar").hide();
                 }             
@@ -144,6 +144,7 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
+        limparCampos();
         popularSelect();
         $("#retorno").html("");
         document.getElementById("ckAtivo").checked=true
@@ -198,11 +199,11 @@ $(document).ready(function(){
                 if(data.retorno){
                     $("#btnNovo").show();
                     $("#btnEditar").hide();
-                    $("#btnSalvar").hide();                    //$("#btnExcluir").hide();
+                    $("#btnSalvar").hide();
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
-        $("#btnNovo").show();
-        $("#btnEditar").hide();
+        //$("#btnNovo").show();
+        $("#btnEditar").show();
         $("#btnSalvar").hide();
         listarDados();
         limparCampos();

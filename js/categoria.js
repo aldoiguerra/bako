@@ -23,10 +23,10 @@ function editar(){
                         document.getElementById("ckAdicionais"+dados).checked=true;
                     }
                     
-                    $("#btnNovo").hide();
-                    $("#btnEditar").show();
-                    $("#btnSalvar").hide();
-                    $("#btnExcluir").hide();
+                    $("#btnNovo").show();
+                    $("#btnEditar").hide();
+                    $("#btnSalvar").show();
+                    $("#btnExcluir").show();
                 }             
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     });
@@ -169,6 +169,7 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
+        limparCampos();
         $("#retorno").html("");
         document.getElementById("ckAtivo").checked=true
         $("#btnNovo").hide();

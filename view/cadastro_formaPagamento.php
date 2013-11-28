@@ -48,8 +48,8 @@ require_once ('../controller/formaPagamento.php');
          </div>
         <div class="button-bar">
             <input type="button" value="Limpar" id="btnLimpar" class="bt-alert"/>
-            <input type="button" value="Novo" id="btnNovo" class="bt-alert"/>
-            <input type="button" value="Editar" id="btnEditar" style='display: none;' class="bt-alert"/>
+            <input type="button" value="Novo" id="btnNovo" class="bt-normal"/>
+            <input type="button" value="Editar" id="btnEditar" style='display: none;' class="bt-normal"/>
             <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
             <input type="button" value="Excluir" id="btnExcluir" style='display: none;' class="bt-negative" />
         </div>

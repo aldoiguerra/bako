@@ -15,9 +15,10 @@ function editar(){
                     }else{
                         document.getElementById("ckInativo").checked=true;
                     }
-                    $("#btnNovo").hide();
-                    $("#btnEditar").show();
-                    $("#btnSalvar").hide();                    
+                    $("#btnNovo").show();
+                    $("#btnEditar").hide();
+                    $("#btnSalvar").show();     
+                    $("#btnExcluir").show();
                 }             
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar usuário: ".textStatus);});
     });
@@ -98,7 +99,6 @@ function limparCampos(){
     $("#tipo").val("0");
     $("#btnExcluir").hide();
     document.getElementById("ckAtivo").checked=true
-    
 }
 
 $(document).ready(function(){
@@ -119,6 +119,7 @@ $(document).ready(function(){
     });
     
     $("#btnNovo").click(function() {
+        limparCampos();
         $("#retorno").html("");
         $("#btnNovo").hide();
         $("#btnEditar").hide();

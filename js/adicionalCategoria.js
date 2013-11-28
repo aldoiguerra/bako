@@ -8,10 +8,10 @@ function editar(){
                 if(data.retorno){
                     $("#id").val(data.id);
                     $("#descricao").val(data.descricao);
-                    $("#btnNovo").hide();
-                    $("#btnEditar").show();
-                    $("#btnSalvar").hide();
-                    $("#btnExcluir").hide();
+                    $("#btnNovo").show();
+                    $("#btnEditar").hide();
+                    $("#btnSalvar").show();
+                    $("#btnExcluir").show();
                 }             
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     });
@@ -105,11 +105,12 @@ $(document).ready(function(){
         $("#btnExcluir").hide();
     });
     $("#btnNovo").click(function() {
+        limparCampos();
         $("#retorno").html("");
         $("#btnNovo").hide();
         $("#btnEditar").hide();
         $("#btnSalvar").show();
-        $("#btnExcluir").hide();
+        $("#btnExcluir").show();
     });
     
     $("#btnEditar").click(function() {
