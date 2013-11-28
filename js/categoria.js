@@ -41,7 +41,7 @@ function pesquisar(texto){
             lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />';
             lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
                 lista = lista + '<span class="indicator">&nbsp;</span>';
-                lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
+                //lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
                 lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
             lista = lista + '</label>';
@@ -61,7 +61,7 @@ function pesquisar(texto){
             lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />';
             lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
                 lista = lista + '<span class="indicator">&nbsp;</span>';
-                lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
+                //lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
                 lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
             lista = lista + '</label>';
@@ -71,7 +71,7 @@ function pesquisar(texto){
             lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />';
             lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
                 lista = lista + '<span class="indicator">&nbsp;</span>';
-                lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
+                //lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
                 lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
             lista = lista + '</label>';
@@ -125,7 +125,7 @@ function listarDados(){
                     lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />';
                     lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
 				lista = lista + '<span class="indicator">&nbsp;</span>';
-				lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
+				//lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
 				lista = lista + '<h3>'+dados[i]["descricao"]+'</h3>';
 				lista = lista + '<p>'+dados[i]["categoriaPaiId"]+'</p>';
                     lista = lista + '</label>';

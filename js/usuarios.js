@@ -35,7 +35,11 @@ function pesquisar(texto){
                 lista = lista + '<span class="indicator">&nbsp;</span>';
                 lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
-                lista = lista + '<p>'+dados[i]["tipo"]+'</p>';
+                if (dados[i]["tipo"]=='1'){
+                    lista = lista + '<p>Administrador</p>';
+                }else if (dados[i]["tipo"]=='2'){
+                    lista = lista + '<p>Garçom</p>';
+                }
             lista = lista + '</label>';
             lista = lista + '</li>';
         }
@@ -55,7 +59,11 @@ function pesquisar(texto){
                 lista = lista + '<span class="indicator">&nbsp;</span>';
                 lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
                 lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
-                lista = lista + '<p>'+dados[i]["tipo"]+'</p>';
+                if (dados[i]["tipo"]=='1'){
+                    lista = lista + '<p>Administrador</p>';
+                }else if (dados[i]["tipo"]=='2'){
+                    lista = lista + '<p>Garçom</p>';
+                }
             lista = lista + '</label>';
             lista = lista + '</li>';
         }
@@ -80,7 +88,11 @@ function listarDados(){
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["usuario"]+'<h3>';
 				lista = lista + '<h3>'+dados[i]["nome"]+'</h3>';
-				lista = lista + '<p>'+dados[i]["tipo"]+'</p>';
+				if (dados[i]["tipo"]=='1'){
+                                    lista = lista + '<p>Administrador</p>';
+                                }else if (dados[i]["tipo"]=='2'){
+                                    lista = lista + '<p>Garçom</p>';
+                                }
                     lista = lista + '</label>';
                     lista = lista + '</li>';
                 }

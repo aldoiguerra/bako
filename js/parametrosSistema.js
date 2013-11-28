@@ -24,7 +24,15 @@ $(document).ready(function(){
         if ($("#qtdMesas").val() == ""){
             $("#retorno").html("Obrigatório preencher quantidade de mesas.");
             $("#qtdMesas").focus();
-            return
+            return;
+        }else{
+            var regra = /^[0-9]+$/;
+            var valor = $("#qtdMesas").val()
+            if (!valor.match(regra)) {
+                $("#retorno").html("Permitido somente número inteiro positivo!");
+                $("#qtdMesas").focus();
+                return;
+            }
         }
         var variaveis = {"salvar": "1",
                         "id": 1,
