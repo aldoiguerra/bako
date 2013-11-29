@@ -95,6 +95,16 @@ if(isset($_POST["buscarContas"])){
             "retorno"=>false);
     }
     echo json_encode($array);
+}else if(isset($_POST["buscaTaxaServico"])){
+    debug(3, "Recebido pedido para consultar taxa de servico.");
+    $sql = "SELECT valorTxServico FROM parametroSistema WHERE Id = 1";
+    $conexao = ConexaoSingleton::getConexao();
+    $result = $conexao->executar($sql);
+    $arraydados = $conexao->get_array($result);
+    $array = array(
+                "retorno"=>true,
+                "taxa"=>$arraydados[0]["valorTxServico"]);
+    echo json_encode($array);
 }
 
 

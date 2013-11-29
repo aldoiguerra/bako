@@ -40,17 +40,6 @@ function buscarProdutos(){
 function desenharContas(){
 
     var conteudo = "";
-    //desenha nova conta
-    conteudo = conteudo +'<li>';
-    conteudo = conteudo +'<input type="radio" name="radioAside" id="novoConta" value="" mesa="" />';
-    conteudo = conteudo +'<label for="novoConta" class="">';
-    conteudo = conteudo +'<span class="number">+</span>';
-    conteudo = conteudo +'<h4>&nbsp;<h3>';
-    conteudo = conteudo +'<h2>Abrir mesa</h2>';
-    conteudo = conteudo +'<p></p>';
-    conteudo = conteudo +'</label>';
-    conteudo = conteudo +'</li>';
-    
     if(arrayContas){
         var tamanho = arrayContas.length;
         for(var i=0;i<tamanho;i++){
@@ -213,7 +202,8 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     conteudo = conteudo + '<th></th>';
     conteudo = conteudo + '<th></th>';
     conteudo = conteudo + '</tr>';    
-
+    
+    var taxa = 0;
     var tamanho = pPedidos.length;
     var total = 0;
     var taxaServico = 0;
@@ -229,9 +219,8 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
         conteudo = conteudo + '<td><a name="excluirPedido" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">Excluir</a></td>';
         conteudo = conteudo + '</tr>';
         
-        var taxa = 0;
         if($("#taxaServico").prop("checked")){
-            taxa = pPedidos[i]["valor"]*0.1;
+            taxa = pPedidos[i]["valor"]*txServico;
             taxaServico = taxaServico+taxa;
         }
         subTotal = subTotal + parseFloat(pPedidos[i]["valor"]) + taxa;
@@ -739,6 +728,16 @@ function trocarMesa(){
         alert("A mesa '"+novaMesa+"' não está livre.");
     }
 }
+function buscarTaxaServico(){
+    txServico = 0;
+    var variaveis = {"buscaTaxaServico": "1"};
+    $.post(urlConta, variaveis,
+    function(data) {
+        if(data.retorno){
+            txServico = data.taxa/100;
+        }
+    }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao buscar taxa de serviço. ".textStatus);});
+}
 
 $(document).ready(function(){
 
@@ -746,6 +745,7 @@ $(document).ready(function(){
     arrayProdutos = null;
     arrayFormaPagamento = null;
     buscarContas();
+    buscarTaxaServico();
 
     $("#btnAbrirMesa").click(function(){abrirMesa();});
     $("#btnSalvar").click(function(){salvarConta();});
@@ -766,6 +766,10 @@ $(document).ready(function(){
     $("#valorProduto").change(function(){calcularPrecoPedido();});
     $("#quantidadePedido").change(function(){calcularPrecoPedido();});
     $("#codigoProduto").change(function(){selecionarProduto();});
+    $("#taxaServico").change(function (){
+        inserirEditar();
+        //alert('changed');
+    });
+    
     $("#mesa").keyup(function(event){if(event.keyCode == 13){consultarMesa($(this).val())}});
-
 });
