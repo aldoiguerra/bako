@@ -6,7 +6,20 @@ require_once ('../model/Usuario.class.php');
 function buscarContas(){
     debug(3, "Buscando contas...");
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT m.numMesa,c.id,c.dataHoraAbertura,c.dataHoraFechamento,c.qtdPessoas,IFNULL(c.descricao,'') AS descricao,c.status,CASE c.status WHEN 1 THEN 2 WHEN 2 THEN 1 ELSE 3 END statusOrder,((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*1.1 ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) totalAtual FROM mesa m LEFT JOIN conta c ON c.numMesa = m.numMesa WHERE (c.id IN (SELECT MAX(c2.id) FROM conta c2 WHERE c.numMesa = c2.numMesa) OR c.id IS NULL) ORDER BY statusOrder ASC, m.numMesa");
+    $result = $connect->executar("SELECT m.numMesa,
+            CASE c.status WHEN 3 THEN NULL ELSE c.id END AS id,
+            CASE c.status WHEN 3 THEN NULL ELSE c.dataHoraAbertura END AS dataHoraAbertura,
+            CASE c.status WHEN 3 THEN NULL ELSE c.dataHoraFechamento END AS dataHoraFechamento,
+            CASE c.status WHEN 3 THEN NULL ELSE c.qtdPessoas END AS qtdPessoas,
+            CASE c.status WHEN 3 THEN '' ELSE IFNULL(c.descricao,'') END AS descricao,
+            CASE c.status WHEN 3 THEN NULL ELSE c.status END AS status,
+            CASE c.status WHEN 1 THEN 2 WHEN 2 THEN 1 ELSE 3 END statusOrder,
+            CASE c.status WHEN 3 THEN NULL ELSE ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*1.1 ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) END AS totalAtual 
+            FROM mesa m 
+            LEFT JOIN conta c 
+            ON c.numMesa = m.numMesa 
+            WHERE (c.id IN (SELECT MAX(c2.id) FROM conta c2 WHERE c.numMesa = c2.numMesa) OR c.id IS NULL) 
+            ORDER BY statusOrder ASC, m.numMesa");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     $arraydados = $connect->get_array($result);
     return $arraydados;

@@ -91,18 +91,20 @@ function desenharMesas() {
 	ulMesas.innerHTML = ""
 	for(var j in conta) {
 		var backColor = ""
+                var total = 'R$ '+conta[j].totalAtual
 		if(conta[j].status == 1) {
 			backColor = "green";
 		} else if(conta[j].status == 2) {
 			backColor = "red";
-		} else if(conta[j].status == 3) {
+		} else {
 			backColor = "gray"
+                        total = "Livre"
 		}
 		var liMesa = document.createElement('li')
 		ulMesas.appendChild(liMesa)
 		liMesa.innerHTML =	'<a href="javascript:;" data-idconta="'+conta[j].id+'" data-qtdpessoas="'+conta[j].qtdPessoas+'" data-mesa="'+conta[j].numMesa+'" data-status="'+conta[j].status+'">' +
 								'<h2 class="li-thumb" style="background-color:'+backColor+'">'+conta[j].numMesa+'</h2>'+
-								'<h3>R$ '+conta[j].totalAtual+'</h3>' +
+								'<h3>'+total+'</h3>' +
 							'</a>'
 		
 		liMesa.children[0].addEventListener('click',function() {
@@ -145,11 +147,11 @@ function adicionarProdutoPedido() {
 	var qtdProduto = parseInt(document.getElementById('iptQtdProduto').value);
 	
 	if(produto[codProduto] == 'undefined') {
-		alert('Produto n�o existe');
+		alert('Produto não existe');
 		return false;
 	}
 	if(document.getElementById('pedidoProduto'+codProduto)) {
-		alert('Produto j� adicionado');
+		alert('Produto já adicionado');
 		return false;
 	}
 	var ulItensPedido = document.getElementById('ulItensPedido');
@@ -260,8 +262,9 @@ function listarPedidos() {
 
 function confirmarPedido() {
 	//SalvarPedido(JSON.stringify(novoPedido))
+        console.log(novoPedido);
 	alert(novoPedido[0])
-	novoPedido = []
+	novoPedido = [];
 	document.getElementById('ulItensPedido').innerHTML = "";
 	hideSection('pedido');
 }
