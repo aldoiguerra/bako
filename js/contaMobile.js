@@ -111,7 +111,7 @@ function desenharMesas() {
 			
 			document.getElementById('btnConta').dataset.idconta = this.dataset.idconta;
 			document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + this.dataset.mesa;
-			
+                        
 			var articlePedido = document.querySelector('#inicio article')
 			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir"></button></div><div class="box padding1"><input type="number" readonly="true" value="'+this.dataset.qtdpessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir"></button></div></div>'
 			
@@ -125,14 +125,16 @@ function desenharMesas() {
 				document.querySelector('#inicio').appendChild(navFooter);
 				btn.addEventListener('click',function() {showSection('pedido')},false)
 			} else if(this.dataset.status == "2") {
-				document.getElementById('encMesaAberta').style.display = 'none';
-				document.getElementById('encMesaFechada').style.display = '';
-				document.getElementById('encMesaLivre').style.display = 'none';
+				//document.getElementById('encMesaAberta').style.display = 'none';
+				//document.getElementById('encMesaFechada').style.display = '';
+				//document.getElementById('encMesaLivre').style.display = 'none';
 			} else if(this.dataset.status == "3") {
-				document.getElementById('encMesaAberta').style.display = 'none';
-				document.getElementById('encMesaFechada').style.display = 'none';
-				document.getElementById('encMesaLivre').style.display = '';
+				//document.getElementById('encMesaAberta').style.display = 'none';
+				//document.getElementById('encMesaFechada').style.display = 'none';
+				//document.getElementById('encMesaLivre').style.display = '';
 			}
+                        
+                        document.getElementById('btnConta').style.display = "";
 		},false);
 	}
 }
@@ -230,38 +232,30 @@ function excluirItemPedido(pCodProduto) {
 function listarPedidos() {
 	showAside('conta');
 	var idConta = document.getElementById('btnConta').dataset.idconta;
+
+        var parms = "consultar="+idConta;
+        var objConta = resquestSync(urlControle,parms);
+        
+        conta = objConta.contas;
 	
-	//var objConta = GetPedidos(idConta);
-	
-	/*Exemplo*/
-	var objConta = {
-		totalAtual: '120,50',
-		pedido: [
-			{
-				qtd: '4',
-				descricao: 'Coca-Cola - Lata 350ml',
-			},
-			{
-				qtd: '2',
-				descricao: 'Brama 600ml',
-			},
-			{
-				qtd: '1',
-				descricao: 'Por��o - Isca de frango',
-			},
-			]
-	}
-	/*Fim exemplo*/
 	var ulPedidos = document.getElementById('listaPedidos');
 	ulPedidos.innerHTML = ""
-	for(var i=0; i<objConta.pedido.length;i++) {
-		var pedido = objConta.pedido[i];
+	for(var i=0; i<objConta.pedidos.length;i++) {
+		var pedido = objConta.pedidos[i];
 		var liPedido = document.createElement('li');
 		liPedido.className = 'box'
-		liPedido.innerHTML = '<p class="box flex item-center">'+pedido.qtd+' '+pedido.descricao+'</p>';
+		liPedido.innerHTML = '<p class="box flex item-center">'+pedido.quantidade+' - '+produto[pedido.produtoId].descricao+'</p>';
 		ulPedidos.appendChild(liPedido)
 	}
-	document.getElementById('totalAtual').innerHTML = objConta.totalAtual;
+        var total = 0;
+        for(var i=0; i<conta.length;i++) {
+            if(conta[i].id == idConta){
+                total = conta[i].totalAtual;
+                break;
+            }
+        }
+	document.getElementById('totalAtual').innerHTML = total;
+        document.getElementById('mesaConta').innerHTML = 'MESA '+objConta.numMesa+' ('+objConta.qtdPessoas+' pessoas)';
 }
 
 function confirmarPedido() {
