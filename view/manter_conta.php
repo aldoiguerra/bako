@@ -26,7 +26,9 @@ require_once ('../controller/conta.php');
 </aside>
     
 <section id="section">
-    <h1>Mesas</h1>
+    <div class="title">
+        <h1>Mesas</h1>
+    </div>
     <div class="row">
         <div class="col-12" id="retorno">
 
@@ -84,49 +86,37 @@ require_once ('../controller/conta.php');
         </div>
     </div>
     
-    <div id="popupPedido">
-        <div class="row">
-      
-            <input type="hidden" id="codigoPedido" />
-           
-            
-            <div class="col-3">
-                <div class="field">
-                    <label class="label">Código Produto</label>
-                    <input type="text" size="10" id="codigoProduto" />
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="field">
-                    <label class="label">Produto</label>
-                    <select id="selectProduto" width="100px"></select>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="field">
-                    <label class="label">Quantidade</label>
-                    <input type="text" size="10" id="quantidadePedido" />
-                </div>
-            </div>
-            <input type="hidden" id="valorProduto" />
-            <input type="hidden" size="10" id="totalPedido" />
+    <div class="row">
+        <input type="hidden" id="codigoPedido" />
+        <input type="hidden" id="valorProduto" />
+        <input type="hidden" size="10" id="totalPedido" />
+        <div class="field col-2">
+            <label class="label">Código Produto</label>
+            <input type="text" size="10" id="codigoProduto" />
+        </div>
 
-            <div class="col-3">
-                <div class="field">
-                    <label class="label">Adicionais</label>
-                    <select id="selectAdicionais" multiple="multiple" width="100px"></select>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="field">
-                    <label class="label">Observação</label>
-                    <input type="text" size="10" id="observacaoPedido" />
-                </div>
-            </div>
-            <input type="button" value="Salvar" id="btnSalvarPedido" class="bt-success"/>
-            <input type="button" value="Cancelar" id="btnCancelarPedido" class="bt-negative"/>
+        <div class="field col-2">
+            <label class="label">Produto</label>
+            <select id="selectProduto" width="100px"></select>
+        </div>
+
+        <div class="field col-2">
+            <label class="label">Quantidade</label>
+            <input type="number" size="2" value="1" style="width:50px;" id="quantidadePedido" />
         </div>
         
+        <div class="field col-2">
+            <label class="label">Adicionais</label>
+            <select id="selectAdicionais" multiple="multiple" width="100px"></select>
+        </div>
+
+        <div class="field  col-2">
+            <label class="label">Observação</label>
+            <input type="text" size="10" id="observacaoPedido" />
+        </div>
+        <div class="col-2">
+            <input type="button" value="+" id="btnSalvarPedido" class="bt-success"/>
+        </div>   
     </div>
 
     
@@ -141,7 +131,6 @@ require_once ('../controller/conta.php');
             <input type="button" value="Abrir mesa" id="btnAbrirMesa" style='display: none;' class="bt-success"/>
             <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
             <input type="button" value="Liberar mesa" style='display: none;' id="btnExcluir" style='display: none;' class="bt-negative" />
-            <input type="button" value="Novo pedido" style='display: none;' id="btnNovoPedido" class="bt-success"/>
             <input type="button" value="Fechar conta" style='display: none;' id="btnFecharConta" class="bt-success"/>
             <input type="button" value="Trocar mesa" style='display: none;' id="btnTrocarMesa" class="bt-success"/>
             <input type="button" value="Desconto..." style='display: none;' id="btnDesconto" class="bt-success"/>
@@ -149,68 +138,75 @@ require_once ('../controller/conta.php');
         </div>
     </div>
     
-    <div id="popupPagamento" class="estiloPopup">
-        <div class="row">
-            <div class="col-4">
-                <div class="field">
-                    <label class="label">Forma pagamento</label>
-                    <select id="selectFP"></select>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="field">
-                    <label class="label">Valor</label>
-                    <input type="text" size="10" id="valorPagamento" />
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="field">
-                    <label class="label">Observação</label>
-                    <input type="text" size="30" id="observacao" />
-                </div>
-            </div>
-            <div class="button-bar">
-                <input type="button" value="Salvar" id="btnSalvarPagamento" class="bt-success"/>
-                <input type="button" value="Cancelar" id="btnCancelarPagamento" class="bt-negative"/>
-            </div>
-        </div>
+    
         
     </div>
 
-    <div id="popupDesconto" class="estiloPopup">
-        <div class="row">
-            <div class="col-12">
-                <div class="field">
-                    <label class="label">Desconto</label>
-                    <input type="text" size="10" id="valorDesconto" />
-                </div>
+
+   
+     
+</section>
+
+    
+    
+    
+    <div id="popupTrocarMesa" class="modal" style="display:none;">
+    <div>
+        <div>
+            <div class="field">
+                <label class="label">Nova mesa</label>
+                <input type="text" size="10" id="novaMesa" />
             </div>
-            <div class="button-bar">
+            <input type="button" value="Salvar" id="btnSalvarTroca" class="bt-success"/>
+            <input type="button" value="Cancelar" id="btnCancelarTroca" class="bt-negative"/>
+        </div>
+    </div>        
+</div>
+  
+    
+<div id="popupDesconto" class="modal" style="display:none;">
+    <div>
+        <div>
+            <div class="modal-title">Desconto</div>
+            <div class="field">
+                <input type="text" size="10" id="valorDesconto" />
+            </div>
+
+            <div>
                 <input type="button" value="Salvar" id="btnSalvarDesconto" class="bt-success"/>
                 <input type="button" value="Cancelar" id="btnCancelarDesconto" class="bt-negative"/>
             </div>
         </div>
-        
-    </div>
+    </div> 
+</div>
+
     
-    <div id="popupTrocarMesa" class="estiloPopup">
-        <div class="row">
-            <div class="col-6">
+    
+    
+<div id="popupPagamento" class="modal" style="display:none;">
+        <div>
+            <div>
                 <div class="field">
-                    <label class="label">Nova mesa</label>
-                    <input type="text" size="10" id="novaMesa" />
+                    <label class="label">Forma pagamento</label>
+                    <select id="selectFP"></select>
                 </div>
-            </div>
-            <div class="button-bar">
-                <input type="button" value="Salvar" id="btnSalvarTroca" class="bt-success"/>
-                <input type="button" value="Cancelar" id="btnCancelarTroca" class="bt-negative"/>
+           
+                <div class="field">
+                    <label class="label">Valor</label>
+                    <input type="text" size="10" id="valorPagamento" />
+                </div>
+          
+                <div class="field">
+                    <label class="label">Observação</label>
+                    <input type="text" size="30" id="observacao" />
+                </div>
+       
+                <input type="button" value="Salvar" id="btnSalvarPagamento" class="bt-success"/>
+                <input type="button" value="Cancelar" id="btnCancelarPagamento" class="bt-negative"/>
             </div>
         </div>
-        
-    </div>
-     
-</section>
-
+</div>   
+    
 
 <?php include 'rodape.php';?>
 <?php include 'js_include.php';?> 

@@ -438,6 +438,7 @@ function salvarPedido(){
         function(data) {
             if(data.retorno){
                 alterarTela(data);
+                limparPedido();
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
 }
@@ -758,7 +759,6 @@ $(document).ready(function(){
     $("#btnTrocarMesa").click(function(){mostraPopup("popupTrocarMesa");});
     $("#btnCancelarTroca").click(function(){fecharPopup("popupTrocarMesa");});
     $("#btnSalvarTroca").click(function(){trocarMesa();});
-    $("#btnNovoPedido").click(function(){limparPedido();});
     $("#btnSalvarPedido").click(function(){salvarPedido();});
     $("#valorProduto").change(function(){calcularPrecoPedido();});
     $("#quantidadePedido").change(function(){calcularPrecoPedido();});

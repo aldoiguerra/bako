@@ -130,6 +130,9 @@ table td {background:#EEE;border-right:1px solid #BBB;border-right:1px solid #BB
 ::-webkit-scrollbar-thumb:vertical {background: rgba(0,0,0,.3);border:0;border-radius:1px;}
 ::-webkit-scrollbar-thumb:horizontal {background: rgba(0,0,0,.3);border: 1px solid rgba(255,255,255,.2);}
 
-.estiloPopup{display: none;position: absolute;top:0px;left:0px;background-color: #EEE;border: 2px #000 solid;}
+.modal {display:-webkit-box;-webkit-box-pack: center;-webkit-box-align: center;z-index:999;position: absolute;top:0px;left:0px;right:0;bottom:0;background:rgba(0,0,0,.6);}
+.modal > div {min-width:300px;min-height: 300px;background:#DDD;box-shadow:0 0 10px 0 rgba(0,0,0,.3);border-radius:6px;}
+.modal > div > div {position:relative;height:100%;padding:15px;}
+.modal-title {font-size:16px;font-weight:700;}
 
 .inline-block {display:inline-block}
