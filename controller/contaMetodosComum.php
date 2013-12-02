@@ -139,8 +139,7 @@ function salvar($id,$qtdPessoas,$numMesa,$dataHoraAbertura,$descricao,$taxaServi
     return $array;
 }
 
-function inserirPedido($id,$qtdProduto,$idProduto,$dataHora,$idConta){
-    $retorno = "";
+function inserirPedido($id,$qtdProduto,$idProduto,$dataHora,$idConta,$adicionais){
     try {
         ConexaoSingleton::getConexao()->startTransaction();
         
@@ -157,24 +156,39 @@ function inserirPedido($id,$qtdProduto,$idProduto,$dataHora,$idConta){
             debug(3, "Erro ao adicionar pedido: ".$ret);
             throw new Exception ("");
         }
-        
+
+        $idPedido = ConexaoSingleton::getConexao()->getLastId();
+
+        if($adicionais != ""){
+            debug(3, "Salvando adicionais: ".$adicionais);
+            $arrayAdicionais = explode(",", $adicionais);
+            for($i=0;$i<count($arrayAdicionais);$i++){
+                $sql = 
+                    "INSERT INTO pedidoAdicional ".
+                    " (id,pedidoId,adicionalId) ".
+                    "VALUES".
+                    " (NULL,'".$idPedido."','".$arrayAdicionais[$i]."')";
+
+                $ret = ConexaoSingleton::getConexao()->executar($sql);
+                if(!$ret) {
+                    debug(3, "Erro ao adicionar pedido: ".$ret);
+                    throw new Exception ("");
+                }
+                debug(3, "Adicional ".$arrayAdicionais[$i]." salvo para o pedido ".$idPedido);
+            }
+        }
+
         ConexaoSingleton::getConexao()->commit();
         
         debug(3, "Pedido salvo com sucesso");
         
-        $objC = new Conta();
-        $objC->load($idConta);
-        
-        $array = desenharArray($objC);
-        
+        $array = 1;        
     }catch(Exception $e){
         debug(1, "Erro ao salvar conta: ".$e->getMessage());
 
         ConexaoSingleton::getConexao()->rollback();
 
-        $array = array(
-                "retorno"=>false,
-                "msg"=>"Erro ao salvar conta!");
+        $array = 0;
     }
     return $array;
 }

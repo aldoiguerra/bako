@@ -15,7 +15,7 @@ urlControle = retornarURL()+"controller/contaMobile.php";
 
 function usuarioLogado(){
     var parms = "verificarLogin=1";
-    var retorno = resquestSync(urlControle,parms,"text");
+    var retorno = requestSync(urlControle,parms,"text");
     var usuarioLogado = (retorno == "1")?true:false;
     return usuarioLogado;
 }
@@ -32,7 +32,7 @@ function efetuarLogin(){
        return;
    }
    var parms = "efetuarLogin=1&usuario="+usuario+"&senha="+senha;
-   var retorno = resquestSync(urlControle,parms,"text");
+   var retorno = requestSync(urlControle,parms,"text");
    var usuarioLogado = (retorno=="1")?true:false;
    if(usuarioLogado){
         acaoLogado();
@@ -43,7 +43,7 @@ function efetuarLogin(){
 
 function sairSistema(){
     var parms = "sairSistema=1";
-    var retorno = resquestSync(urlControle,parms,"text");
+    var retorno = requestSync(urlControle,parms,"text");
     retorno = (retorno == "1")?true:false;
     if(retorno){
         hideSection('inicio');
@@ -199,21 +199,15 @@ function adicionarProdutoPedido() {
 			}
 		}
 	});
-	
+        
+        console.log("produto: "+codProduto);
+        console.log("quantidade: "+qtdProduto);
 	
 	novoPedido.push({
-		codigoProduto: codProduto.value,
-		quantidadeProduto: qtdProduto.value,
-		adicionais: [{
-			codigoAdicional: 10,
-			qtdAdicional: 2
-		},
-		{
-			codigoAdicional: 8,
-			qtdAdicional: 5
-		}]
+		codProd: codProduto,
+		quantProd: qtdProduto,
+		adicionais: ""
 	});
-	
 	
 	document.getElementById('iptCodProduto').value = '';
 	document.getElementById('iptQtdProduto').value = '';
@@ -236,7 +230,7 @@ function listarPedidos() {
 	var idConta = document.getElementById('btnConta').dataset.idconta;
 
         var parms = "consultar="+idConta;
-        var objConta = resquestSync(urlControle,parms);
+        var objConta = requestSync(urlControle,parms);
         
         conta = objConta.contas;
 	
@@ -262,11 +256,23 @@ function listarPedidos() {
 
 function confirmarPedido() {
 	//SalvarPedido(JSON.stringify(novoPedido))
-        console.log(novoPedido);
-	alert(novoPedido[0])
-	novoPedido = [];
-	document.getElementById('ulItensPedido').innerHTML = "";
-	hideSection('pedido');
+        var idConta = document.getElementById('btnConta').dataset.idconta;
+        var dados = {"pedidos":novoPedido,"dataHora":dataHoraDisplayToLogical("",1),"idConta":idConta};
+        
+        console.log(JSON.stringify(dados));
+        
+        var parms = "salvarPedido=1&dados="+JSON.stringify(dados);
+        var retorno = requestSync(urlControle,parms);
+        
+        console.log(retorno);
+	
+        if(retorno.retorno == "1"){
+            novoPedido = [];
+            document.getElementById('ulItensPedido').innerHTML = "";
+            hideSection('pedido');
+        }else{
+            alert("ERRO: ");
+        }
 }
 
 function buscarDados() {

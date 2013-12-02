@@ -94,6 +94,29 @@ if(isset($_POST["buscarDados"])){
             "retorno"=>false);
     }
     echo json_encode($array);
+}else if(isset($_POST["salvarPedido"])){
+    debug(3, "Recebido pedido para salvar pedido. dados: ".$_POST["dados"]);
+    
+    $dados = json_decode($_POST["dados"]);
+    $pedidos = $dados->pedidos;
+    
+    for($i=0; $i<count($pedidos); $i++){
+        $retorno = inserirPedido("",$pedidos[$i]->quantProd,$pedidos[$i]->codProd,$dados->dataHora,$dados->idConta,$pedidos[$i]->adicionais);
+        if($retorno == 0){
+            break;
+        }
+    }
+    
+    if($retorno){
+        $objC = new Conta();
+        $objC->load($dados->idConta);
+        $array = desenharArray($objC);        
+    }else{
+        $array = array(
+                "retorno"=>false,
+                "msg"=>"Erro ao salvar pedidos!");
+    }
+    echo json_encode($array);
 }
 
 ?>

@@ -44,7 +44,16 @@ if(isset($_POST["buscarContas"])){
     echo json_encode($array);
 }else if(isset($_POST["inserirPedido"])){
     debug(3, "Recebido pedido para inserir novo pedido: ".$_POST["id"]);
-    $array = inserirPedido($_POST["id"],$_POST["qtdProduto"],$_POST["idProduto"],$_POST["dataHora"],$_POST["idConta"]);
+    $retorno = inserirPedido($_POST["id"],$_POST["qtdProduto"],$_POST["idProduto"],$_POST["dataHora"],$_POST["idConta"],"");
+    if($retorno){
+        $objC = new Conta();
+        $objC->load($_POST["idConta"]);
+        $array = desenharArray($objC);        
+    }else{
+        $array = array(
+                "retorno"=>false,
+                "msg"=>"Erro ao salvar conta!");        
+    }
     echo json_encode($array);
 }else if(isset($_POST["salvarPagamento"])){
     debug(3, "Recebido pedido para inserir novo pagamento: ".$_POST["id"]);

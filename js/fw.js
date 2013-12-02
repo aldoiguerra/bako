@@ -53,7 +53,7 @@ function requestAssync(url,parms,funcaoOk,tipoRetorno){
     xmlhttp.send(parms);
 }
 
-function resquestSync(url,parms,tipoRetorno){
+function requestSync(url,parms,tipoRetorno){
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
@@ -73,4 +73,35 @@ function resquestSync(url,parms,tipoRetorno){
     }else{
         return null;
     }
+}
+
+function dataHoraDisplayToLogical(dataHora,formato){
+    var retorno = "";
+    var data = "";
+    var hora = ""
+    if((dataHora) && (dataHora  != "")){
+        var lista = dataHora.toString().split(" ");
+        data = lista[0];
+        hora = lista[1];
+        var ldata = data.split("/");
+        data = ldata[2]+"-"+ldata[1]+"-"+ldata[0];
+    }else{
+        var today=new Date();
+        var h=today.getHours();
+        var m=today.getMinutes();
+        var s=today.getSeconds();
+        var dia=today.getDate();
+        var mes=today.getMonth();
+        var ano=today.getFullYear();
+        data = ano+"-"+mes+"-"+dia;
+        hora = h+":"+m+":"+s;
+    }
+    if (formato == 1){
+        retorno = data+" "+hora;
+    }else if (formato == 2){
+        retorno = data;
+    }else if (formato == 3){
+        retorno = hora;
+    }
+    return retorno;
 }
