@@ -63,9 +63,9 @@ function desenharContas(){
             conteudo = conteudo +'<input type="radio" name="radioAside" id="ra'+numMesa+'" value="'+idConta+'" mesa="'+arrayContas[i]["numMesa"]+'" />';
             conteudo = conteudo +'<label for="ra'+numMesa+'" '+classe+'>';
             conteudo = conteudo +'<span class="'+classeMesa+'">'+numMesa+'</span>';
-            conteudo = conteudo +'<h4>'+pessoas+'<h3>';
-            conteudo = conteudo +'<h2>'+subTotal+'</h2>';
-            conteudo = conteudo +'<p>'+dataHora+'</p>';
+            //conteudo = conteudo +'<h4>'+pessoas+'<h3>';
+            //conteudo = conteudo +'<h2>'+subTotal+'</h2>';
+            //conteudo = conteudo +'<p>'+dataHora+'</p>';
             conteudo = conteudo +'</label>';
             conteudo = conteudo +'</li>';
         }
@@ -86,7 +86,7 @@ function consultarConta(pIdConta,pNumMesa){
         $.post(urlConta, variaveis,
             function(data) {
                 if(data.retorno){
-                    fecharPopup("popupPagamento");
+                    //fecharPopup("popupPagamento");
                     alterarTela(data);
                 }
             }, 
@@ -194,12 +194,11 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     var conteudo = "";
     //desenha o cabeçalho da tabela
     conteudo = conteudo + '<tr>';
-    conteudo = conteudo + '<th>Id</th>';
+    //conteudo = conteudo + '<th>Id</th>';
     conteudo = conteudo + '<th>Qtd</th>';
     conteudo = conteudo + '<th>Produto</th>';
     conteudo = conteudo + '<th>Valor Uni.</th>';
     conteudo = conteudo + '<th>Valor</th>';
-    conteudo = conteudo + '<th></th>';
     conteudo = conteudo + '<th></th>';
     conteudo = conteudo + '</tr>';    
     
@@ -210,13 +209,13 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     var subTotal = 0;
     for(var i=0;i<tamanho;i++){
         conteudo = conteudo + '<tr>';
-        conteudo = conteudo + '<td>'+pPedidos[i]["id"]+'</td>';
+        //conteudo = conteudo + '<td>'+pPedidos[i]["id"]+'</td>';
         conteudo = conteudo + '<td>'+pPedidos[i]["quantidade"]+'</td>';
         conteudo = conteudo + '<td>'+arrayProdutos[pPedidos[i]["produtoId"]]["id"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'</td>';
         conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pPedidos[i]["valorUnitario"])+'</td>';
         conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pPedidos[i]["valor"])+'</td>';
-        conteudo = conteudo + '<td><a name="editarPedido" value="'+pPedidos[i]["id"]+'">Editar</a></td>';
-        conteudo = conteudo + '<td><a name="excluirPedido" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">Excluir</a></td>';
+        conteudo = conteudo + '<td><a name="editarPedido" class="icon-edit" value="'+pPedidos[i]["id"]+'">&nbsp;</a>';
+        conteudo = conteudo + '<a name="excluirPedido" class="icon-cancel" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">&nbsp;</a></td>';
         conteudo = conteudo + '</tr>';
         
         if($("#taxaServico").prop("checked")){
@@ -230,33 +229,27 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     if($("#taxaServico").prop("checked")){
         conteudo = conteudo + '<tr>';
         conteudo = conteudo + '<td></td>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>Taxa serviço</td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</td>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>'; 
     }
 
     conteudo = conteudo + '<tr>';
     conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '<td>Sub Total</td>';
     conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '<td>'+numeroLogicalToDisplay(subTotal.toFixed(2))+'</td>';
-    conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '</tr>'; 
 
     if((pDesconto) &&(parseFloat(pDesconto) != 0)){
         conteudo = conteudo + '<tr>';
         conteudo = conteudo + '<td></td>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>Desconto</td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pDesconto)+'</td>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';     
         total = total - parseFloat(pDesconto);
@@ -265,12 +258,11 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     var tamanho = pPagamentos.length;
     for(var i=0;i<tamanho;i++){
         conteudo = conteudo + '<tr>';
-        conteudo = conteudo + '<td>'+pPagamentos[i]["id"]+'</td>';
+        //conteudo = conteudo + '<td>'+pPagamentos[i]["id"]+'</td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>'+pPagamentos[i]["formaPagamento"]+'</td>';
         conteudo = conteudo + '<td>'+pPagamentos[i]["observacao"]+'</td>';
         conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pPagamentos[i]["valor"])+'</td>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';
         
@@ -279,14 +271,12 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     
     conteudo = conteudo + '<tr>';
     conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '<td>Total</td>';
     conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '<td>'+numeroLogicalToDisplay(total.toFixed(2))+'</td>';
     conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '</tr>';    
-    
+    /*
     if (pStatus == 1){
         conteudo = conteudo + '<tr>';
         conteudo = conteudo + '<td></td>';
@@ -297,13 +287,13 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';    
-    }
+    }*/
     
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
     $("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
-    $("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
-    $("#idProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
+    //$("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
+    //$("#idProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
 }
 
 function excluirPedido(pPedido,pDetalhes){
@@ -361,13 +351,14 @@ function desenharSelectProdutos(){
         retorno = retorno + '<option value="'+arrayProdutos[produto]["id"]+'" >'+arrayProdutos[produto]["nome"]+'</option>';
     }  
     $("#selectProduto").html(retorno);
-    $("#selectProduto").select2();
+    $("#selectProduto").select2({placeholder:'Produto'});
     $("#selectProduto").change(function(){
                                  $("#codigoProduto").val($("#selectProduto").val());  
                                  $("#valorProduto").val(numeroLogicalToDisplay(arrayProdutos[$("#selectProduto").val()]["preco"]));
                                  desenharSelectAdicionais($("#selectProduto").val());
                                  calcularPrecoPedido();
                               });
+    $("#selectAdicionais").select2({placeholder:'Adicionais'});
 }
 
 function desenharSelectAdicionais(pProdutoSelecionado){
@@ -379,7 +370,7 @@ function desenharSelectAdicionais(pProdutoSelecionado){
         retorno = retorno + '<option value="'+adicional[0]+'" >'+adicional[1]+'</option>';
     }  
     $("#selectAdicionais").html(retorno);
-    $("#selectAdicionais").select2();
+    $("#selectAdicionais").select2({placeholder:'Adicionais'});
     $("#selectAdicionais").change(function(){$("#codigoProduto").val($("#selectProduto").val())});
 }
 
@@ -617,7 +608,7 @@ function liberarMesa(){
 }
 
 function desenharSelectFP(){
-    var retorno = "";
+    var retorno = "<option>Forma pagamento</option>";
     var tamanho = arrayFormaPagamento.length;
     for(var i=0;i<tamanho;i++){
         retorno = retorno + '<option value="'+arrayFormaPagamento[i]["id"]+'" >'+arrayFormaPagamento[i]["descricao"]+'</option>';
@@ -654,7 +645,7 @@ function salvarPagamento(){
     $.post(urlConta, variaveis,
         function(data) {
             if(data.retorno){
-                fecharPopup("popupPagamento");
+                //fecharPopup("popupPagamento");
                 alterarTela(data);
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
@@ -738,6 +729,16 @@ function buscarTaxaServico(){
     }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao buscar taxa de serviço. ".textStatus);});
 }
 
+function fixGroupOverlay(pIdGroup) {
+    var ovl = document.createElement('div');
+    ovl.className = 'group-overlay-trap';
+    ovl.innerHTML = '&nbsp;';
+    document.appendChild(ovl);
+    document.getElementById(pIdGroup).classList.add('group-overlay-active');
+}
+
+
+
 $(document).ready(function(){
 
     arrayContas = null;
@@ -750,8 +751,7 @@ $(document).ready(function(){
     $("#btnSalvar").click(function(){salvarConta();});
     $("#btnFecharConta").click(function(){fecharConta();});
     $("#btnExcluir").click(function(){liberarMesa();});
-    $("#btnRealizarPagamento").click(function(){mostraPopup("popupPagamento");});
-    $("#btnCancelarPagamento").click(function(){fecharPopup("popupPagamento");});
+    //$("#btnRealizarPagamento").click(function(){mostraPopup("popupPagamento");});
     $("#btnSalvarPagamento").click(function(){salvarPagamento();});
     $("#btnDesconto").click(function(){mostraPopup("popupDesconto");});
     $("#btnCancelarDesconto").click(function(){fecharPopup("popupDesconto");});
@@ -768,5 +768,12 @@ $(document).ready(function(){
         //alert('changed');
     });
     
-    $("#mesa").keyup(function(event){if(event.keyCode == 13){consultarMesa($(this).val())}});
+    $("#mesa").keyup(function(event){
+        if(event.keyCode == 13){
+            consultarMesa($(this).val())
+        }
+    });
 });
+
+
+
