@@ -17,8 +17,9 @@ require_once ('../controller/conta.php');
     #listaConta li {width:25%;height:80px;float:left;background:#FFF;}
     #listaConta li label {text-align:center;padding:15px;}
     #listaConta li label span {margin-right:0;float:none;border-radius:6px;display:block;margin:0 auto;width:48px;height:48px;font-size:32px;line-height:48px;}
-    .numero-mesa-selecionada {float:left;color:#777;background:#CCC;border-radius:6px;box-shadow:0 0 10px 0 rgba(0,0,0,.3);text-align:center;margin:0 15px 0 0;}
-    .numero-mesa-selecionada input {background:transparent;font-size:40px !important;text-align:center;width:80px;height:60px;line-height:50px;}
+    .numero-mesa-selecionada {float:left;color:#777;cursor:pointer;background:#CCC;border-radius:6px;box-shadow:0 0 10px 0 rgba(0,0,0,.3);text-align:center;margin:0 15px 0 0;}
+    .numero-mesa-selecionada:hover {background:#EEE;}
+    .numero-mesa-selecionada input {background:transparent;cursor:pointer;font-size:40px !important;text-align:center;width:80px;height:60px;line-height:50px;}
 </style>
 </head>
 <body>
@@ -50,9 +51,10 @@ require_once ('../controller/conta.php');
             <input type="hidden" id="idConta" />
             <input type="hidden" size="15" maxlength="1" id="descricao" />
             <div class="field">
-                <div class="numero-mesa-selecionada">
+                <div class="numero-mesa-selecionada" title="Clique para substituir a mesa">
                     <input type="text" readonly="readonly" size="3" id="mesa" />
                      <h5 id="status"></h5>
+                     <a href="javascript:;" id="btnTrocarMesa" class="icon-edit"></a>
                 </div>
                 <div>
                     <input type="number" style="width:100px" placeholder="Qtd Pessoas" id="qtdPessoas" />
@@ -63,12 +65,6 @@ require_once ('../controller/conta.php');
                     <h3 class="icon-calendar" id="dataHora"></h3>
                     <h3 class="icon-calendar"  id="dataHoraFechamento"></h3>
                 </div>
-            </div>
-        
-            <div class="check-set">
-                <label>
-                    <input type="checkbox" id="taxaServico" /> Taxa de serviço
-                </label>
             </div>
             
             <div>
@@ -85,7 +81,6 @@ require_once ('../controller/conta.php');
             
             <input type="button" value="Liberar mesa" style='display: none;' id="btnExcluir" style='display: none;' class="bt-negative" />
             <input type="button" value="Fechar conta" style='display: none;' id="btnFecharConta" class="bt-success"/>
-            <input type="button" value="Trocar mesa" style='display: none;' id="btnTrocarMesa" class="bt-success"/>
             <input type="button" value="Desconto..." style='display: none;' id="btnDesconto" class="bt-success"/>
             <!--<input type="button" value="Pagamento..." style='display: none;' id="btnRealizarPagamento" class="bt-success"/>-->
         </div>
@@ -153,26 +148,8 @@ require_once ('../controller/conta.php');
     </div>        
 </div>
   
-    
-<div id="popupDesconto" class="modal" style="display:none;">
-    <div>
-        <div>
-            <div class="modal-title">Desconto</div>
-            <div class="field">
-                <input type="text" size="10" id="valorDesconto" />
-            </div>
-
-            <div>
-                <input type="button" value="Salvar" id="btnSalvarDesconto" class="bt-success"/>
-                <input type="button" value="Cancelar" id="btnCancelarDesconto" class="bt-negative"/>
-            </div>
-        </div>
-    </div> 
-</div>
-    
-
 <?php include 'rodape.php';?>
-<?php include 'js_include.php';?> 
+<?php include 'js_include.php';?>
 <script type="text/javascript" src="../js/conta.js"></script>
 
 </body>
