@@ -65,12 +65,6 @@ require_once ('../controller/conta.php');
                 </div>
             </div>
         
-            <div class="check-set">
-                <label>
-                    <input type="checkbox" id="taxaServico" /> Taxa de serviço
-                </label>
-            </div>
-            
             <div>
                 <table id="tabelaPedidos">
 
