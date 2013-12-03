@@ -66,7 +66,7 @@ require_once ('../controller/conta.php');
                     <h3 class="icon-calendar"  id="dataHoraFechamento"></h3>
                 </div>
             </div>
-            
+        
             <div>
                 <table id="tabelaPedidos">
 
