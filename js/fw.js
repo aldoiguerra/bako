@@ -40,6 +40,7 @@ function requestAssync(url,parms,funcaoOk,tipoRetorno){
     }
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            console.log("retorno: "+xmlhttp.responseText);
             if(tipoRetorno == "json"){
                 var retorno = eval('(' + xmlhttp.responseText + ')');
             }else{
@@ -65,6 +66,7 @@ function requestSync(url,parms,tipoRetorno){
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(parms);
     if((xmlhttp.readyState == 4) && (xmlhttp.status == 200)){
+        console.log("retorno: "+xmlhttp.responseText);
         if(tipoRetorno == "json"){
             return eval('(' + xmlhttp.responseText + ')');
         }else{

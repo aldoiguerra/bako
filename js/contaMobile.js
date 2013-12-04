@@ -69,7 +69,7 @@ function listarItensCardapio(pId,pThis) {
 	for(var p in produto) {
 		if(categoria[produto[p].categoriaId].id == pId) {
 			var liProd = document.createElement('li')
-			liProd.innerHTML = '<label><span><h2>'+produto[p].nome+'</h2><small>'+produto[p].descricao+'</small></span><input type="checkbox" class="icon-check-empty" value="'+p+'" /></label>'
+			liProd.innerHTML = '<label><span><h2>'+produto[p].nome+'</h2><small>'+produto[p].descricao+'</small><a href="javascript:;" onclick="adicionarProdutoCardapio('+p+');">+</a></label>'
 			newUlCategoria.appendChild(liProd)
 		}
 	}
@@ -143,76 +143,123 @@ function desenharMesas() {
 
 function adicionarProdutoPedido() {
 
-	var codProduto = parseInt(document.getElementById('iptCodProduto').value);
-	var qtdProduto = parseInt(document.getElementById('iptQtdProduto').value);
-	
-	if(produto[codProduto] == 'undefined') {
-		alert('Produto não existe');
-		return false;
-	}
-	if(document.getElementById('pedidoProduto'+codProduto)) {
-		alert('Produto já adicionado');
-		return false;
-	}
-	var ulItensPedido = document.getElementById('ulItensPedido');
-	var liItem = document.createElement('li');
-	liItem.id = "pedidoProduto" + codProduto 
-	liItem.innerHTML =  '<span class="input-thumb" id="qtd'+codProduto+'"><p>'+qtdProduto+'</p></span>'+
-						'<a href="javascript:return false;" id="listLink'+codProduto+'" onclick="this.nextElementSibling.nextElementSibling.classList.toggle(\"show-action\")">'+
-							'<h2>'+ produto[codProduto].nome +'</h2>'+
-						'</a>'+
-						'<p class="count" id="valorPedido'+codProduto+'">'+(produto[codProduto].preco*qtdProduto)+'</p>'+
-						'<div class="action" id="action'+codProduto+'">'+
-							'<button class="icon-quote-left" onclick="showDialog(\'dialogAdicionais\')"></button>'+
-							'<button class="icon-trash" onclick="excluirItemPedido('+codProduto+')"></button>'+
-						'</div>';
-	ulItensPedido.appendChild(liItem)
+    var codProduto = parseInt(document.getElementById('iptCodProduto').value,10);
+    var qtdProduto = parseInt(document.getElementById('iptQtdProduto').value,10);
 
-	Hammer(document.getElementById('listLink'+codProduto)).on('tap',function() {document.getElementById('action'+codProduto).classList.add('show-action')});
-	Hammer(document.getElementById('listLink'+codProduto)).on('dragright',function() {document.getElementById('action'+codProduto).classList.remove('show-action')});
-	
-	Hammer(document.getElementById('qtd'+codProduto)).on('dragright',function() {
-		if(parseInt(this.innerText) > 1) {
-			this.children[0].style.cssText = '-webkit-transform: translate3d(100%,0,0);';
-			var pThis = this
-			var stime = setTimeout(function() {
-				pThis.innerHTML = '<p>'+(parseInt(pThis.innerText)-1) + '</p>';
-				document.getElementById('valorPedido'+codProduto).innerText = produto[codProduto].preco*(parseInt(pThis.innerText)-1)
-			},150);
-			for(var c in novoPedido) {
-				if(novoPedido[c].codigoProduto == codProduto) {
-					novoPedido[c].quantidadeProduto = parseInt(pThis.innerText)-1
-				}
-			}
-		}
-	});
-	Hammer(document.getElementById('qtd'+codProduto)).on('dragleft',function() {
-		this.children[0].style.cssText = '-webkit-transform:translate3d(-100%,0,0);';
-		var pThis = this
-		var stime = setTimeout(function() {
-			pThis.innerHTML = '<p>'+(parseInt(pThis.innerText) + 1) + '</p>';
-			document.getElementById('valorPedido'+codProduto).innerText = produto[codProduto].preco*(parseInt(pThis.innerText)+1)
-		},150);
-		for(var c in novoPedido) {
-			if(novoPedido[c].codigoProduto == codProduto) {
-				novoPedido[c].quantidadeProduto = parseInt(pThis.innerText)+1
-			}
-		}
-	});
-        
-        console.log("produto: "+codProduto);
-        console.log("quantidade: "+qtdProduto);
-	
-	novoPedido.push({
-		codProd: codProduto,
-		quantProd: qtdProduto,
-		adicionais: ""
-	});
-	
-	document.getElementById('iptCodProduto').value = '';
-	document.getElementById('iptQtdProduto').value = '';
-	
-	
+    if(produto[codProduto] == 'undefined') {
+            alert('Produto não existe');
+            return false;
+    }
+
+    console.log("produto: "+codProduto);
+    console.log("quantidade: "+qtdProduto);
+
+    var achouProduto = false;
+    for(var c in novoPedido) {
+        if(novoPedido[c].codProd == codProduto){
+            novoPedido[c].quantProd = parseInt(novoPedido[c].quantProd,10) + qtdProduto;
+            achouProduto = true;
+        }
+    }
+
+    if(!achouProduto){
+        novoPedido.push({
+            codProd: codProduto,
+            quantProd: qtdProduto,
+            adicionais: ""
+        });
+    }
+
+    document.getElementById('iptCodProduto').value = '';
+    document.getElementById('iptQtdProduto').value = '';
+
+    desenharListaPedidos();
+}
+
+function adicionarProdutoCardapio(pProduto) {
+
+    if(produto[pProduto] == 'undefined') {
+            alert('Produto não existe');
+            return false;
+    }
+
+    var achouProduto = false;
+    for(var c in novoPedido) {
+        if(novoPedido[c].codProd == pProduto){
+            novoPedido[c].quantProd = parseInt(novoPedido[c].quantProd,10) + 1;
+            achouProduto = true;
+        }
+    }
+
+    if(!achouProduto){
+        novoPedido.push({
+                codProd: pProduto,
+                quantProd: 1,
+                adicionais: ""
+        });
+    }
+    
+    desenharListaPedidos();
+}
+
+function desenharListaPedidos(){
+
+    var ulItensPedido = document.getElementById('ulItensPedido');
+    ulItensPedido.innerHTML = "";
+    
+    console.log(novoPedido);
+
+    for(var c in novoPedido) {
+        var codProduto = novoPedido[c].codProd;
+        var qtdProduto = novoPedido[c].quantProd;
+
+        var liItem = document.createElement('li');
+        liItem.id = "pedidoProduto" + codProduto;
+        liItem.innerHTML =  '<span class="input-thumb" id="qtd'+codProduto+'"><p>'+qtdProduto+'</p></span><a href="javascript:;" onclick="adicionarProdutoCardapio('+codProduto+');">+</a>'+
+                                                '<a href="javascript:return false;" id="listLink'+codProduto+'" onclick="this.nextElementSibling.nextElementSibling.classList.toggle(\"show-action\")">'+
+                                                        '<h2>'+ produto[codProduto].nome +'</h2>'+
+                                                '</a>'+
+                                                '<p class="count" id="valorPedido'+codProduto+'">'+(produto[codProduto].preco*qtdProduto)+'</p>'+
+                                                '<div class="action" id="action'+codProduto+'">'+
+                                                        '<button class="icon-quote-left" onclick="showDialog(\'dialogAdicionais\')"></button>'+
+                                                        '<button class="icon-trash" onclick="excluirItemPedido('+codProduto+')"></button>'+
+                                                '</div>';
+        ulItensPedido.appendChild(liItem)
+
+        Hammer(document.getElementById('listLink'+codProduto)).on('tap',function() {document.getElementById('action'+codProduto).classList.add('show-action')});
+        Hammer(document.getElementById('listLink'+codProduto)).on('dragright',function() {document.getElementById('action'+codProduto).classList.remove('show-action')});
+
+        Hammer(document.getElementById('qtd'+codProduto)).on('dragright',function() {
+                if(parseInt(this.innerText) > 1) {
+                        this.children[0].style.cssText = '-webkit-transform: translate3d(100%,0,0);';
+                        var pThis = this
+                        var stime = setTimeout(function() {
+                                pThis.innerHTML = '<p>'+(parseInt(pThis.innerText)-1) + '</p>';
+                                document.getElementById('valorPedido'+codProduto).innerText = produto[codProduto].preco*(parseInt(pThis.innerText)-1)
+                        },150);
+                        for(var c in novoPedido) {
+                                if(novoPedido[c].codProd == codProduto) {
+                                        novoPedido[c].quantProd = parseInt(pThis.innerText)-1
+                                }
+                        }
+                }
+                desenharListaPedidos();
+        });
+        Hammer(document.getElementById('qtd'+codProduto)).on('dragleft',function() {
+                this.children[0].style.cssText = '-webkit-transform:translate3d(-100%,0,0);';
+                var pThis = this
+                var stime = setTimeout(function() {
+                        pThis.innerHTML = '<p>'+(parseInt(pThis.innerText) + 1) + '</p>';
+                        document.getElementById('valorPedido'+codProduto).innerText = produto[codProduto].preco*(parseInt(pThis.innerText)+1)
+                },150);
+                for(var c in novoPedido) {
+                        if(novoPedido[c].codProd == codProduto) {
+                                novoPedido[c].quantProd = parseInt(pThis.innerText)+1
+                        }
+                }
+                desenharListaPedidos();
+        });
+    }
 }
 
 function excluirItemPedido(pCodProduto) {
