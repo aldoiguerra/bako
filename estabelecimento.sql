@@ -80,6 +80,7 @@ create table pedidoAdicional(
 	id integer not null auto_increment,
         pedidoId integer not null,
         adicionalId integer not null,
+        quantidade integer not null,
 	primary key (id),
         foreign key (pedidoId) references pedido(id),
         foreign key (adicionalId) references adicional(id)
