@@ -44,47 +44,32 @@ require_once ('../controller/conta.php');
 
         </div>
     </div>
-    <div class="row">
-
-            
-        <div>
-            <input type="hidden" id="idConta" />
-            <input type="hidden" size="15" maxlength="1" id="descricao" />
-            <div class="field">
-                <div class="numero-mesa-selecionada" title="Clique para substituir a mesa">
-                    <input type="text" readonly="readonly" size="3" id="mesa" />
-                     <h5 id="status"></h5>
-                     <a href="javascript:;" id="btnTrocarMesa" class="icon-edit"></a>
-                </div>
-                <div>
-                    <input type="number" style="width:100px" placeholder="Qtd Pessoas" id="qtdPessoas" />
-                    <input type="button" value="Abrir mesa" id="btnAbrirMesa" style='display: none;' class="bt-normal"/>
-                    <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
-                </div>
-                <div>
-                    <h3 class="icon-calendar" id="dataHora"></h3>
-                    <h3 class="icon-calendar"  id="dataHoraFechamento"></h3>
-                </div>
+  
+    <div style="position:fixed;top:55px;right:0;left:475px;background:#CCC;padding:15px 30px;border-bottom:1px solid #CCC;">
+        <input type="hidden" id="idConta" />
+        <input type="hidden" size="15" maxlength="1" id="descricao" />
+        <div class="field">
+            <div class="numero-mesa-selecionada" title="Clique para substituir a mesa">
+                <input type="text" readonly="readonly" size="3" id="mesa" />
+                 <h5 id="status"></h5>
+                 <a href="javascript:;" id="btnTrocarMesa" class="icon-edit"></a>
             </div>
-            
             <div>
-                <table id="tabelaPedidos">
-
-                </table>
+                <input type="number" style="width:100px;" placeholder="Qtd Pessoas" id="qtdPessoas" />
+                <input type="button" value="Abrir mesa" id="btnAbrirMesa" style='display: none;' class="bt-normal"/>
+                <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
+            </div>
+            <div>
+                <h3 class="icon-calendar" id="dataHora"></h3>
+                <h3 class="icon-calendar" id="dataHoraFechamento"></h3>
             </div>
         </div>
-
-           
     </div>
-    <div class="row">    
-        <div class="button-bar">
-            
-            <input type="button" value="Liberar mesa" style='display: none;' id="btnExcluir" style='display: none;' class="bt-negative" />
-            <input type="button" value="Fechar conta" style='display: none;' id="btnFecharConta" class="bt-success"/>
-            <input type="button" value="Desconto..." style='display: none;' id="btnDesconto" class="bt-success"/>
-            <!--<input type="button" value="Pagamento..." style='display: none;' id="btnRealizarPagamento" class="bt-success"/>-->
-        </div>
-    </div>        
+
+    <div id="tabelaPedidos">
+    </div>
+           
+      
 </div>
 
 </section>
