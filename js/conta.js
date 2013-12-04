@@ -93,7 +93,7 @@ function consultarConta(pIdConta,pNumMesa){
             "json"
         ).fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao editar dados: ".textStatus);});
     }else{
-        $("#btnFecharConta").hide();
+        //$("#btnFecharConta").hide();
         $("#mesa").val(pNumMesa);
         $("#status").html(statusContaLogicalToDisplay(3));
         alterarBotoesStatus(3);
@@ -141,13 +141,6 @@ function alterarBotoes(btnAbrirMesa,btnSalvar,btnCancelar,btnNovoPedido,btnFecha
             $("#btnNovoPedido").hide();
         }
     }    
-    if(btnFechar != null){
-        if(btnFechar){
-            $("#btnFecharConta").show();
-        }else{
-            $("#btnFecharConta").hide();
-        }
-    }
     if(btnTrocar != null){
         if(btnTrocar){
             $("#btnTrocarMesa").show();
@@ -191,16 +184,7 @@ function consultarMesa(pMesa){
 
 function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     
-    var conteudo = "";
-    //desenha o cabeçalho da tabela
-    conteudo = conteudo + '<tr>';
-    //conteudo = conteudo + '<th>Id</th>';
-    conteudo = conteudo + '<th>Qtd</th>';
-    conteudo = conteudo + '<th>Produto</th>';
-    conteudo = conteudo + '<th>Valor Uni.</th>';
-    conteudo = conteudo + '<th>Valor</th>';
-    conteudo = conteudo + '<th></th>';
-    conteudo = conteudo + '</tr>';    
+    var conteudo = "<table>";
     
     var taxa = 0;
     var tamanho = pPedidos.length;
@@ -210,10 +194,9 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     for(var i=0;i<tamanho;i++){
         conteudo = conteudo + '<tr>';
         //conteudo = conteudo + '<td>'+pPedidos[i]["id"]+'</td>';
-        conteudo = conteudo + '<td>'+pPedidos[i]["quantidade"]+'</td>';
         conteudo = conteudo + '<td>'+arrayProdutos[pPedidos[i]["produtoId"]]["id"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'</td>';
-        conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pPedidos[i]["valorUnitario"])+'</td>';
-        conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pPedidos[i]["valor"])+'</td>';
+        conteudo = conteudo + '<td>'+pPedidos[i]["quantidade"]+' x '+numeroLogicalToDisplay(pPedidos[i]["valorUnitario"])+'</td>';
+        conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(pPedidos[i]["valor"])+'</span></td>';
         conteudo = conteudo + '<td><a name="editarPedido" class="icon-edit" value="'+pPedidos[i]["id"]+'">&nbsp;</a>';
         conteudo = conteudo + '<a name="excluirPedido" class="icon-cancel" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">&nbsp;</a></td>';
         conteudo = conteudo + '</tr>';
@@ -226,56 +209,50 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
         total = total + parseFloat(pPedidos[i]["valor"]) + taxa;
     }
         
-    if($("#taxaServico").prop("checked")){
-        conteudo = conteudo + '<tr>';
-        conteudo = conteudo + '<td></td>';
+    //if($("#taxaServico").prop("checked")){
+        conteudo = conteudo + '</tr>'; 
         conteudo = conteudo + '<td>Taxa serviço</td>';
         conteudo = conteudo + '<td></td>';
-        conteudo = conteudo + '<td>'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</td>';
+        conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</span></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>'; 
-    }
+    //}
 
-    conteudo = conteudo + '<tr>';
-    conteudo = conteudo + '<td></td>';
+    conteudo = conteudo + '<tr class="tr-marker">';
     conteudo = conteudo + '<td>Sub Total</td>';
     conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td>'+numeroLogicalToDisplay(subTotal.toFixed(2))+'</td>';
+    conteudo = conteudo + '<td><strong>'+numeroLogicalToDisplay(subTotal.toFixed(2))+'</strong></td>';
     conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '</tr>'; 
 
-    if((pDesconto) &&(parseFloat(pDesconto) != 0)){
+    //if((pDesconto) &&(parseFloat(pDesconto) != 0)){
         conteudo = conteudo + '<tr>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>Desconto</td>';
-        conteudo = conteudo + '<td></td>';
-        conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pDesconto)+'</td>';
+        conteudo = conteudo + '<td><input type="text" size="5" id="valorDesconto" /><input type="button" id="btnSalvarDesconto" class="icon-ok-1 bt-normal" /></td>';
+        conteudo = conteudo + '<td><span class="color-negative">'+numeroLogicalToDisplay(pDesconto)+'</span></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';     
         total = total - parseFloat(pDesconto);
-    }
+    //}
     
     var tamanho = pPagamentos.length;
     for(var i=0;i<tamanho;i++){
         conteudo = conteudo + '<tr>';
         //conteudo = conteudo + '<td>'+pPagamentos[i]["id"]+'</td>';
-        conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '<td>'+pPagamentos[i]["formaPagamento"]+'</td>';
         conteudo = conteudo + '<td>'+pPagamentos[i]["observacao"]+'</td>';
-        conteudo = conteudo + '<td>'+numeroLogicalToDisplay(pPagamentos[i]["valor"])+'</td>';
+        conteudo = conteudo + '<td><span class="color-negative">'+numeroLogicalToDisplay(pPagamentos[i]["valor"])+'</span></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';
         
         total = total - parseFloat(pPagamentos[i]["valor"]);
     }    
     
-    conteudo = conteudo + '<tr>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td>Total</td>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td>'+numeroLogicalToDisplay(total.toFixed(2))+'</td>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '</tr>';    
+    conteudo = conteudo + '</table>';
+    conteudo = conteudo + '<div id="divTotal">Total';
+    conteudo = conteudo + '<strong>'+numeroLogicalToDisplay(total.toFixed(2))+'</strong>';
+    conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
+    conteudo = conteudo + '</div>';    
     /*
     if (pStatus == 1){
         conteudo = conteudo + '<tr>';
@@ -290,8 +267,10 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     }*/
     
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
+    $("#btnExcluir").click(function(){liberarMesa();});
     $("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
+    $("#btnSalvarDesconto").click(function(){aplicarDesconto();});
     //$("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
     //$("#idProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
 }
@@ -660,7 +639,6 @@ function aplicarDesconto(){
     $.post(urlConta, variaveis,
         function(data) {
             if(data.retorno){
-                fecharPopup("popupDesconto");
                 alterarTela(data);
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
@@ -749,13 +727,9 @@ $(document).ready(function(){
 
     $("#btnAbrirMesa").click(function(){abrirMesa();});
     $("#btnSalvar").click(function(){salvarConta();});
-    $("#btnFecharConta").click(function(){fecharConta();});
-    $("#btnExcluir").click(function(){liberarMesa();});
     //$("#btnRealizarPagamento").click(function(){mostraPopup("popupPagamento");});
     $("#btnSalvarPagamento").click(function(){salvarPagamento();});
-    $("#btnDesconto").click(function(){mostraPopup("popupDesconto");});
     $("#btnCancelarDesconto").click(function(){fecharPopup("popupDesconto");});
-    $("#btnSalvarDesconto").click(function(){aplicarDesconto();});
     $("#btnTrocarMesa").click(function(){mostraPopup("popupTrocarMesa");});
     $("#btnCancelarTroca").click(function(){fecharPopup("popupTrocarMesa");});
     $("#btnSalvarTroca").click(function(){trocarMesa();});
