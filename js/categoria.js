@@ -136,7 +136,9 @@ function listarDados(){
 }
 
 function limparCampos(){
-    document.querySelector('#lista input:checked').checked = false;
+    if(document.querySelector('#lista input:checked')){
+        document.querySelector('#lista input:checked').checked = false;
+    }
     $("[name=ckAdicionais]").attr("checked",false);
     $("#id").val("");
     $("#descricao").val("");
