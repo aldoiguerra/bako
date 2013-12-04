@@ -100,6 +100,7 @@ if(isset($_POST["buscarDados"])){
     $dados = json_decode($_POST["dados"]);
     $pedidos = $dados->pedidos;
     
+    $retorno = 1;
     for($i=0; $i<count($pedidos); $i++){
         $retorno = inserirPedido("",$pedidos[$i]->quantProd,$pedidos[$i]->codProd,$dados->dataHora,$dados->idConta,$pedidos[$i]->adicionais);
         if($retorno == 0){

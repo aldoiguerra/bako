@@ -224,7 +224,18 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
         }
         subTotal = subTotal + parseFloat(pPedidos[i]["valor"]) + taxa;
         total = total + parseFloat(pPedidos[i]["valor"]) + taxa;
-    }   
+    }
+        
+    if($("#taxaServico").prop("checked")){
+        conteudo = conteudo + '<tr>';
+        conteudo = conteudo + '<td></td>';
+        conteudo = conteudo + '<td>Taxa serviço</td>';
+        conteudo = conteudo + '<td></td>';
+        conteudo = conteudo + '<td>'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</td>';
+        conteudo = conteudo + '<td></td>';
+        conteudo = conteudo + '</tr>'; 
+    }
+
     conteudo = conteudo + '<tr>';
     conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '<td>Sub Total</td>';
@@ -232,15 +243,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     conteudo = conteudo + '<td>'+numeroLogicalToDisplay(subTotal.toFixed(2))+'</td>';
     conteudo = conteudo + '<td></td>';
     conteudo = conteudo + '</tr>'; 
-    
-    conteudo = conteudo + '<tr>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td><input type=\"checkbox\" id=\"taxaServico\" /> Taxa serviço</td>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td>'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</td>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '</tr>'; 
-    
+
     if((pDesconto) &&(parseFloat(pDesconto) != 0)){
         conteudo = conteudo + '<tr>';
         conteudo = conteudo + '<td></td>';
@@ -287,7 +290,6 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     }*/
     
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
-    document.getElementById("taxaServico").addEventListener('click',function(){salvarConta()},false);
     $("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
     //$("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
@@ -761,7 +763,10 @@ $(document).ready(function(){
     $("#valorProduto").change(function(){calcularPrecoPedido();});
     $("#quantidadePedido").change(function(){calcularPrecoPedido();});
     $("#codigoProduto").change(function(){selecionarProduto();});
-    
+    $("#taxaServico").change(function (){
+        inserirEditar();
+        //alert('changed');
+    });
     
     $("#mesa").keyup(function(event){
         if(event.keyCode == 13){
