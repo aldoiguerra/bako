@@ -72,8 +72,8 @@ if (isset($_SESSION["usuario"]) && ($_SESSION["usuario"] != "")) {
 if(isset($_POST["buscarDados"])){
     debug(3, "Recebido pedido para buscar os dados. ");
     $array = array("produtos"=>buscarProdutos(),
-                    "categorias"=>buscarCategorias(),
-                    "adicionais"=>buscarAdicionais()
+                    "categorias"=>buscarCategorias() //,
+                    //"adicionais"=>buscarAdicionais()
         );
     echo json_encode($array);
     return;    
@@ -117,6 +117,13 @@ if(isset($_POST["buscarDados"])){
                 "retorno"=>false,
                 "msg"=>"Erro ao salvar pedidos!");
     }
+    echo json_encode($array);
+    
+}else if(isset($_POST["fecharConta"])){
+    debug(3, "Recebido pedido para fecharConta. conta: ".$_POST["fecharConta"]);
+    
+    $array = salvar($_POST["fecharConta"],"","","","","",2,$_POST["dataHoraFechamento"]);
+    
     echo json_encode($array);
 }
 

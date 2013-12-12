@@ -44,11 +44,7 @@
 		<div class="dialog-header">Adicionais</div>
 		<div class="dialog-content">
 			<div>
-			<select multiple="true">
-				<option>Copo com gelo</option>
-				<option>Copo com limão e sal</option>
-				<option>Sem açucar</option>
-				<option>Sem gelo</option>
+                        <select multiple="true" id="slAdicionais" produtoId="">
 			</select>
 			</div>
 			<div>
@@ -56,7 +52,7 @@
 			</div>
 		</div>
 		<div class="dialog-footer">
-			<button class="icon-ok-1">Confirmar</button>
+                    <button class="icon-ok-1" onclick="adicionarAdionais();">Confirmar</button>
 		</div>
 	</div>
 </div>
@@ -90,7 +86,7 @@
 	</nav>
 	
 	<!-- rodape mesas -->
-	<footer><button>Fechar conta</button></footer>
+        <footer><button onclick="fecharConta();">Fechar conta</button></footer>
 </aside>
 
 

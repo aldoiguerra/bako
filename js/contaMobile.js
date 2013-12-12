@@ -202,6 +202,43 @@ function adicionarProdutoCardapio(pProduto) {
     desenharListaPedidos();
 }
 
+function removerProdutoCardapio(pProduto) {
+
+    if(produto[pProduto] == 'undefined') {
+            alert('Produto não existe');
+            return false;
+    }
+
+    var achouProduto = false;
+    var removerProduto = false;
+    var posicao = -1;
+    for(var c in novoPedido) {
+        if(novoPedido[c].codProd == pProduto){
+            var quantidade = parseInt(novoPedido[c].quantProd,10) - 1;
+            if(quantidade == 0){
+                removerProduto = true;
+                posicao = c;
+            }else{
+                novoPedido[c].quantProd = quantidade;
+            }
+            achouProduto = true;
+        }
+    }
+
+    if(!achouProduto){
+        novoPedido.push({
+                codProd: pProduto,
+                quantProd: 1,
+                adicionais: ""
+        });
+    }
+    if(removerProduto){
+        novoPedido.splice(posicao,1);
+    }
+    
+    desenharListaPedidos();
+}
+
 function desenharListaPedidos(){
 
     var ulItensPedido = document.getElementById('ulItensPedido');
@@ -215,14 +252,14 @@ function desenharListaPedidos(){
 
         var liItem = document.createElement('li');
         liItem.id = "pedidoProduto" + codProduto;
-        liItem.innerHTML =  '<span class="input-thumb" id="qtd'+codProduto+'"><p>'+qtdProduto+'</p></span><a href="javascript:;" onclick="adicionarProdutoCardapio('+codProduto+');">+</a>'+
+        liItem.innerHTML =  '<span class="input-thumb" id="qtd'+codProduto+'"><p>'+qtdProduto+'</p></span><a href="javascript:;" onclick="adicionarProdutoCardapio('+codProduto+');">+</a>'+ //<a href="javascript:;" onclick="removerProdutoCardapio('+codProduto+');">-</a>
                                                 '<a href="javascript:return false;" id="listLink'+codProduto+'" onclick="this.nextElementSibling.nextElementSibling.classList.toggle(\"show-action\")">'+
                                                         '<h2>'+ produto[codProduto].nome +'</h2>'+
                                                 '</a>'+
                                                 '<p class="count" id="valorPedido'+codProduto+'">'+(produto[codProduto].preco*qtdProduto)+'</p>'+
                                                 '<div class="action" id="action'+codProduto+'">'+
-                                                        '<button class="icon-quote-left" onclick="showDialog(\'dialogAdicionais\')"></button>'+
-                                                        '<button class="icon-trash" onclick="excluirItemPedido('+codProduto+')"></button>'+
+                                                        '<button class="icon-quote-left" onclick="desenharAdicionais(\''+codProduto+'\');"></button>'+
+                                                        '<button class="icon-trash" onclick="removerProdutoCardapio('+codProduto+')"></button>'+
                                                 '</div>';
         ulItensPedido.appendChild(liItem)
 
@@ -260,16 +297,6 @@ function desenharListaPedidos(){
                 desenharListaPedidos();
         });
     }
-}
-
-function excluirItemPedido(pCodProduto) {
-	for(var i in novoPedido) {
-		if(novoPedido[i].codigoProduto == pCodProduto) {
-			novoPedido.splice(i,1);
-			var produtoExcluido = document.getElementById('pedidoProduto'+pCodProduto);
-			produtoExcluido.parentNode.removeChild(produtoExcluido)
-		}
-	}
 }
 
 function listarPedidos() {
@@ -327,8 +354,7 @@ function buscarDados() {
     requestAssync(urlControle,parms,function(data){
                                     categoria = data.categorias;
                                     produto = data.produtos;
-                                    adicional = data.adicionais; 
-                                   desenharCardapio();
+                                    desenharCardapio();
                                     });
 }
 
@@ -344,15 +370,72 @@ function desenharCardapio() {
     }
 }
 
+function desenharAdicionais(pProduto) {
+    var slAdicionais = document.getElementById('slAdicionais');
+
+    var options = ""
+    var listaAdiconais = produto[pProduto].adicionais.split(",");
+    for(var i=0;i<listaAdiconais.length;i++) {
+        var dados = listaAdiconais[i].split(";");
+        options += "<option value='"+dados[0]+"' >"+dados[1]+"</option>"
+    }
+    slAdicionais.innerHTML = options;
+    slAdicionais.produtoId = pProduto;
+    
+    showDialog("dialogAdicionais");
+}
+
+function adicionarAdionais() {
+    
+    var slAdicionais = document.getElementById('slAdicionais');
+    var adicionais = slAdicionais.value;
+    var produtoId = slAdicionais.produtoId;
+    var quantidade = document.getElementById('qtdAdicinal').value;
+
+    for(var c in novoPedido) {
+        var listaAdicionais = adicionais.split(",");
+        for(var i=0;i<listaAdicionais.length;i++){
+            var adicional = listaAdicionais[i];
+            if(novoPedido[c].codProd == produtoId){
+                if(novoPedido[c].adicionais == ""){
+                    novoPedido[c].adicionais = adicional+";"+quantidade;
+                }else{
+                    novoPedido[c].adicionais += ","+adicional+";"+quantidade;
+                }
+            }
+        }
+    }
+    
+    console.log(novoPedido);
+    
+    hideDialog("dialogAdicionais");
+}
+
 function acaoLogado(){
     showSection('inicio');
     buscarDados();
     listarMesas();    
 }
 
+function fecharConta() {
+
+    var idConta = document.getElementById('btnConta').dataset.idconta;
+
+    var parms = "fecharConta="+idConta+"&dataHoraFechamento="+dataHoraDisplayToLogical("",1);
+    var retorno = requestSync(urlControle,parms);
+
+    if(retorno.retorno){
+        alert("Conta fechada");
+        hideAside('conta');
+        hideAside('mesa');
+    }else{
+        alert("Erro ao fechar conta: "+retorno.msg);
+    }
+
+}
+
 categoria = new Array();
 produto = new Array();
-adicional = new Array();
 conta = new Array();
 novoPedido = new Array();
 
