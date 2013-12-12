@@ -112,33 +112,64 @@ function desenharMesas() {
 			document.getElementById('listaMesas') .innerHTML = "";
 			
 			document.getElementById('btnConta').dataset.idconta = this.dataset.idconta;
-			document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + this.dataset.mesa;
+                        document.getElementById('btnConta').dataset.numMesa = this.dataset.mesa;
+                        document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + this.dataset.mesa;
                         
 			var articlePedido = document.querySelector('#inicio article')
-			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir"></button></div><div class="box padding1"><input type="number" readonly="true" value="'+this.dataset.qtdpessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir"></button></div></div>'
+			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir"></button></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+this.dataset.qtdpessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir"></button></div></div>'
 			
+                        document.querySelector('#navInicio').innerHTML = "";
 			if(this.dataset.status == "1") {
-				var navFooter = document.createElement('nav')
 				var btn = document.createElement('button');
 				btn.className = 'icon-doc-inv';
 				btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
 				btn.innerText = 'Novo pedido';
-				navFooter.appendChild(btn);
-				document.querySelector('#inicio').appendChild(navFooter);
+				document.querySelector('#navInicio').appendChild(btn);
 				btn.addEventListener('click',function() {showSection('pedido')},false)
 			} else if(this.dataset.status == "2") {
-				//document.getElementById('encMesaAberta').style.display = 'none';
-				//document.getElementById('encMesaFechada').style.display = '';
-				//document.getElementById('encMesaLivre').style.display = 'none';
-			} else if(this.dataset.status == "3") {
-				//document.getElementById('encMesaAberta').style.display = 'none';
-				//document.getElementById('encMesaFechada').style.display = 'none';
-				//document.getElementById('encMesaLivre').style.display = '';
+                            //Se a conta está fechada não adiciona pedido
+                        } else{
+				var btn = document.createElement('button');
+				btn.className = 'icon-doc-inv';
+				btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
+				btn.innerText = 'Abrir mesa';
+				document.querySelector('#navInicio').appendChild(btn);
+				btn.addEventListener('click',function() {abrirConta();},false)
 			}
                         
                         document.getElementById('btnConta').style.display = "";
 		},false);
 	}
+}
+
+function abrirConta() {
+    
+    var numMesa = document.getElementById('btnConta').dataset.numMesa;
+    var qtdPessoas = document.getElementById('qtdPessoas').value;
+
+    if((qtdPessoas == "") || (parseInt(qtdPessoas,10) <= 0)) {
+        alert('Entre como número de pessoas');
+        return false;
+    }
+
+    var parms = "abrirConta=1&numMesa="+numMesa+"&qtdPessoas="+qtdPessoas+"&dataHora="+dataHoraDisplayToLogical("",1);
+    var retorno = requestSync(urlControle,parms);
+
+    console.log(retorno);
+
+    if(retorno.retorno){
+        alert("Conta Aberta");
+        document.querySelector('#navInicio').innerHTML = "";
+        var btn = document.createElement('button');
+        btn.className = 'icon-doc-inv';
+        btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
+        btn.innerText = 'Novo pedido';
+        document.querySelector('#navInicio').appendChild(btn);
+        btn.addEventListener('click',function() {showSection('pedido')},false)
+    }else{
+        alert("ERRO: ");
+    }
+
 }
 
 function adicionarProdutoPedido() {
