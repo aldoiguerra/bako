@@ -22,6 +22,7 @@ function gerarRelatorio(){
             function(data) {
                 if(data.retorno){
                     var html = '<ul>';
+                    html = html+'<li><div>Produto</div><div>Valor Unitário</div><div>Quantidade</div><div>Valor Total</div><div>N. Mesa</div></li>';
                     for(var i=0;i<data.dados.length;i++){
                         html = html+'<li>';
                         html = html+'<div>'+data.dados[i][0]+'</div><div>'+data.dados[i][1]+'</div><div>'+data.dados[i][2]+'</div><div>'+data.dados[i][3]+'</div><div>'+data.dados[i][4]+'</div>';
