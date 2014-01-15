@@ -1,6 +1,6 @@
 
 function editar(){
-    limparCampos();
+    //limparCampos();
     $("input[name='editar']").click(function(){
         var variaveis = {"consultar": $(this).val()};
         $.post(urlUsuario, variaveis,
@@ -105,12 +105,15 @@ function listarDados(){
 }
 
 function limparCampos(){
+    if(document.querySelector('#lista input:checked')){
+        document.querySelector('#lista input:checked').checked = false;
+    }
     $("#usuario").val("");
     $("#nome").val("");
     $("#senha").val("");
     $("#tipo").val("0");
     $("#btnExcluir").hide();
-    document.getElementById("ckAtivo").checked=true
+    document.getElementById("ckAtivo").checked=true;
 }
 
 $(document).ready(function(){
