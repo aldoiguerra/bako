@@ -14,8 +14,8 @@ $(document).ready(function(){
 
     $("#btnGerar").click(function() {
         $("#retorno").html("");
-        alert('teste');
-        //gerarRelatorio();
+        //alert('teste');
+        gerarRelatorio();
     });
 
 });
