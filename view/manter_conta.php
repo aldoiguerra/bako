@@ -45,7 +45,7 @@ require_once ('../controller/conta.php');
         </div>
     </div>
   
-    <div style="position:fixed;top:55px;right:0;left:475px;background:#CCC;padding:15px 30px;border-bottom:1px solid #CCC;">
+    <div style="position:absolute;right:350px;left:30px;">
         <input type="hidden" id="idConta" />
         <input type="hidden" size="15" maxlength="1" id="descricao" />
         <div class="field">
@@ -70,54 +70,60 @@ require_once ('../controller/conta.php');
     </div>
            
       
+    <div class="group-overlay">
+        <div class="before-pedido">
+            <input type="hidden" id="codigoPedido" />
+            <input type="hidden" id="valorProduto" />
+            <input type="hidden" size="10" id="totalPedido" />
+            <input type="hidden" size="10" id="codigoProduto" />
+
+            <div class="field">
+                <select id="selectProduto" style="width:100%;"></select>
+            </div>
+
+            <div class="field">
+                <input type="number" placeholder="Quantidade" size="2" style="width:100%;" id="quantidadePedido" />
+            </div>
+
+            <div class="field">
+                <select id="selectAdicionais" multiple="multiple" style="width:100%"></select>
+            </div>
+
+            <div class="field">
+                <textarea rows="3" placeholder="Observaçâo" id="observacaoPedido"></textarea>
+            </div>
+            <div class="field text-right">
+                <button id="btnSalvarPedido" class="icon-plus bt-success">Incluir pedido</button>
+            </div>
+        </div>
+        
+        <div id="grpPagamento" class="before-pagamento">
+            <div class="field">
+                <select accesskey="2" id="selectFP"></select>
+                <input type="text" size="10" placeholder="Valor" id="valorPagamento" />
+            </div>
+
+            <div class="field">
+                <input type="text" size="30" id="observacao" placeholder="Observação" />
+            </div>
+
+            <div class="field text-right">
+                <button id="btnSalvarPagamento" class="icon-plus bt-success">Incluir pagamento</button>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
 </div>
 
 </section>
-
     
-    
-    <div class="group-overlay before-pedido" style="top:75px;z-index: 9;">
-                <input type="hidden" id="codigoPedido" />
-                <input type="hidden" id="valorProduto" />
-                <input type="hidden" size="10" id="totalPedido" />
-                <input type="hidden" size="10" id="codigoProduto" />
-
-                <div class="field">
-                    <select id="selectProduto" style="width:100%;"></select>
-                </div>
-
-                <div class="field">
-                    <input type="number" placeholder="Quantidade" size="2" style="width:100%;" id="quantidadePedido" />
-                </div>
-
-                <div class="field">
-                    <select id="selectAdicionais" multiple="multiple" style="width:100%"></select>
-                </div>
-
-                <div class="field">
-                    <textarea rows="3" placeholder="Observaçâo" id="observacaoPedido"></textarea>
-                </div>
-                <div class="field text-right">
-                    <button id="btnSalvarPedido" class="icon-plus bt-success">Incluir pedido</button>
-                </div>   
-            </div>
+  
             
             
-            <div id="grpPagamento" class="group-overlay before-pagamento" style="top:400px;z-index: 9;">
-                <div class="field">
-                    <select accesskey="2" id="selectFP" onfocus="fixGroupOverlay('grpPagamento');"></select>
-                    <input type="text" size="10" placeholder="Valor" id="valorPagamento" onfocus="fixGroupOverlay('grpPagamento');" />
-                </div>
-          
-                <div class="field">
-                    <input type="text" size="30" id="observacao" placeholder="Observação" onfocus="fixGroupOverlay('grpPagamento');" />
-                </div>
-                
-                <div class="field text-right">
-                    <button id="btnSalvarPagamento" class="icon-plus bt-success">Incluir pagamento</button>
-                </div>
-            </div>
-    
     
     
 <div id="popupTrocarMesa" class="modal" style="display:none;">

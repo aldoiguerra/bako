@@ -88,6 +88,11 @@ function desenharMesas() {
 		
 	showAside('mesas');
 	var ulMesas = document.getElementById('listaMesas') 
+ 
+        var slMesas = document.getElementById('slMesa');
+        var options = ""
+        options += "<option value='' ></option>" 
+        
 	ulMesas.innerHTML = ""
 	for(var j in conta) {
 		var backColor = ""
@@ -106,39 +111,129 @@ function desenharMesas() {
 								'<h2 class="li-thumb" style="background-color:'+backColor+'">'+conta[j].numMesa+'</h2>'+
 								'<h3>'+total+'</h3>' +
 							'</a>'
-		
+
+                options += "<option value='"+conta[j].numMesa+"' >"+conta[j].numMesa+"</option>"
+                
 		liMesa.children[0].addEventListener('click',function() {
 			hideAside('mesas');
 			document.getElementById('listaMesas') .innerHTML = "";
 			
 			document.getElementById('btnConta').dataset.idconta = this.dataset.idconta;
-			document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + this.dataset.mesa;
+                        document.getElementById('btnConta').dataset.numMesa = this.dataset.mesa;
+                        document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + this.dataset.mesa;
                         
 			var articlePedido = document.querySelector('#inicio article')
-			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir"></button></div><div class="box padding1"><input type="number" readonly="true" value="'+this.dataset.qtdpessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir"></button></div></div>'
+                        var qtdPessoas = (parseInt(this.dataset.qtdpessoas,10))?this.dataset.qtdpessoas:0;
+			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir" onclick="alterarQtdPessoas(\'-\');"></button></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir" onclick="alterarQtdPessoas(\'+\');"></button></div></div>'
 			
+                        document.querySelector('#navInicio').innerHTML = "";
 			if(this.dataset.status == "1") {
-				var navFooter = document.createElement('nav')
+        			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div></div></div>'
 				var btn = document.createElement('button');
 				btn.className = 'icon-doc-inv';
 				btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
 				btn.innerText = 'Novo pedido';
-				navFooter.appendChild(btn);
-				document.querySelector('#inicio').appendChild(navFooter);
+				document.querySelector('#navInicio').appendChild(btn);
 				btn.addEventListener('click',function() {showSection('pedido')},false)
 			} else if(this.dataset.status == "2") {
-				//document.getElementById('encMesaAberta').style.display = 'none';
-				//document.getElementById('encMesaFechada').style.display = '';
-				//document.getElementById('encMesaLivre').style.display = 'none';
-			} else if(this.dataset.status == "3") {
-				//document.getElementById('encMesaAberta').style.display = 'none';
-				//document.getElementById('encMesaFechada').style.display = 'none';
-				//document.getElementById('encMesaLivre').style.display = '';
+        			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div></div></div>'
+                            //Se a conta está fechada não adiciona pedido
+                        } else{
+				var btn = document.createElement('button');
+				btn.className = 'icon-doc-inv';
+				btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
+				btn.innerText = 'Abrir mesa';
+				document.querySelector('#navInicio').appendChild(btn);
+				btn.addEventListener('click',function() {abrirConta();},false)
 			}
                         
                         document.getElementById('btnConta').style.display = "";
 		},false);
 	}
+        slMesas.innerHTML = options;
+}
+
+function alterarQtdPessoas(pTipo) {
+    
+    var objQtdPessoas = document.getElementById('qtdPessoas');
+    var qtdPessoas = parseInt(objQtdPessoas.value,10);
+    
+    if(pTipo == "+"){
+        qtdPessoas += 1;
+    }else{
+        if(qtdPessoas <= 0){
+            qtdPessoas = 0;
+        }else{
+            qtdPessoas -= 1;
+        }
+    }
+    objQtdPessoas.value = qtdPessoas;
+}
+
+function abrirConta() {
+    
+    var numMesa = document.getElementById('btnConta').dataset.numMesa;
+    var qtdPessoas = document.getElementById('qtdPessoas').value;
+
+    if((qtdPessoas == "") || (parseInt(qtdPessoas,10) <= 0)) {
+        alert('Entre como número de pessoas');
+        return false;
+    }
+
+    var parms = "abrirConta=1&numMesa="+numMesa+"&qtdPessoas="+qtdPessoas+"&descricao=&dataHora="+dataHoraDisplayToLogical("",1);
+    var retorno = requestSync(urlControle,parms);
+
+    console.log(retorno);
+
+    if(retorno.retorno){
+        alert("Conta Aberta");
+        document.querySelector('#navInicio').innerHTML = "";
+        var btn = document.createElement('button');
+        btn.className = 'icon-doc-inv';
+        btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
+        btn.innerText = 'Novo pedido';
+        document.querySelector('#navInicio').appendChild(btn);
+        btn.addEventListener('click',function() {showSection('pedido')},false)
+    }else{
+        alert("ERRO: ");
+    }
+
+}
+
+function abrirContaPopup() {
+    
+    var numMesa = document.getElementById('slMesa').value;
+    var descricao = document.getElementById('descricaoMesaChar').value;
+    var qtdPessoas = document.getElementById('qtdMesaChar').value;
+
+    if((numMesa == "") || (parseInt(numMesa,10) <= 0)) {
+        alert('Selecione uma mesa');
+        return false;
+    }
+
+    if((qtdPessoas == "") || (parseInt(qtdPessoas,10) <= 0)) {
+        alert('Entre como número de pessoas');
+        return false;
+    }
+
+    var parms = "abrirConta=1&numMesa="+numMesa+"&qtdPessoas="+qtdPessoas+"&descricao="+descricao+"&dataHora="+dataHoraDisplayToLogical("",1);
+    var retorno = requestSync(urlControle,parms);
+
+    console.log(retorno);
+
+    if(retorno.retorno){
+        alert("Conta Aberta");
+        document.querySelector('#navInicio').innerHTML = "";
+        var btn = document.createElement('button');
+        btn.className = 'icon-doc-inv';
+        btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
+        btn.innerText = 'Novo pedido';
+        document.querySelector('#navInicio').appendChild(btn);
+        btn.addEventListener('click',function() {showSection('pedido')},false)
+    }else{
+        alert("ERRO: ");
+    }
+
 }
 
 function adicionarProdutoPedido() {
@@ -202,6 +297,43 @@ function adicionarProdutoCardapio(pProduto) {
     desenharListaPedidos();
 }
 
+function removerProdutoCardapio(pProduto) {
+
+    if(produto[pProduto] == 'undefined') {
+            alert('Produto não existe');
+            return false;
+    }
+
+    var achouProduto = false;
+    var removerProduto = false;
+    var posicao = -1;
+    for(var c in novoPedido) {
+        if(novoPedido[c].codProd == pProduto){
+            var quantidade = parseInt(novoPedido[c].quantProd,10) - 1;
+            if(quantidade == 0){
+                removerProduto = true;
+                posicao = c;
+            }else{
+                novoPedido[c].quantProd = quantidade;
+            }
+            achouProduto = true;
+        }
+    }
+
+    if(!achouProduto){
+        novoPedido.push({
+                codProd: pProduto,
+                quantProd: 1,
+                adicionais: ""
+        });
+    }
+    if(removerProduto){
+        novoPedido.splice(posicao,1);
+    }
+    
+    desenharListaPedidos();
+}
+
 function desenharListaPedidos(){
 
     var ulItensPedido = document.getElementById('ulItensPedido');
@@ -215,14 +347,14 @@ function desenharListaPedidos(){
 
         var liItem = document.createElement('li');
         liItem.id = "pedidoProduto" + codProduto;
-        liItem.innerHTML =  '<span class="input-thumb" id="qtd'+codProduto+'"><p>'+qtdProduto+'</p></span><a href="javascript:;" onclick="adicionarProdutoCardapio('+codProduto+');">+</a>'+
+        liItem.innerHTML =  '<span class="input-thumb" id="qtd'+codProduto+'"><p>'+qtdProduto+'</p></span><a href="javascript:;" onclick="adicionarProdutoCardapio('+codProduto+');">+</a>'+ //<a href="javascript:;" onclick="removerProdutoCardapio('+codProduto+');">-</a>
                                                 '<a href="javascript:return false;" id="listLink'+codProduto+'" onclick="this.nextElementSibling.nextElementSibling.classList.toggle(\"show-action\")">'+
                                                         '<h2>'+ produto[codProduto].nome +'</h2>'+
                                                 '</a>'+
                                                 '<p class="count" id="valorPedido'+codProduto+'">'+(produto[codProduto].preco*qtdProduto)+'</p>'+
                                                 '<div class="action" id="action'+codProduto+'">'+
-                                                        '<button class="icon-quote-left" onclick="showDialog(\'dialogAdicionais\')"></button>'+
-                                                        '<button class="icon-trash" onclick="excluirItemPedido('+codProduto+')"></button>'+
+                                                        '<button class="icon-quote-left" onclick="desenharAdicionais(\''+codProduto+'\');"></button>'+
+                                                        '<button class="icon-trash" onclick="removerProdutoCardapio('+codProduto+')"></button>'+
                                                 '</div>';
         ulItensPedido.appendChild(liItem)
 
@@ -260,16 +392,6 @@ function desenharListaPedidos(){
                 desenharListaPedidos();
         });
     }
-}
-
-function excluirItemPedido(pCodProduto) {
-	for(var i in novoPedido) {
-		if(novoPedido[i].codigoProduto == pCodProduto) {
-			novoPedido.splice(i,1);
-			var produtoExcluido = document.getElementById('pedidoProduto'+pCodProduto);
-			produtoExcluido.parentNode.removeChild(produtoExcluido)
-		}
-	}
 }
 
 function listarPedidos() {
@@ -327,8 +449,7 @@ function buscarDados() {
     requestAssync(urlControle,parms,function(data){
                                     categoria = data.categorias;
                                     produto = data.produtos;
-                                    adicional = data.adicionais; 
-                                   desenharCardapio();
+                                    desenharCardapio();
                                     });
 }
 
@@ -344,15 +465,72 @@ function desenharCardapio() {
     }
 }
 
+function desenharAdicionais(pProduto) {
+    var slAdicionais = document.getElementById('slAdicionais');
+
+    var options = ""
+    var listaAdiconais = produto[pProduto].adicionais.split(",");
+    for(var i=0;i<listaAdiconais.length;i++) {
+        var dados = listaAdiconais[i].split(";");
+        options += "<option value='"+dados[0]+"' >"+dados[1]+"</option>"
+    }
+    slAdicionais.innerHTML = options;
+    slAdicionais.produtoId = pProduto;
+    
+    showDialog("dialogAdicionais");
+}
+
+function adicionarAdionais() {
+    
+    var slAdicionais = document.getElementById('slAdicionais');
+    var adicionais = slAdicionais.value;
+    var produtoId = slAdicionais.produtoId;
+    var quantidade = document.getElementById('qtdAdicinal').value;
+
+    for(var c in novoPedido) {
+        var listaAdicionais = adicionais.split(",");
+        for(var i=0;i<listaAdicionais.length;i++){
+            var adicional = listaAdicionais[i];
+            if(novoPedido[c].codProd == produtoId){
+                if(novoPedido[c].adicionais == ""){
+                    novoPedido[c].adicionais = adicional+";"+quantidade;
+                }else{
+                    novoPedido[c].adicionais += ","+adicional+";"+quantidade;
+                }
+            }
+        }
+    }
+    
+    console.log(novoPedido);
+    
+    hideDialog("dialogAdicionais");
+}
+
 function acaoLogado(){
     showSection('inicio');
     buscarDados();
     listarMesas();    
 }
 
+function fecharConta() {
+
+    var idConta = document.getElementById('btnConta').dataset.idconta;
+
+    var parms = "fecharConta="+idConta+"&dataHoraFechamento="+dataHoraDisplayToLogical("",1);
+    var retorno = requestSync(urlControle,parms);
+
+    if(retorno.retorno){
+        alert("Conta fechada");
+        hideAside('conta');
+        hideAside('mesa');
+    }else{
+        alert("Erro ao fechar conta: "+retorno.msg);
+    }
+
+}
+
 categoria = new Array();
 produto = new Array();
-adicional = new Array();
 conta = new Array();
 novoPedido = new Array();
 

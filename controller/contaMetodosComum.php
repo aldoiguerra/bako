@@ -52,7 +52,7 @@ function buscarCategorias(){
 function buscarAdicionais(){
     debug(3, "Buscando produtos...");
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id, descricao FROM adicional a WHERE status = 1");
+    $result = $connect->executar("SELECT id, descricao,(SELECT GROUP_CONCAT(categoriaId) FROM categoriaAdicional WHERE a.Id = adicionalId) AS categorias FROM adicional a "); //WHERE status = 1
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     $arraydados = array();
     while($row = mysqli_fetch_array($result)){
@@ -100,13 +100,13 @@ function salvar($id,$qtdPessoas,$numMesa,$dataHoraAbertura,$descricao,$taxaServi
         debug(3, "Conta localizado: ".$idAntigo);
         
         $objC->__set("id",$id);
-        $objC->__set("qtdPessoas",$qtdPessoas);
-        $objC->__set("numMesa",$numMesa);
-        $objC->__set("dataHoraAbertura",$dataHoraAbertura);
-        $objC->__set("dataHoraFechamento",$dataHoraFechamento);
-        $objC->__set("descricao",$descricao);
-        $objC->__set("taxaServico",$taxaServico);
-        $objC->__set("status",$status);
+        if($qtdPessoas != ""){          $objC->__set("qtdPessoas",$qtdPessoas);}
+        if($numMesa != ""){             $objC->__set("numMesa",$numMesa);}
+        if($dataHoraAbertura != ""){    $objC->__set("dataHoraAbertura",$dataHoraAbertura);}
+        if($dataHoraFechamento != ""){  $objC->__set("dataHoraFechamento",$dataHoraFechamento);}
+        if($descricao != ""){           $objC->__set("descricao",$descricao);}
+        if($taxaServico != ""){         $objC->__set("taxaServico",$taxaServico);}
+        if($status != ""){              $objC->__set("status",$status);}
 
         if($idAntigo){
             $ret = $objC->update();
@@ -163,11 +163,12 @@ function inserirPedido($id,$qtdProduto,$idProduto,$dataHora,$idConta,$adicionais
             debug(3, "Salvando adicionais: ".$adicionais);
             $arrayAdicionais = explode(",", $adicionais);
             for($i=0;$i<count($arrayAdicionais);$i++){
+                $dadosAdicionais = explode(";", $arrayAdicionais[$i]);
                 $sql = 
                     "INSERT INTO pedidoAdicional ".
-                    " (id,pedidoId,adicionalId) ".
+                    " (id,pedidoId,adicionalId,quantidade) ".
                     "VALUES".
-                    " (NULL,'".$idPedido."','".$arrayAdicionais[$i]."')";
+                    " (NULL,'".$idPedido."','".$dadosAdicionais[0]."','".$dadosAdicionais[1]."')";
 
                 $ret = ConexaoSingleton::getConexao()->executar($sql);
                 if(!$ret) {
@@ -399,8 +400,8 @@ function salvarPedido($id,$idConta,$qtdProduto,$idProduto,$dataHora,$observacao,
             $id = $ret;
         }
         if(!$ret) {
-            debug(3, "Erro ao adicionar pedido: ".$ret);
-            throw new Exception ("");
+            debug(3, "Erro ao adicionar pedido.");
+            throw new Exception ("Erro ao adicionar pedido.");
         }
         debug(3, "Pedido salvo com sucesso.");
         debug(3, "Pedido: ".$objP);

@@ -707,16 +707,6 @@ function buscarTaxaServico(){
     }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao buscar taxa de serviço. ".textStatus);});
 }
 
-function fixGroupOverlay(pIdGroup) {
-    var ovl = document.createElement('div');
-    ovl.className = 'group-overlay-trap';
-    ovl.innerHTML = '&nbsp;';
-    document.appendChild(ovl);
-    document.getElementById(pIdGroup).classList.add('group-overlay-active');
-}
-
-
-
 $(document).ready(function(){
 
     arrayContas = null;

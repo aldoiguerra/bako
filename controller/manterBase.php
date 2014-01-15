@@ -103,8 +103,8 @@ function criarTabelas($conexao){
 function popularTestes($conexao){
 
     try{
-        gerarMensagem("Abrindo transação.");
-        $conexao->autocommit(FALSE);
+        //gerarMensagem("Abrindo transação.");
+        //$conexao->autocommit(FALSE);
         
 
         for($i=1;$i<50;$i++){
@@ -113,7 +113,7 @@ function popularTestes($conexao){
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
                 gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
-                throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                //throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
                 gerarMensagem("Consulta efetuada com sucesso.");
             }
@@ -126,7 +126,7 @@ function popularTestes($conexao){
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
                 gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
-                throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                //throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
                 gerarMensagem("Consulta efetuada com sucesso.");
             }
@@ -139,7 +139,7 @@ function popularTestes($conexao){
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
                 gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
-                throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                //throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
                 gerarMensagem("Consulta efetuada com sucesso.");
             }
@@ -157,12 +157,12 @@ function popularTestes($conexao){
             }
        }*/       
                
-        $conexao->commit();
-        gerarMensagem("Commit efetuado.");
+        //$conexao->commit();
+        //gerarMensagem("Commit efetuado.");
     } catch (Exception $ex) {
         gerarMensagem("Excessão gerada: ".$ex->getMessage());
-        $conexao->rollback();
-        gerarMensagem("Rollback efetuado.");
+        //$conexao->rollback();
+        //gerarMensagem("Rollback efetuado.");
     }    
     return;
 }
