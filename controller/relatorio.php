@@ -4,7 +4,7 @@ require_once ('../controller/sessao.php');
 function popularSelect($dtInicial,$dtFinal){
     debug(3, "Inicio da consulta do relatorio. ");
     $connect = ConexaoSingleton::getConexao();
-    $sql = "SELECT produto.descricao as 'produto', valorUnitario as 'valorunitario', sum(quantidade) as 'qtde', 
+    $sql = "SELECT produto.nome as 'produto', valorUnitario as 'valorunitario', sum(quantidade) as 'qtde', 
             (sum(quantidade) * valorUnitario) as 'valortotal', conta.numMesa as 'mesa'
             FROM pedido
                 INNER JOIN produto ON (pedido.produtoId = produto.Id)

@@ -1,8 +1,8 @@
 
 function gerarRelatorio(){
-    var dataInicial = $("#dtInicial").val();
-    var dataFinal = $("#dtFinal").val();
-    /*alert(dtInicial+'-- '+dtFinal);
+    var dtInicial = $("#dtInicial").val();
+    var dtFinal = $("#dtFinal").val();
+    
     var patternData = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;  
     if(!patternData.test(dtInicial)){  
         alert("Digite a data inicial no formato Dia/Mês/Ano");
@@ -11,17 +11,24 @@ function gerarRelatorio(){
     if(!patternData.test(dtFinal)){  
         alert("Digite a data final no formato Dia/Mês/Ano");
         return false;  
-    } 
-    var dataInicial = dtInicial.substring(0,2)+'-'+dtInicial.substring(2,2)+'-'+dtInicial.substring(5,4);
-    var dataFinal = dtFinal.substring(0,2)+'-'+dtFinal.substring(2,2)+'-'+dtFinal.substring(5,4);
-    alert(dataInicial+'/'+dataFinal);*/
+    }
+    var dataInicial = dtInicial.substring(6,10)+'-'+dtInicial.substring(3,5)+'-'+dtInicial.substring(0,2);
+    var dataFinal = dtFinal.substring(6,10)+'-'+dtFinal.substring(3,5)+'-'+dtFinal.substring(0,2);
+    
     var variaveis = {"popularSelect": 1,
                      "dtInicial": dataInicial,
                      "dtFinal": dataFinal};
     $.post(urlRelatorio, variaveis,
             function(data) {
                 if(data.retorno){
-                    alert(data.dados);
+                    var html = '<ul>';
+                    for(var i=0;i<data.dados.length;i++){
+                        html = html+'<li>';
+                        html = html+'<div>'+data.dados[i][0]+'</div><div>'+data.dados[i][1]+'</div><div>'+data.dados[i][2]+'</div><div>'+data.dados[i][3]+'</div><div>'+data.dados[i][4]+'</div>';
+                        html = html+'</li>';
+                    }
+                    html = html+'</ul>';
+                    $("#tblRelatorio").html(html);
                 }             
             }, "json").fail(function(jqXHR, textStatus, errorThrown){
                 alert('textStatus');

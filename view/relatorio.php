@@ -7,6 +7,14 @@ require_once ('../controller/relatorio.php');
 <head>
 <title>Home</title>
 <?php include 'css_include.php';?> 
+<style>
+    #tblRelatorio div{
+        display: inline-block;
+        width: 15%;
+        
+    }
+</style>
+    
 <script>
     document.createElement("main");
     urlRelatorio = "<?php echo retornaUrl()."controller/relatorio.php"; ?>";
@@ -27,7 +35,7 @@ require_once ('../controller/relatorio.php');
             </div>
         </div>
         <div class="row">
-            <div class="col-12" id="cadastro">
+            <div id="cadastro">
                 <div class="field">
                         <label class="label">Data Inicial</label>
                         <input type="text" size="30" id="dtInicial"/>
@@ -36,6 +44,7 @@ require_once ('../controller/relatorio.php');
                         <label class="label">Data Final</label>
                         <input type="text" size="30" id="dtFinal" >
                 </div>
+                <div id="tblRelatorio">&nbsp;</div>
             </div>
          </div>
         <div class="button-bar">
