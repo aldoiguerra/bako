@@ -388,10 +388,16 @@ function salvarPedido($id,$idConta,$qtdProduto,$idProduto,$dataHora,$observacao,
         $objP->__set("contaId",$idConta);
         $objP->__set("quantidade",$qtdProduto);
         $objP->__set("produtoId",$idProduto);
-        $objP->__set("observacao",$observacao);
-        $objP->__set("valorUnitario",$valor);
+        if($observacao != ""){
+            $objP->__set("observacao",$observacao);
+        }
+        if($valor != ""){
+            $objP->__set("valorUnitario",$valor);
+        }
         $objP->__set("usuarioId",$GLOBALS["usuarioLogado"]->__get("usuario"));
-        $objP->__set("dataHora",$dataHora);        
+        if($dataHora != ""){
+            $objP->__set("dataHora",$dataHora);
+        }
 
         if($id != ""){
             $ret = $objP->update();
@@ -410,18 +416,19 @@ function salvarPedido($id,$idConta,$qtdProduto,$idProduto,$dataHora,$observacao,
             debug(3, "Salvando adicionais: ".$adicionais);
             $arrayAdicionais = explode(",", $adicionais);
             for($i=0;$i<count($arrayAdicionais);$i++){
+                $dadosAdicionais = explode(";", $arrayAdicionais[$i]);
                 $sql = 
                     "INSERT INTO pedidoAdicional ".
-                    " (id,pedidoId,adicionalId) ".
+                    " (id,pedidoId,adicionalId,quantidade) ".
                     "VALUES".
-                    " (NULL,'".$id."','".$arrayAdicionais[$i]."')";
+                    " (NULL,'".$idPedido."','".$dadosAdicionais[0]."','".$dadosAdicionais[1]."')";
 
                 $ret = ConexaoSingleton::getConexao()->executar($sql);
                 if(!$ret) {
                     debug(3, "Erro ao adicionar pedido: ".$ret);
                     throw new Exception ("");
                 }
-                debug(3, "Adicional ".$arrayAdicionais[$i]." salvo para o pedido ".$objP->__get("id"));
+                debug(3, "Adicional ".$arrayAdicionais[$i]." salvo para o pedido ".$idPedido);
             }
         }
                 
