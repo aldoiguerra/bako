@@ -251,7 +251,9 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico){
     conteudo = conteudo + '</table>';
     conteudo = conteudo + '<div id="divTotal">Total';
     conteudo = conteudo + '<strong>'+numeroLogicalToDisplay(total.toFixed(2))+'</strong>';
-    conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
+    if(pPedidos.length == 0){
+        conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
+    }
     conteudo = conteudo + '</div>';
     totalConta = total.toFixed(2);
     /*
@@ -711,6 +713,7 @@ function trocarMesa(){
         alert("A mesa '"+novaMesa+"' não está livre.");
     }
 }
+
 function buscarTaxaServico(){
     txServico = 0;
     var variaveis = {"buscaTaxaServico": "1"};
