@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8",true);
-require_once ('../controller/produto.php');
+require_once ('../controller/relatorio.php');
 ?>
 <!Doctype html>
 <html>
@@ -9,24 +9,17 @@ require_once ('../controller/produto.php');
 <?php include 'css_include.php';?> 
 <script>
     document.createElement("main");
-    urlProduto = "<?php echo retornaUrl()."controller/produto.php"; ?>";
+    urlRelatorio = "<?php echo retornaUrl()."controller/relatorio.php"; ?>";
 </script>
 </head>
 <body>
 
 <?php include 'cabecalho.php';?>
 <?php include 'menu.php';?>
-    
-    <aside>
-        <div class="search-page">
-                <input type="text" id="pesquisar" placeholder="Pesquise pelo produto desejado" size="34" />
-        </div>
-        <ul id="lista"></ul>
-    </aside>
 
     <section id="section">
         <div class="title">
-            <h1>Cadastro de produtos</h1>
+            <h1>Relatorio</h1>
         </div>
         <div class="row">
             <div id="retorno">
@@ -36,50 +29,28 @@ require_once ('../controller/produto.php');
         <div class="row">
             <div class="col-12" id="cadastro">
                 <div class="field">
-                        <label class="label">Código</label>
-                        <input type="text" size="30" id="codigo" disabled/>
+                        <label class="label">Data Inicial</label>
+                        <input type="text" size="30" id="dtInicial"/>
                 </div>
                 <div class="field">
-                        <label class="label">Nome</label>
-                        <input type="text" size="50" id="nome" >
+                        <label class="label">Data Final</label>
+                        <input type="text" size="30" id="dtFinal" >
                 </div>
-                <div class="field">
-                        <label class="label">Descrição</label>
-                        <input type="text" size="30" id="descricao" />
-                </div>
-                <div class="field">
-                        <label class="label">Preço</label>
-                        <input type="text" size="30" id="preco" />
-                </div>
-                <div class="field">
-                    <label class="label">Categoria</label>
-                    <select id="slCategoria" onchange="document.getElementById('prefixo').value=this.value;this.title = this.selectedIndex.innerHTML;" style="max-width:280px;">
-
-                    </select>
-                </div>
-                <div class="field">
-                    <span class="label">Status</span>
-                    <div class="toggle">
-                        <label><input type="radio" name="rAI" id="ckAtivo" checked="true" value="1"/><span>Ativo</span></label>
-                        <label><input type="radio" name="rAI" id="ckInativo" value="0"/><span>Inativo</span></label>
-                    </div>
-                </div>
-
             </div>
          </div>
         <div class="button-bar">
-            <input type="button" value="Limpar" id="btnLimpar" class="bt-alert"/>
-            <input type="button" value="Novo" id="btnNovo" class="bt-normal"/>
-            <input type="button" value="Editar" id="btnEditar" style='display: none;' class="bt-normal"/>
+            <!--input type="button" value="Limpar" id="btnLimpar" class="bt-alert"/-->
+            <input type="button" value="Gerar" id="btnGerar" class="bt-normal"/>
+            <!--input type="button" value="Editar" id="btnEditar" style='display: none;' class="bt-normal"/>
             <input type="button" value="Salvar" id="btnSalvar" style='display: none;' class="bt-success"/>
-            <input type="button" value="Excluir" id="btnExcluir" style='display: none;' class="bt-negative" />
+            <input type="button" value="Excluir" id="btnExcluir" style='display: none;' class="bt-negative" /-->
         </div>
 
     </section>
   
 <?php include 'rodape.php';?>
 <?php include 'js_include.php';?> 
-<script type="text/javascript" src="../js/produto.js"></script>
+<script type="text/javascript" src="../js/relatorio.js"></script>
 
 </body>
 </html>
