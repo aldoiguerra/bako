@@ -682,11 +682,12 @@ function trocarMesa(){
     //Verifica se o numero da mesa digitado já não esta aberto
     var novaMesa = $("#novaMesa").val();
     var numConta = "";
+    //Busca se a conta esta aberta ou fechada;
     if (arrayContas){
         var tamanho = arrayContas.length;
         for(var i=0;i<tamanho;i++){
             if (arrayContas[i]["numMesa"] == novaMesa){
-                if(arrayContas[i]["status"] != 3){
+                if((arrayContas[i]["status"] == 1) && (arrayContas[i]["status"] == 2)){
                     numConta = arrayContas[i]["id"];
                 }
             }
