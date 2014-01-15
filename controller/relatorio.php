@@ -10,8 +10,8 @@ function popularSelect($dtInicial,$dtFinal){
                 INNER JOIN produto ON (pedido.produtoId = produto.Id)
                 INNER JOIN conta ON (pedido.contaId = conta.Id)
             WHERE CAST( dataHora AS DATE )
-            BETWEEN  (".$dtInicial.")
-            AND  (".$dtFinal.")
+            BETWEEN  ('".$dtInicial."')
+            AND  ('".$dtFinal."')
             GROUP BY numMesa,produto";
     
     $result = $connect->executar($sql);
