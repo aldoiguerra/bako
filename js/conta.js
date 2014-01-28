@@ -182,7 +182,7 @@ function consultarMesa(pMesa){
     }
 }
 
-function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
+function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico){
     
     var conteudo = "<table>";
     
@@ -194,11 +194,11 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     for(var i=0;i<tamanho;i++){
         conteudo = conteudo + '<tr>';
         //conteudo = conteudo + '<td>'+pPedidos[i]["id"]+'</td>';
-        conteudo = conteudo + '<td>'+arrayProdutos[pPedidos[i]["produtoId"]]["id"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'</td>';
+        conteudo = conteudo + '<td>'+/*arrayProdutos[pPedidos[i]["produtoId"]]["id"]+' - '+*/arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'</td>';
         conteudo = conteudo + '<td>'+pPedidos[i]["quantidade"]+' x '+numeroLogicalToDisplay(pPedidos[i]["valorUnitario"])+'</td>';
         conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(pPedidos[i]["valor"])+'</span></td>';
-        conteudo = conteudo + '<td><a name="editarPedido" class="icon-edit" value="'+pPedidos[i]["id"]+'">&nbsp;</a>';
-        conteudo = conteudo + '<a name="excluirPedido" class="icon-cancel" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' - '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">&nbsp;</a></td>';
+        //conteudo = conteudo + '<td><a name="editarPedido" class="icon-edit" value="'+pPedidos[i]["id"]+'">&nbsp;</a>';
+        conteudo = conteudo + '<td><a name="excluirPedido" class="icon-cancel" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' x '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">&nbsp;</a></td>';
         conteudo = conteudo + '</tr>';
         
         if($("#taxaServico").prop("checked")){
@@ -212,7 +212,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     //if($("#taxaServico").prop("checked")){
         conteudo = conteudo + '</tr>'; 
         conteudo = conteudo + '<td>Taxa serviço</td>';
-        conteudo = conteudo + '<td></td>';
+        conteudo = conteudo + '<td><input type="checkbox" id="taxaServico" /></td>';
         conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</span></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>'; 
@@ -251,8 +251,11 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     conteudo = conteudo + '</table>';
     conteudo = conteudo + '<div id="divTotal">Total';
     conteudo = conteudo + '<strong>'+numeroLogicalToDisplay(total.toFixed(2))+'</strong>';
-    conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
-    conteudo = conteudo + '</div>';    
+    if(pPedidos.length == 0){
+        conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
+    }
+    conteudo = conteudo + '</div>';
+    totalConta = total.toFixed(2);
     /*
     if (pStatus == 1){
         conteudo = conteudo + '<tr>';
@@ -268,9 +271,10 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto){
     
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
     $("#btnExcluir").click(function(){liberarMesa();});
-    $("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
+    //$("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
     $("#btnSalvarDesconto").click(function(){aplicarDesconto();});
+    $("#taxaServico").attr("checked",(pTaxaServico)?true:false);
     //$("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
     //$("#idProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
 }
@@ -632,9 +636,22 @@ function salvarPagamento(){
 
 function aplicarDesconto(){
     //Verifica se o numero da mesa digitado já não esta aberto
+    var valorTotal = parseFloat(totalConta);
+    var valorDesconto = parseFloat(numeroDisplayToLogical($("#valorDesconto").val()));
+
+
+    if(valorTotal < valorDesconto){
+        exibirRetorno("Desconto maior que o total.");
+        return;
+    }
+    if(valorDesconto <= 0){
+        exibirRetorno("Insira um desconto válido.");
+        return;        
+    }
+    
     var variaveis = {"aplicarDesconto": "1",
                     "id": $("#idConta").val(),
-                    "desconto": numeroDisplayToLogical($("#valorDesconto").val())
+                    "desconto": valorDesconto
                     };
     $.post(urlConta, variaveis,
         function(data) {
@@ -651,11 +668,10 @@ function alterarTela(pDados){
     $("#mesa").val(pDados.numMesa);
     $("#qtdPessoas").val(pDados.qtdPessoas);
     $("#descricao").val(pDados.descricao);
-    $("#taxaServico").attr("checked",(pDados.taxaServico)?true:false);
     $("#status").html(statusContaLogicalToDisplay(pDados.status));
     $("#dataHora").html(dataHoraLogicalToDisplay(pDados.dataHoraAbertura,1));
     $("#dataHoraFechamento").html(dataHoraLogicalToDisplay(pDados.dataHoraFechamento,1));
-    desenharPedidos(pDados.pedidos,pDados.pagamentos,pDados.status,pDados.desconto);
+    desenharPedidos(pDados.pedidos,pDados.pagamentos,pDados.status,pDados.desconto,pDados.taxaServico);
     if(pDados.contas){
         arrayContas = pDados.contas;
         desenharContas();
@@ -668,11 +684,12 @@ function trocarMesa(){
     //Verifica se o numero da mesa digitado já não esta aberto
     var novaMesa = $("#novaMesa").val();
     var numConta = "";
+    //Busca se a conta esta aberta ou fechada;
     if (arrayContas){
         var tamanho = arrayContas.length;
         for(var i=0;i<tamanho;i++){
             if (arrayContas[i]["numMesa"] == novaMesa){
-                if(arrayContas[i]["status"] != 3){
+                if((arrayContas[i]["status"] == 1) && (arrayContas[i]["status"] == 2)){
                     numConta = arrayContas[i]["id"];
                 }
             }
@@ -696,6 +713,7 @@ function trocarMesa(){
         alert("A mesa '"+novaMesa+"' não está livre.");
     }
 }
+
 function buscarTaxaServico(){
     txServico = 0;
     var variaveis = {"buscaTaxaServico": "1"};
@@ -712,6 +730,7 @@ $(document).ready(function(){
     arrayContas = null;
     arrayProdutos = null;
     arrayFormaPagamento = null;
+    totalConta = 0;
     buscarContas();
     buscarTaxaServico();
 

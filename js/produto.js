@@ -45,7 +45,7 @@ function pesquisar(texto){
         var lista = "";
         for(var i=0;i<tamanhoDados;i++){
             lista = lista + '<li>';
-            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
+            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" >'//onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
             lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
                 lista = lista + '<span class="indicator">&nbsp;</span>';
                 lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
@@ -66,7 +66,7 @@ function pesquisar(texto){
         string = string.toUpperCase();
         if(string.indexOf(texto)>=0){
             lista = lista + '<li>';
-            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
+            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" >'//onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
             lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
                         lista = lista + '<span class="indicator">&nbsp;</span>';
                         lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
@@ -77,7 +77,7 @@ function pesquisar(texto){
             lista = lista + '</li>';
         }else if(dados[i]["id"].indexOf(texto)>=0){
             lista = lista + '<li>';
-            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
+            lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" >'//onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
             lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
                         lista = lista + '<span class="indicator">&nbsp;</span>';
                         lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
@@ -102,7 +102,7 @@ function listarDados(){
                 var tamanhoDados = dados.length;
                 for(var i=0;i<tamanhoDados;i++){
                     lista = lista + '<li>';
-                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
+                    lista = lista + '<input type="radio" name="editar" id="ra'+dados[i][colunas[0]]+'" value="'+dados[i][colunas[0]]+'" >'//onchange="if(this.checked) {document.getElementById(\'section\').classList.add(\'section-show\')};" />'
                     lista = lista + '<label for="ra'+dados[i][colunas[0]]+'">';
 				lista = lista + '<span class="indicator">&nbsp;</span>';
 				lista = lista + '<h4>'+dados[i]["id"]+'<h3>';
@@ -121,12 +121,15 @@ function listarDados(){
 }
 
 function limparCampos(){
+    if(document.querySelector('#lista input:checked')){
+        document.querySelector('#lista input:checked').checked = false;
+    }
     $("#codigo").val("");
     $("#nome").val("");
     $("#descricao").val("");
     $("#slCategoria").val("");
     $("#preco").val("");
-    document.getElementById("ckAtivo").checked=true
+    document.getElementById("ckAtivo").checked=true;
 }
 
 $(document).ready(function(){

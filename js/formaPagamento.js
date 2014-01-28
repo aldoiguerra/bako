@@ -49,6 +49,9 @@ function listarDados(){
 }
 
 function limparCampos(){
+    if(document.querySelector('#lista input:checked')){
+        document.querySelector('#lista input:checked').checked = false;
+    }
     $("#codigo").val("");
     $("#descricao").val("");
     $("#btnExcluir").hide();
