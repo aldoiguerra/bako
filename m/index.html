@@ -40,11 +40,11 @@
 		<div class="dialog-header">Adicionais</div>
 		<div class="dialog-content">
 			<div>
-                        <select multiple="true" id="slAdicionais" produtoId="">
-			</select>
+                            <select multiple="true" id="slAdicionais" produtoId="">
+                            </select>
 			</div>
 			<div>
-				<input type="number" maxlength="1" id="qtdAdicinal" />
+                            <input type="number" maxlength="1" id="qtdAdicinal" />
 			</div>
 		</div>
 		<div class="dialog-footer">
@@ -67,33 +67,18 @@
 <!-- aside conta -->
 <aside id="conta" class="right">
 	
-	<!-- cabecalho mesas -->
-        <header><h2 id="mesaConta"></h2></header>
 	
-	<!-- conteudo mesas -->
-	<article>	
-		<ul id="listaPedidos">
-		</ul>
-	</article>
-	
-	<nav>
-		<label>Total</label>
-		<span id="totalAtual"></span>
-	</nav>
-	
-	<!-- rodape mesas -->
-        <footer><button onclick="fecharConta();">Fechar conta</button></footer>
 </aside>
 
 
-<section id="login" class="show-section" style="z-index:1">
+<section id="login" class="show-section" style="z-index:2">
 	<article style="background: rgb(255, 69, 0) url(../img/logo.png) no-repeat center center;background-size:150px auto;"></article>
 	<div style="background: rgb(255, 69, 0);padding:20px;margin-top:-1px;">
 		<div>
-			<input type="text" id="usuarioLogin" placeholder="Usuário" style="border-radius:4px 4px 0 0;width:100%;color:#FFF;background:rgba(0,0,0,.15);height:47px;margin-bottom:1px;border:0;font-size:16px;padding:5px 15px;"/>
+			<input type="text" value="sysadmin" id="usuarioLogin" placeholder="Usuário" style="border-radius:4px 4px 0 0;width:100%;color:#FFF;background:rgba(0,0,0,.15);height:47px;margin-bottom:1px;border:0;font-size:16px;padding:5px 15px;"/>
 		</div>
-		<div style="display:-webkit-flex;">
-			<input type="password" id="senhaLogin" placeholder="Senha" style="border-radius:0 0 0 4px;display:-webkit-flex;-webkit-flex:1;color:#FFF;background:rgba(0,0,0,.15);height:47px;margin-bottom:1px;border:0;font-size:16px;padding:5px 15px;"/>
+		<div style="display:-webkit-box;">
+			<input type="password" value="S%s@dm1n" id="senhaLogin" placeholder="Senha" style="border-radius:0 0 0 4px;display:-webkit-box;-webkit-box-flex:1;color:#FFF;background:rgba(0,0,0,.15);height:47px;margin-bottom:1px;border:0;font-size:16px;padding:5px 15px;"/>
 			<button class="icon-login" style="border-radius:0 0 4px 0 ;background:rgba(0,0,0,.15);color:#FFF;height:47px;" onclick="efetuarLogin();"></button>
 		</div>
 	</div>
@@ -101,23 +86,34 @@
 
 
 <!-- pagina inicio -->
-<section id="inicio" style="z-index:2;">
+<section id="inicio" style="z-index:3;">
 	
 	<!-- cabecalho inicio -->
 	<header>
 		<button class="icon-menu" onclick="listarMesas();"></button>
-		<h1>bako</h1>
-                <button class="icon-align-right" id="btnConta" onclick="listarPedidos()" style="display:none;"></button>
+		<h1 id="mesaConta">bako</h1>
+                <button id="btnFecharConta" onclick="fecharConta();">Fechar conta</button>
+                <input type="hidden" id="btnConta" />
 	</header>
 	
-	<!-- conteudo inicio -->
-	<article class="text-center"></article>
+	<!-- conteudo mesas -->
+	<article>
+                <div id="contadorPessoas"></div>
+		<ul id="listaPedidos">
+		</ul>
+                <div class="lista-total">
+                    <label>Total</label>
+                    <span id="totalAtual" style="float:right;"></span>
+                </div>
+	</article>        
+        
+
         <nav id="navInicio">
         </nav>
 </section>
 
 <!-- pagina pedido -->
-<section id="pedido" style="z-index:3;">
+<section id="pedido" style="z-index:4;">
 	
 	<!-- cabecalho pedido -->
 	<header>
@@ -143,7 +139,7 @@
 </section>
 
 <!-- pagina cardapio -->
-<section id="cardapio" style="z-index:4;">
+<section id="cardapio" style="z-index:5;">
 	<header>
 		<button class="icon-angle-left" onclick="hideSection('cardapio')">Cardápio</button>
 		<h1>&nbsp;</h1>
