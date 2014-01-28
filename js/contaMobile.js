@@ -114,44 +114,57 @@ function desenharMesas() {
 
                 options += "<option value='"+conta[j].numMesa+"' >"+conta[j].numMesa+"</option>"
                 
-		liMesa.children[0].addEventListener('click',function() {
+		liMesa.children[0].addEventListener('click',function() {selecionarMesa(this);},false);
+	}
+        slMesas.innerHTML = options;
+}
+
+function selecionarMesa(pThis) {
 			hideAside('mesas');
-			document.getElementById('listaMesas') .innerHTML = "";
-			
-			document.getElementById('btnConta').dataset.idconta = this.dataset.idconta;
-                        document.getElementById('btnConta').dataset.numMesa = this.dataset.mesa;
-                        document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + this.dataset.mesa;
-                        
-			var articlePedido = document.querySelector('#inicio article')
-                        var qtdPessoas = (parseInt(this.dataset.qtdpessoas,10))?this.dataset.qtdpessoas:0;
-			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir" onclick="alterarQtdPessoas(\'-\');"></button></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir" onclick="alterarQtdPessoas(\'+\');"></button></div></div>'
-			
+			document.getElementById('listaMesas') .innerHTML = '';
+                        document.getElementById('btnConta').dataset.numMesa = pThis.dataset.mesa;
+                        document.getElementById('btnNumeroMesa').innerText  = 'MESA ' + pThis.dataset.mesa;
+                        var qtdPessoas = (parseInt(pThis.dataset.qtdpessoas,10))?pThis.dataset.qtdpessoas:0;
+			//articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div><button class="button-inverse icon-down-dir" onclick="alterarQtdPessoas(\'-\');"></button></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir" onclick="alterarQtdPessoas(\'+\');"></button></div></div>'
                         document.querySelector('#navInicio').innerHTML = "";
-			if(this.dataset.status == "1") {
-        			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div></div></div>'
+                        document.getElementById('listaPedidos').innerHTML = "";
+                        document.getElementById('contadorPessoas').innerHTML = '';
+ 
+                        if(pThis.dataset.status == "1") {
+                                document.getElementById('btnConta').dataset.idconta = pThis.dataset.idconta;
+                                listarPedidos();
+        			//articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div></div></div>'
 				var btn = document.createElement('button');
 				btn.className = 'icon-doc-inv';
 				btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
 				btn.innerText = 'Novo pedido';
-				document.querySelector('#navInicio').appendChild(btn);
-				btn.addEventListener('click',function() {showSection('pedido')},false)
-			} else if(this.dataset.status == "2") {
-        			articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div></div></div>'
-                            //Se a conta está fechada não adiciona pedido
+                                document.querySelector('#navInicio').appendChild(btn);
+				btn.addEventListener('click',function() {showSection('pedido')},false);
+                                document.querySelector('#btnFecharConta').style.display = '';
+			} else if(pThis.dataset.status == "2") {
+                                document.getElementById('btnConta').dataset.idconta = pThis.dataset.idconta;
+                                listarPedidos();
+        			//articlePedido.innerHTML = '<h6>MESA</h6><h5 class="box flex content-center align-center">' + this.dataset.mesa + '</h5><div class="box content-center item-center"><div></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div></div></div>'
+                                document.querySelector('#navInicio').innerHTML = '<p style="color:red;text-align:center;padding:15px;">Fechamento de conta enviado</p>'
+                                document.querySelector('#btnFecharConta').style.display = 'none';
+                                //Se a conta está fechada não adiciona pedido
                         } else{
-				var btn = document.createElement('button');
-				btn.className = 'icon-doc-inv';
-				btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
+                                document.getElementById('btnConta').dataset.idconta = '';
+                                var btn = document.createElement('button');
+                                btn.className = 'icon-doc-inv'; 
+                                btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;';
 				btn.innerText = 'Abrir mesa';
 				document.querySelector('#navInicio').appendChild(btn);
-				btn.addEventListener('click',function() {abrirConta();},false)
-			}
-                        
-                        document.getElementById('btnConta').style.display = "";
-		},false);
-	}
-        slMesas.innerHTML = options;
-}
+				btn.addEventListener('click',function() {abrirConta(pThis);},false);
+                                document.querySelector('#btnFecharConta').style.display = 'none';
+                                document.getElementById('contadorPessoas').innerHTML = '<div class="box content-center item-center"><div><button class="button-inverse icon-down-dir" onclick="alterarQtdPessoas(\'-\');"></button></div><div class="box padding1"><input type="number" readonly="true" id="qtdPessoas" value="'+qtdPessoas+'" />Pessoas</div><div><button class="button-inverse icon-up-dir" onclick="alterarQtdPessoas(\'+\');"></button></div></div>';
+                                document.getElementById('mesaConta').innerHTML = 'MESA '+pThis.dataset.mesa;
+                                document.getElementById('totalAtual').innerHTML = "0.00";
+                        }
+               
+		}
+
+
 
 function alterarQtdPessoas(pTipo) {
     
@@ -170,11 +183,10 @@ function alterarQtdPessoas(pTipo) {
     objQtdPessoas.value = qtdPessoas;
 }
 
-function abrirConta() {
-    
+function abrirConta(pThis) {
     var numMesa = document.getElementById('btnConta').dataset.numMesa;
     var qtdPessoas = document.getElementById('qtdPessoas').value;
-
+    
     if((qtdPessoas == "") || (parseInt(qtdPessoas,10) <= 0)) {
         alert('Entre como número de pessoas');
         return false;
@@ -184,16 +196,23 @@ function abrirConta() {
     var retorno = requestSync(urlControle,parms);
 
     console.log(retorno);
-
     if(retorno.retorno){
-        alert("Conta Aberta");
-        document.querySelector('#navInicio').innerHTML = "";
+        
+    alert(retorno.id);
+        //pThis.dataset.status = '1';
+        //selecionarMesa(pThis);
+        
+        
+        //document.getElementById('btnConta').dataset.idconta
+        
+        
+        /*document.querySelector('#navInicio').innerHTML = "";
         var btn = document.createElement('button');
         btn.className = 'icon-doc-inv';
         btn.style.cssText = 'width:100%;font-size:18px;font-weight:400;'
         btn.innerText = 'Novo pedido';
         document.querySelector('#navInicio').appendChild(btn);
-        btn.addEventListener('click',function() {showSection('pedido')},false)
+        btn.addEventListener('click',function() {showSection('pedido')},false)*/
     }else{
         alert("ERRO: ");
     }
@@ -395,19 +414,17 @@ function desenharListaPedidos(){
 }
 
 function listarPedidos() {
-	showAside('conta');
+	//showAside('conta');
 	var idConta = document.getElementById('btnConta').dataset.idconta;
-
         var parms = "consultar="+idConta;
         var objConta = requestSync(urlControle,parms);
-        
         conta = objConta.contas;
-	
 	var ulPedidos = document.getElementById('listaPedidos');
 	ulPedidos.innerHTML = ""
 	for(var i=0; i<objConta.pedidos.length;i++) {
 		var pedido = objConta.pedidos[i];
 		var liPedido = document.createElement('li');
+                liPedido.style.padding = '10px';
 		liPedido.className = 'box'
 		liPedido.innerHTML = '<p class="box flex item-center">'+pedido.quantidade+' - '+produto[pedido.produtoId].descricao+'</p>';
 		ulPedidos.appendChild(liPedido)
@@ -415,7 +432,9 @@ function listarPedidos() {
         var total = 0;
         for(var i=0; i<conta.length;i++) {
             if(conta[i].id == idConta){
-                total = conta[i].totalAtual;
+                if(conta[i].totalAtual != null) {
+                    total = conta[i].totalAtual;
+                }
                 break;
             }
         }
@@ -438,7 +457,9 @@ function confirmarPedido() {
         if(retorno.retorno == "1"){
             novoPedido = [];
             document.getElementById('ulItensPedido').innerHTML = "";
+            listarPedidos();
             hideSection('pedido');
+            
         }else{
             alert("ERRO: ");
         }
@@ -543,7 +564,7 @@ if(!usuarioLogado()){
 
 var inicio = document.getElementById('inicio')
 Hammer(inicio).on('dragright',listarMesas);
-Hammer(inicio).on('dragleft',listarPedidos);
+//Hammer(inicio).on('dragleft',listarPedidos);
 
 var mesas = document.getElementById('mesas')
 Hammer(mesas).on('dragleft',function() {hideAside('mesas')});

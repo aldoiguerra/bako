@@ -81,7 +81,7 @@ if(isset($_POST["buscarDados"])){
     debug(3, "Recebido pedido para abrir Conta. ");
     $array = salvar("",$_POST["qtdPessoas"],$_POST["numMesa"],$_POST["dataHora"],$_POST["descricao"],"",1,"");
     echo json_encode($array);
-    return;    
+    return ;    
 }else if(isset($_POST["buscarMesas"])){
     debug(3, "Recebido pedido para buscar mesas. ");
     $array = array("contas"=>buscarContas());
