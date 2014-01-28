@@ -182,15 +182,13 @@ function consultarMesa(pMesa){
     }
 }
 
-function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico){
+function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pValorTaxaServico){
     
     var conteudo = "<table>";
-    
-    var taxa = 0;
+    pTaxaServico = (pTaxaServico == "1")?true:false;
     var tamanho = pPedidos.length;
     var total = 0;
     var taxaServico = 0;
-    var subTotal = 0;
     for(var i=0;i<tamanho;i++){
         conteudo = conteudo + '<tr>';
         //conteudo = conteudo + '<td>'+pPedidos[i]["id"]+'</td>';
@@ -201,29 +199,8 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico){
         conteudo = conteudo + '<td><a name="excluirPedido" class="icon-cancel" value="'+pPedidos[i]["id"]+'" detalhes="'+pPedidos[i]["quantidade"]+' x '+arrayProdutos[pPedidos[i]["produtoId"]]["nome"]+'">&nbsp;</a></td>';
         conteudo = conteudo + '</tr>';
         
-        if($("#taxaServico").prop("checked")){
-            taxa = pPedidos[i]["valor"]*txServico;
-            taxaServico = taxaServico+taxa;
-        }
-        subTotal = subTotal + parseFloat(pPedidos[i]["valor"]) + taxa;
-        total = total + parseFloat(pPedidos[i]["valor"]) + taxa;
+        total = total + parseFloat(pPedidos[i]["valor"]);
     }
-        
-    //if($("#taxaServico").prop("checked")){
-        conteudo = conteudo + '</tr>'; 
-        conteudo = conteudo + '<td>Taxa serviço</td>';
-        conteudo = conteudo + '<td><input type="checkbox" id="taxaServico" /></td>';
-        conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</span></td>';
-        conteudo = conteudo + '<td></td>';
-        conteudo = conteudo + '</tr>'; 
-    //}
-
-    conteudo = conteudo + '<tr class="tr-marker">';
-    conteudo = conteudo + '<td>Sub Total</td>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '<td><strong>'+numeroLogicalToDisplay(subTotal.toFixed(2))+'</strong></td>';
-    conteudo = conteudo + '<td></td>';
-    conteudo = conteudo + '</tr>'; 
 
     //if((pDesconto) &&(parseFloat(pDesconto) != 0)){
         conteudo = conteudo + '<tr>';
@@ -233,6 +210,26 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico){
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';     
         total = total - parseFloat(pDesconto);
+    //}
+
+    conteudo = conteudo + '<tr class="tr-marker">';
+    conteudo = conteudo + '<td>Sub Total</td>';
+    conteudo = conteudo + '<td></td>';
+    conteudo = conteudo + '<td><strong>'+numeroLogicalToDisplay(total.toFixed(2))+'</strong></td>';
+    conteudo = conteudo + '<td></td>';
+    conteudo = conteudo + '</tr>'; 
+
+    //if($("#taxaServico").prop("checked")){
+        if(pTaxaServico){
+            taxaServico = total*parseFloat(pValorTaxaServico);
+            total = total + taxaServico;
+        }
+        conteudo = conteudo + '</tr>'; 
+        conteudo = conteudo + '<td>Taxa serviço</td>';
+        conteudo = conteudo + '<td><input type="checkbox" id="taxaServico" /></td>';
+        conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</span></td>';
+        conteudo = conteudo + '<td></td>';
+        conteudo = conteudo + '</tr>';
     //}
     
     var tamanho = pPagamentos.length;
@@ -274,7 +271,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico){
     //$("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
     $("#btnSalvarDesconto").click(function(){aplicarDesconto();});
-    $("#taxaServico").attr("checked",(pTaxaServico)?true:false);
+    $("#taxaServico").attr("checked",pTaxaServico);
     //$("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
     //$("#idProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
 }
@@ -671,12 +668,14 @@ function alterarTela(pDados){
     $("#status").html(statusContaLogicalToDisplay(pDados.status));
     $("#dataHora").html(dataHoraLogicalToDisplay(pDados.dataHoraAbertura,1));
     $("#dataHoraFechamento").html(dataHoraLogicalToDisplay(pDados.dataHoraFechamento,1));
-    desenharPedidos(pDados.pedidos,pDados.pagamentos,pDados.status,pDados.desconto,pDados.taxaServico);
+    desenharPedidos(pDados.pedidos,pDados.pagamentos,pDados.status,pDados.desconto,pDados.taxaServico,pDados.valorTaxaServico);
     if(pDados.contas){
         arrayContas = pDados.contas;
         desenharContas();
     }
-    $("#ra"+pDados.numMesa+pDados.descricao).prop("checked",true);    
+    var elementoSelecionado = $("#ra"+pDados.numMesa+pDados.descricao);
+    elementoSelecionado.prop("checked",true);
+    elementoSelecionado.focus();
     alterarBotoesStatus(pDados.status);    
 }
 

@@ -14,7 +14,7 @@ function buscarContas(){
             CASE c.status WHEN 3 THEN '' ELSE IFNULL(c.descricao,'') END AS descricao,
             CASE c.status WHEN 3 THEN NULL ELSE c.status END AS status,
             CASE c.status WHEN 1 THEN 2 WHEN 2 THEN 1 ELSE 3 END statusOrder,
-            CASE c.status WHEN 3 THEN NULL ELSE ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*1.1 ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) END AS totalAtual 
+            CASE c.status WHEN 3 THEN NULL ELSE ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*(SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) END AS totalAtual 
             FROM mesa m 
             LEFT JOIN conta c 
             ON c.numMesa = m.numMesa 
@@ -86,6 +86,15 @@ function buscarPagamentos($conta){
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     $arraydados = $connect->get_array($result);
     return $arraydados;
+}
+
+function buscarValorTaxaServico(){
+    debug(3, "Buscando taxa servico...");
+    $connect = ConexaoSingleton::getConexao();
+    $result = $connect->executar("SELECT valorTxServico/100 AS valor FROM parametroSistema");
+    debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
+    $arraydados = $connect->get_array($result);
+    return $arraydados[0]["valor"];
 }
 
 function salvar($id,$qtdPessoas,$numMesa,$dataHoraAbertura,$descricao,$taxaServico,$status,$dataHoraFechamento){
@@ -218,7 +227,7 @@ function salvarPagamento($idConta,$formaPagamento,$valor,$observacao,$dataHora){
         
         //Verifica se a conta esta totalmente paga e fecha ela
         $totalmentePaga = 0;
-        $sql = "SELECT ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*1.1 ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) total FROM conta c WHERE c.id = $idConta";
+        $sql = "SELECT ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*(SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) total FROM conta c WHERE c.id = $idConta";
         $result = $conexao->executar($sql);
         $arraydados = $conexao->get_array($result);
         if($arraydados[0]["total"] == 0){
@@ -267,6 +276,7 @@ function desenharArray($objC){
         "taxaServico"=>$objC->__get("taxaServico"),
         "status"=>$objC->__get("status"),
         "desconto"=>$objC->__get("desconto"),
+        "valorTaxaServico"=>buscarValorTaxaServico(),
         "pedidos"=>buscarPedidos($objC->__get("id")),
         "pagamentos"=>buscarPagamentos($objC->__get("id")),
         "contas"=>buscarContas()
@@ -288,7 +298,7 @@ function aplicarDesconto($idConta,$desconto){
 
         //Verifica se a conta esta totalmente paga e fecha ela
         $totalmentePaga = 0;
-        $sql = "SELECT ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*1.1 ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) total FROM conta c WHERE c.id = $idConta";
+        $sql = "SELECT ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*(SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) total FROM conta c WHERE c.id = $idConta";
         $conexao = ConexaoSingleton::getConexao();
         $result = $conexao->executar($sql);
         $arraydados = $conexao->get_array($result);
