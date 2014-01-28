@@ -40,19 +40,21 @@ div.show-dialog {display:-webkit-box;}
 
 section {position:absolute;left:0;right:0;height:100%;display:-webkit-box;-webkit-box-orient: vertical;-webkit-transition:-webkit-transform .2s ease-in;-webkit-transform: translate3d(100%,0,0);}
 
-nav {display:-webkit-flex;-webkit-flex-flow: row wrap;border-top:1px solid #D5D5D5;background:#FFF;height:52px;}
+nav {display:-webkit-box;-webkit-box-orient: horizontal;border-top:1px solid #D5D5D5;background:#FFF;height:52px;}
 
 nav input {
-	display:-webkit-flex;
-	-webkit-flex:1;
+	display:-webkit-box;
+	-webkit-box-flex:1;
+        -webkit-appearance: none;
 	margin:.3em 0 .3em .4em;
-	border:1px solid rgba(0,0,0,.15);
-	outline:1px solid rgba(255,255,255,.4);
+	border:1px solid #DDD;
+	outline:none;
 	padding:0 4px;
-	font-size:16px;
+	font-size:18px;
 	background:rgba(255,255,255,.8);
 	border-radius:0px;
 	color:#000;
+        height:40px;
 }
 
 
