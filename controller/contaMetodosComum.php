@@ -14,7 +14,7 @@ function buscarContas(){
             CASE c.status WHEN 3 THEN '' ELSE IFNULL(c.descricao,'') END AS descricao,
             CASE c.status WHEN 3 THEN NULL ELSE c.status END AS status,
             CASE c.status WHEN 1 THEN 2 WHEN 2 THEN 1 ELSE 3 END statusOrder,
-            CASE c.status WHEN 3 THEN NULL ELSE ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*(SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) END AS totalAtual 
+            CASE c.status WHEN 3 THEN NULL ELSE ((((SELECT SUM(p.quantidade*p.valorUnitario) FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0))*(CASE c.taxaServico WHEN 1 THEN (SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE 1 END))-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) END AS totalAtual 
             FROM mesa m 
             LEFT JOIN conta c 
             ON c.numMesa = m.numMesa 
@@ -28,7 +28,7 @@ function buscarContas(){
 function buscarProdutos(){
     debug(3, "Buscando produtos...");
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,nome,descricao,categoriaId,preco,status,(SELECT GROUP_CONCAT(CONCAT(adicionalId,';',(SELECT descricao FROM adicional ad WHERE ad.id = ca.adicionalId))) FROM categoriaAdicional ca WHERE ca.categoriaId = p.categoriaId) adicionais FROM produto p WHERE status = 1");
+    $result = $connect->executar("SELECT id,nome,descricao,categoriaId,preco,status,(SELECT GROUP_CONCAT(DISTINCT CONCAT(adicionalId,';',(SELECT descricao FROM adicional ad WHERE ad.id = ca.adicionalId))) FROM categoriaAdicional ca WHERE ca.categoriaId = p.categoriaId) adicionais FROM produto p WHERE status = 1");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     $arraydados = array();
     while($row = mysqli_fetch_array($result)){
