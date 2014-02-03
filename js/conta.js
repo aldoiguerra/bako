@@ -614,11 +614,26 @@ function registrarPagamento(pPopup){
 }
 
 function salvarPagamento(){
+    
+    var valorTotal = parseFloat(totalConta);
+    var valorPago = numeroDisplayToLogical($("#valorPagamento").val());
+    
+    if(valorTotal < valorPago){
+        exibirRetorno("Pagamento maior que o total.");
+        $("#valorPagamento").val("");
+        return;
+    }
+    if(valorPago <= 0){
+        exibirRetorno("Insira um pagamento válido.");
+        $("#valorPagamento").val("");
+        return;        
+    }
+    
     //Verifica se o numero da mesa digitado já não esta aberto
     var variaveis = {"salvarPagamento": "1",
                     "id": $("#idConta").val(),
                     "formaPagamento": $("#selectFP").val(),
-                    "valor": numeroDisplayToLogical($("#valorPagamento").val()),
+                    "valor": valorPago,
                     "observacao": $("#observacao").val(),
                     "dataHora": dataHoraDisplayToLogical("",1)
                     };

@@ -95,7 +95,7 @@ function numeroDisplayToLogical(valor){
     if (valor){
         retorno = valor.replace(/,/,".");
     }
-    return retorno;
+    return truncate(parseFloat(retorno));
 }
 
 function truncate(valor){
