@@ -451,10 +451,6 @@ function salvarConta(){
         exibirRetorno("Insira o numero da mesa.");
         return;
     }
-    if ($("#qtdPessoas").val() == ""){
-        exibirRetorno("Insira a quantidade de pessoas.");
-        return;
-    }
     var numMesa = $("#mesa").val();
     var numConta = "";
     var posicao = "";
@@ -497,10 +493,6 @@ function abrirMesa(){
     //Verifica se o numero da mesa digitado já não esta aberto
     if ($("#mesa").val() == ""){
         exibirRetorno("Insira o numero da mesa.");
-        return;
-    }
-    if ($("#qtdPessoas").val() == ""){
-        exibirRetorno("Insira a quantidade de pessoas.");
         return;
     }
     var numMesa = $("#mesa").val();

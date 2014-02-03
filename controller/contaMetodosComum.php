@@ -224,9 +224,13 @@ function salvarPagamento($idConta,$formaPagamento,$valor,$observacao,$dataHora){
         }
         
         debug(3, "Pagamento salvo com sucesso");        
-        
+
+        $objC = new Conta();
+        $objC->load($idConta);
+
         //Verifica se a conta esta totalmente paga e fecha ela
-        $totalmentePaga = 0;
+        //Não fará mais isso.
+        /*$totalmentePaga = 0;
         $sql = "SELECT ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*(SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) total FROM conta c WHERE c.id = $idConta";
         $result = $conexao->executar($sql);
         $arraydados = $conexao->get_array($result);
@@ -234,10 +238,7 @@ function salvarPagamento($idConta,$formaPagamento,$valor,$observacao,$dataHora){
             $totalmentePaga = 1;
         }
         debug(3, "Verificando se a conta esta totalmente paga: ".$totalmentePaga);
-        
-        $objC = new Conta();
-        $objC->load($idConta);
-        
+                
         if($totalmentePaga){
             $objC->__set("status",3);
             $ret = $objC->update();
@@ -246,7 +247,7 @@ function salvarPagamento($idConta,$formaPagamento,$valor,$observacao,$dataHora){
                 throw new Exception ("");
             }
             debug(3, "Status da conta alterado com sucesso.");
-        }
+        }*/
         
         $conexao->commit();
         
@@ -297,6 +298,8 @@ function aplicarDesconto($idConta,$desconto){
         $ret = $objC->update();
 
         //Verifica se a conta esta totalmente paga e fecha ela
+        //Não fará mais isso
+        /*
         $totalmentePaga = 0;
         $sql = "SELECT ((SELECT CASE c.taxaServico WHEN 1 THEN SUM(p.quantidade*p.valorUnitario)*(SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE SUM(p.quantidade*p.valorUnitario) END FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0)-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) total FROM conta c WHERE c.id = $idConta";
         $conexao = ConexaoSingleton::getConexao();
@@ -314,7 +317,7 @@ function aplicarDesconto($idConta,$desconto){
                 throw new Exception ("");
             }
             debug(3, "Status da conta alterado com sucesso.");
-        }
+        }*/
 
         $array = desenharArray($objC);
         
