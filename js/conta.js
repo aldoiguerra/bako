@@ -221,12 +221,12 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
 
     //if($("#taxaServico").prop("checked")){
         if(pTaxaServico){
-            taxaServico = total*parseFloat(pValorTaxaServico);
+            taxaServico = truncate(total*parseFloat(pValorTaxaServico));
             total = total + taxaServico;
         }
         conteudo = conteudo + '</tr>'; 
         conteudo = conteudo + '<td>Taxa serviço</td>';
-        conteudo = conteudo + '<td><input type="checkbox" id="taxaServico" /></td>';
+        conteudo = conteudo + '<td><input type="checkbox" id="taxaServico" onchange="salvarConta();" /></td>';
         conteudo = conteudo + '<td><span class="color-success">'+numeroLogicalToDisplay(taxaServico.toFixed(2))+'</span></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';

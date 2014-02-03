@@ -14,7 +14,7 @@ function buscarContas(){
             CASE c.status WHEN 3 THEN '' ELSE IFNULL(c.descricao,'') END AS descricao,
             CASE c.status WHEN 3 THEN NULL ELSE c.status END AS status,
             CASE c.status WHEN 1 THEN 2 WHEN 2 THEN 1 ELSE 3 END statusOrder,
-            CASE c.status WHEN 3 THEN NULL ELSE ((((SELECT SUM(p.quantidade*p.valorUnitario) FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0))*(CASE c.taxaServico WHEN 1 THEN (SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE 1 END))-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)) END AS totalAtual 
+            CASE c.status WHEN 3 THEN NULL ELSE TRUNCATE(((((SELECT SUM(p.quantidade*p.valorUnitario) FROM pedido p WHERE p.contaId = c.id)-IFNULL(c.desconto,0))*(CASE c.taxaServico WHEN 1 THEN (SELECT (valorTxServico/100)+1 FROM parametroSistema) ELSE 1 END))-(SELECT IFNULL(SUM(valor),0) FROM pagamento pa WHERE pa.contaId = c.id)),2) END AS totalAtual
             FROM mesa m 
             LEFT JOIN conta c 
             ON c.numMesa = m.numMesa 

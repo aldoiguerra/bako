@@ -97,3 +97,8 @@ function numeroDisplayToLogical(valor){
     }
     return retorno;
 }
+
+function truncate(valor){
+    var retorno = Math.floor(valor * 100) / 100;
+    return retorno;
+}
