@@ -100,7 +100,7 @@ require_once ('../controller/conta.php');
         <div id="grpPagamento" class="before-pagamento">
             <div class="field">
                 <select accesskey="2" id="selectFP"></select>
-                <input type="text" size="10" placeholder="Valor" id="valorPagamento" />
+                <input type="text" size="10" placeholder="Valor" id="valorPagamento" tipo="numerico" decimais="2" />
             </div>
 
             <div class="field">

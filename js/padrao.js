@@ -102,3 +102,33 @@ function truncate(valor){
     var retorno = Math.floor(valor * 100) / 100;
     return retorno;
 }
+
+function formatarCampoNumerico(valor,decimais){
+    if(valor != ""){
+        valor = valor.replace(/,/,"");
+        valor = valor.replace(/\./,"");
+        valor = parseInt(valor,10);
+        if(decimais > 0){
+            valor = valor/Math.pow(10,decimais);
+        }
+        valor = valor.toString().replace(/\./,",");
+    }
+    return valor;
+}
+
+function apenasNumeros(valor,tecla){
+    if((tecla>47 && tecla<58)){
+        return true;
+    }else if((tecla>45 && tecla<106)){
+        return true;
+    }else if (tecla==8 || tecla==0){
+        return true;
+    }
+    return false;
+}
+
+function acoesCampoNumerico(){
+    $("input[tipo=numerico]").css("text-align","right");
+    $("input[tipo=numerico]").keydown(function(event){return apenasNumeros($(this).val(),event.keyCode)});
+    $("input[tipo=numerico]").keyup(function(event){$(this).val(formatarCampoNumerico($(this).val(),$(this).attr("decimais")))});
+}

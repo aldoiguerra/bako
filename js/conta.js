@@ -205,7 +205,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
     //if((pDesconto) &&(parseFloat(pDesconto) != 0)){
         conteudo = conteudo + '<tr>';
         conteudo = conteudo + '<td>Desconto</td>';
-        conteudo = conteudo + '<td><input type="text" size="5" id="valorDesconto" /><input type="button" id="btnSalvarDesconto" class="icon-ok-1 bt-normal" /></td>';
+        conteudo = conteudo + '<td><input type="text" size="5" id="valorDesconto" placeholder="Valor" tipo="numerico" decimais="2" /><input type="button" id="btnSalvarDesconto" class="icon-ok-1 bt-normal" /></td>';
         conteudo = conteudo + '<td><span class="color-negative">'+numeroLogicalToDisplay(pDesconto)+'</span></td>';
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';     
@@ -272,6 +272,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
     $("#btnSalvarDesconto").click(function(){aplicarDesconto();});
     $("#taxaServico").attr("checked",pTaxaServico);
+    acoesCampoNumerico();
     //$("#qtdProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
     //$("#idProduto").keyup(function(event){if(event.keyCode == 13){inserirPedido();}});
 }
@@ -762,6 +763,8 @@ $(document).ready(function(){
             consultarMesa($(this).val())
         }
     });
+
+    acoesCampoNumerico();
 });
 
 
