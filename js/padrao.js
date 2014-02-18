@@ -111,15 +111,16 @@ function formatarCampoNumerico(valor,decimais){
         if(decimais > 0){
             valor = valor/Math.pow(10,decimais);
         }
+        valor = valor.toFixed(2);
         valor = valor.toString().replace(/\./,",");
     }
     return valor;
 }
 
 function apenasNumeros(valor,tecla){
-    if((tecla>47 && tecla<58)){
+    if((tecla>=48 && tecla<=57)){
         return true;
-    }else if((tecla>45 && tecla<106)){
+    }else if((tecla>=96 && tecla<=105)){
         return true;
     }else if (tecla==8 || tecla==0){
         return true;
