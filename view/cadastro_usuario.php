@@ -73,6 +73,20 @@ require_once ('../controller/usuario.php');
         </div>
 
     </section>
+    
+    
+<div id="popupSenhaAtual" class="modal" style="display:none;">
+    <div>
+        <div>
+            <div class="field">
+                <label class="label">Digite a senha atual do usuário.</label>
+                <input type="text" size="30" id="senhaAtual" />
+            </div>
+            <input type="button" value="Salvar" id="btnSalvarUsuario" class="bt-success"/>
+            <input type="button" value="Cancelar" id="btnCancelar" class="bt-negative"/>
+        </div>
+    </div>        
+</div>    
 
 <?php include 'rodape.php';?>
 <?php include 'js_include.php';?> 

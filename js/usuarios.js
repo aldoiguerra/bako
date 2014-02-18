@@ -6,9 +6,15 @@ function editar(){
         $.post(urlUsuario, variaveis,
             function(data) {
                 if(data.retorno){
+                    if(data.tipo == "1"){
+                        pedirSenha = true;
+                    }else{
+                        pedirSenha = false;
+                    }
                     $("#usuario").val(data.usuario);
                     $("#nome").val(data.nome);
                     $("#senha").val("");
+                    $("#senhaAtual").val("")
                     $("#tipo").val(data.tipo);
                     if (data.status == 1){
                         document.getElementById("ckAtivo").checked=true;
@@ -116,8 +122,58 @@ function limparCampos(){
     document.getElementById("ckAtivo").checked=true;
 }
 
+function salvar(){
+    fecharPopup("popupSenhaAtual");
+    if ($("#usuario").val() == ""){
+        $("#retorno").html("Obrigatório preencher o usuário.");
+        $("#usuario").focus();
+        return
+    }else if ($("#nome").val() == ""){
+        $("#retorno").html("Obrigatório preencher nome do usuário.");
+        $("#nome").focus();
+        return
+    }else if ($("#tipo").val() < 1){
+        $("#retorno").html("Obrigatório selecionar tipo do usuário.");
+        $("#tipo").focus();
+        return
+    }
+    if(pedirSenha){
+        if($("#senhaAtual").val() == ""){
+            mostraPopup("popupSenhaAtual");
+            $("#senhaAtual").focus();
+            return;
+        }
+    }
+    $('input:radio[name=rAI]').each(function() {
+        //Verifica qual está selecionado
+        if ($(this).is(':checked'))
+            status = parseInt($(this).val());
+    })
+    var variaveis = {"salvar": "1",
+                    "usuario": $("#usuario").val(),
+                    "nome": $("#nome").val(),
+                    "senha": $("#senha").val(),
+                    "senhaAtual": $("#senhaAtual").val(),
+                    "tipo": $("#tipo").val(),
+                    "status": status
+                    };
+    $.post(urlUsuario, variaveis,
+        function(data) {
+            $("#retorno").html(data.msg);
+            if(data.retorno){
+                $("#btnNovo").show();
+                $("#btnEditar").hide();
+                $("#btnSalvar").hide();
+                $("#btnExcluir").hide();
+            }
+        }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar usuário: ".textStatus);});
+    limparCampos();
+    listarDados();
+}
+
 $(document).ready(function(){
     
+    pedirSenha = true;
     listarDados();
 
     $("#pesquisar").keyup(function() {
@@ -135,6 +191,7 @@ $(document).ready(function(){
     
     $("#btnNovo").click(function() {
         limparCampos();
+        pedirSenha = false;
         $("#retorno").html("");
         $("#btnNovo").hide();
         $("#btnEditar").hide();
@@ -167,48 +224,8 @@ $(document).ready(function(){
         }
     });
     
-    $("#btnSalvar").click(function(){
-        if ($("#usuario").val() == ""){
-            $("#retorno").html("Obrigatório preencher o usuário.");
-            $("#usuario").focus();
-            return
-        }else if ($("#nome").val() == ""){
-            $("#retorno").html("Obrigatório preencher nome do usuário.");
-            $("#nome").focus();
-            return
-        }else if ($("#senha").val() == ""){
-            $("#retorno").html("Obrigatório preencher senha.");
-            $("#senha").focus();
-            return
-        }else if ($("#tipo").val() < 1){
-            $("#retorno").html("Obrigatório selecionar tipo do usuário.");
-            $("#tipo").focus();
-            return
-        }
-        $('input:radio[name=rAI]').each(function() {
-            //Verifica qual está selecionado
-            if ($(this).is(':checked'))
-                status = parseInt($(this).val());
-        })
-        var variaveis = {"salvar": "1",
-                        "usuario": $("#usuario").val(),
-                        "nome": $("#nome").val(),
-                        "senha": $("#senha").val(),
-                        "tipo": $("#tipo").val(),
-                        "status": status
-                        };
-        $.post(urlUsuario, variaveis,
-            function(data) {
-                $("#retorno").html(data.msg);
-                if(data.retorno){
-                    $("#btnNovo").show();
-                    $("#btnEditar").hide();
-                    $("#btnSalvar").hide();
-                    $("#btnExcluir").hide();
-                }
-            }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar usuário: ".textStatus);});
-        limparCampos();
-        listarDados();
-    });
+    $("#btnSalvar").click(function(){salvar()});
+    $("#btnSalvarUsuario").click(function(){salvar()});
+    $("#btnCancelar").click(function(){fecharPopup("popupSenhaAtual")});
 
 });

@@ -30,7 +30,7 @@ function retornarDadosLista(){
     return $array;
 }
 
-function salvar($usuario,$nome,$senha,$tipo,$status){
+function salvar($usuario,$nome,$senha,$tipo,$status,$senhaAtual){
     
     try {
         ConexaoSingleton::getConexao()->startTransaction();
@@ -41,13 +41,21 @@ function salvar($usuario,$nome,$senha,$tipo,$status){
         $idAntigo = $objU->__get("usuario");
         debug(3, "Usuário ".$usuario." localizado: ".$idAntigo.".");
         
+        if($objU->__get("tipo") == "1"){
+            if($objU->__get("senha") != sha1($senhaAtual)){
+                ConexaoSingleton::getConexao()->rollback();
+                $ret = json_encode(array(
+                    "retorno"=>false,
+                    "msg"=>"Erro ao salvar usuário: Senha atual incorreta."));                
+                return $ret;
+            }
+        }
+        
         $objU->__set("usuario",$usuario);
         $objU->__set("nome",$nome);
         
         if($senha != ""){
            $objU->__set("senha",sha1($senha));
-        }else{
-           $objU->__set("senha",$objU->__get("senha"));
         }
         $objU->__set("tipo",$tipo);
         $objU->__set("status",$status);
@@ -63,27 +71,26 @@ function salvar($usuario,$nome,$senha,$tipo,$status){
         ConexaoSingleton::getConexao()->commit();
         
         debug(3, "Usuário salvo com sucesso");
+        
+        $ret = json_encode(array(
+            "retorno"=>true,
+            "msg"=>"Usuário salvo com sucesso!"
+            ));
     }catch(Exception $e){
         debug(1, "Erro ao salvar usuário: ".$e->getMessage());
         
         ConexaoSingleton::getConexao()->rollback();
+        $ret = json_encode(array(
+            "retorno"=>false,
+            "msg"=>"Erro ao salvar usuário: ".$e->getMessage()));        
     }
     return $ret;
 }
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar usuário: ".$_POST["usuario"]);
-    $ret = salvar($_POST["usuario"],$_POST["nome"],$_POST["senha"],$_POST["tipo"],$_POST["status"]);
-    if($ret){
-        echo json_encode(array(
-            "retorno"=>true,
-            "msg"=>"Usuário salvo com sucesso!"
-            ));
-    }else{
-        echo json_encode(array(
-            "retorno"=>false,
-            "msg"=>"Erro ao salvar usuário!"));
-    }
+    $ret = salvar($_POST["usuario"],$_POST["nome"],$_POST["senha"],$_POST["tipo"],$_POST["status"],$_POST["senhaAtual"]);
+    echo $ret;
 }else if(isset($_POST["consultar"])){
     debug(3, "Recebido pedido para consultar usuário: ".$_POST["consultar"]);
     $objU = new Usuario();

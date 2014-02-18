@@ -132,3 +132,16 @@ function acoesCampoNumerico(){
     $("input[tipo=numerico]").keydown(function(event){return apenasNumeros($(this).val(),event.keyCode)});
     $("input[tipo=numerico]").keyup(function(event){$(this).val(formatarCampoNumerico($(this).val(),$(this).attr("decimais")))});
 }
+
+function mostraPopup(pPopup){
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var popupWidth = $("#"+pPopup).width();
+    var popupHeight = $("#"+pPopup).height();
+    $("#"+pPopup).offset({ top: ((windowHeight-popupHeight)/2), left: ((windowWidth-popupWidth)/2) });
+    $("#"+pPopup).show();
+}
+
+function fecharPopup(pPopup){
+    $("#"+pPopup).hide();
+}

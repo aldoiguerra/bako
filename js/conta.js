@@ -589,19 +589,6 @@ function desenharSelectFP(){
     $("#selectFP").html(retorno);
 }
 
-function mostraPopup(pPopup){
-    var windowHeight = $(window).height();
-    var windowWidth = $(window).width();
-    var popupWidth = $("#"+pPopup).width();
-    var popupHeight = $("#"+pPopup).height();
-    $("#"+pPopup).offset({ top: ((windowHeight-popupHeight)/2), left: ((windowWidth-popupWidth)/2) });
-    $("#"+pPopup).show();
-}
-
-function fecharPopup(pPopup){
-    $("#"+pPopup).hide();
-}
-
 function registrarPagamento(pPopup){
     $("#"+pPopup).show();
 }
