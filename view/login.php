@@ -4,12 +4,14 @@ require_once ('../controller/login.php');
 $divres = "hidden";
 $mensagem = "";
 if(isset($_POST["logar"])){
-    $ret = logar($_POST["usuario"], $_POST["senha"]);
+    $ret = logar($_POST["usuario"], $_POST["senha"],$mensagem);
     if($ret){
         header("location: ../view/index.php");
     }else{
         $divres = "visible";
-        $mensagem = "Usuário e/ou senha incorreto.";
+        if($mensagem ==""){
+            $mensagem = "Usuário e/ou senha incorreto.";
+        }
     }
 }
 
