@@ -248,7 +248,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
     conteudo = conteudo + '</table>';
     conteudo = conteudo + '<div id="divTotal">Total';
     conteudo = conteudo + '<strong>'+numeroLogicalToDisplay(total.toFixed(2))+'</strong>';
-    if(pPedidos.length == 0){
+    if(total.toFixed(2) == 0){
         conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
     }
     conteudo = conteudo + '</div>';
@@ -656,16 +656,19 @@ function aplicarDesconto(){
 }
 
 function alterarTela(pDados){
+    limparCampos();
     console.log("Mostrando dados na tela.");
     console.log(pDados);
-    $("#idConta").val(pDados.id);
-    $("#mesa").val(pDados.numMesa);
-    $("#qtdPessoas").val(pDados.qtdPessoas);
-    $("#descricao").val(pDados.descricao);
-    $("#status").html(statusContaLogicalToDisplay(pDados.status));
-    $("#dataHora").html(dataHoraLogicalToDisplay(pDados.dataHoraAbertura,1));
-    $("#dataHoraFechamento").html(dataHoraLogicalToDisplay(pDados.dataHoraFechamento,1));
-    desenharPedidos(pDados.pedidos,pDados.pagamentos,pDados.status,pDados.desconto,pDados.taxaServico,pDados.valorTaxaServico);
+    if(pDados.status != "3"){
+        $("#idConta").val(pDados.id);
+        $("#mesa").val(pDados.numMesa);
+        $("#qtdPessoas").val(pDados.qtdPessoas);
+        $("#descricao").val(pDados.descricao);
+        $("#status").html(statusContaLogicalToDisplay(pDados.status));
+        $("#dataHora").html(dataHoraLogicalToDisplay(pDados.dataHoraAbertura,1));
+        $("#dataHoraFechamento").html(dataHoraLogicalToDisplay(pDados.dataHoraFechamento,1));
+        desenharPedidos(pDados.pedidos,pDados.pagamentos,pDados.status,pDados.desconto,pDados.taxaServico,pDados.valorTaxaServico);
+    }
     if(pDados.contas){
         arrayContas = pDados.contas;
         desenharContas();

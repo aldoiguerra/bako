@@ -36,7 +36,8 @@ function dataHoraDisplayToLogical(dataHora,formato){
     var retorno = "";
     var data = "";
     var hora = ""
-    if((dataHora) && (dataHora  != "")){
+    console.log("dataHoraDisplayToLogical: "+dataHora);
+    if((dataHora) && (dataHora  != "") && (dataHora != "00/00/0000 00:00:00")){
         var lista = dataHora.toString().split(" ");
         data = lista[0];
         hora = lista[1];
@@ -60,12 +61,13 @@ function dataHoraDisplayToLogical(dataHora,formato){
     }else if (formato == 3){
         retorno = hora;
     }
+    console.log("dataHoraDisplayToLogical - retorno: "+retorno);
     return retorno;
 }
 
 function dataHoraLogicalToDisplay(dataHora,formato){
     var retorno = "";
-    if((dataHora) && (dataHora != "")){
+    if((dataHora) && (dataHora != "") && (dataHora != "00-00-0000 00:00:00")){
         var lista = dataHora.toString().split(" ");
         var data = lista[0];
         var hora = lista[1];
