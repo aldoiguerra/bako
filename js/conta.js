@@ -265,7 +265,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';    
     }*/
-    alert(conteudo)
+    
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
     $("#btnExcluir").click(function(){liberarMesa();});
     //$("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
