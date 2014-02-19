@@ -67,8 +67,8 @@ function listarItensCardapio(pId,pThis) {
 	}
 	
 	for(var p in produto) {
-		if(categoria[produto[p].categoriaId].id == pId) {
-			var liProd = document.createElement('li')
+		if((categoria[produto[p].categoriaId].id == pId) && (produto[p].status == "1")) {
+			var liProd = document.createElement('li');
 			liProd.innerHTML = '<label><span><h2>'+produto[p].nome+'</h2><small>'+produto[p].descricao+'</small><a href="javascript:;" onclick="adicionarProdutoCardapio('+p+');">+</a></label>'
 			newUlCategoria.appendChild(liProd)
 		}
@@ -264,6 +264,10 @@ function adicionarProdutoPedido() {
             alert('Produto não existe');
             return false;
     }
+    if(produto[codProduto].status != '1') {
+            alert('Produto inativo');
+            return false;
+    }
 
     console.log("produto: "+codProduto);
     console.log("quantidade: "+qtdProduto);
@@ -296,6 +300,10 @@ function adicionarProdutoCardapio(pProduto) {
             alert('Produto não existe');
             return false;
     }
+    if(produto[pProduto].status != '1') {
+            alert('Produto inativo');
+            return false;
+    }
 
     var achouProduto = false;
     for(var c in novoPedido) {
@@ -320,6 +328,10 @@ function removerProdutoCardapio(pProduto) {
 
     if(produto[pProduto] == 'undefined') {
             alert('Produto não existe');
+            return false;
+    }
+    if(produto[pProduto].status != '1') {
+            alert('Produto inativo');
             return false;
     }
 

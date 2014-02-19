@@ -28,7 +28,7 @@ function buscarContas(){
 function buscarProdutos(){
     debug(3, "Buscando produtos...");
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id,nome,descricao,categoriaId,preco,status,(SELECT GROUP_CONCAT(DISTINCT CONCAT(adicionalId,';',(SELECT descricao FROM adicional ad WHERE ad.id = ca.adicionalId))) FROM categoriaAdicional ca WHERE ca.categoriaId = p.categoriaId) adicionais FROM produto p WHERE status = 1");
+    $result = $connect->executar("SELECT id,nome,descricao,categoriaId,preco,status,(SELECT GROUP_CONCAT(DISTINCT CONCAT(adicionalId,';',(SELECT descricao FROM adicional ad WHERE ad.id = ca.adicionalId))) FROM categoriaAdicional ca WHERE ca.categoriaId = p.categoriaId) adicionais FROM produto p");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     $arraydados = array();
     while($row = mysqli_fetch_array($result)){

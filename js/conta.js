@@ -265,7 +265,7 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
         conteudo = conteudo + '<td></td>';
         conteudo = conteudo + '</tr>';    
     }*/
-    
+    alert(conteudo)
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
     $("#btnExcluir").click(function(){liberarMesa();});
     //$("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
@@ -329,7 +329,9 @@ function desenharSelectProdutos(){
     var produto = -1;
     retorno = retorno + '<option value="" ></option>';
     for(produto in arrayProdutos){
-        retorno = retorno + '<option value="'+arrayProdutos[produto]["id"]+'" >'+arrayProdutos[produto]["nome"]+'</option>';
+        if(arrayProdutos[produto]["status"] == "1"){
+            retorno = retorno + '<option value="'+arrayProdutos[produto]["id"]+'" >'+arrayProdutos[produto]["nome"]+'</option>';
+        }
     }  
     $("#selectProduto").html(retorno);
     $("#selectProduto").select2({placeholder:'Produto'});
