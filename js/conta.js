@@ -524,7 +524,7 @@ function abrirMesa(){
                         "numMesa": $("#mesa").val(),
                         "qtdPessoas": $("#qtdPessoas").val(),
                         "descricao": $("#descricao").val(),
-                        "taxaServico": ($("#taxaServico").prop("checked")?1:0),
+                        "taxaServico": 1,
                         "dataHora": dataHoraDisplayToLogical($("#dataHora").html(),1)
                         };
         $.post(urlConta, variaveis,
@@ -688,21 +688,26 @@ function trocarMesa(){
     var novaMesa = $("#novaMesa").val();
     var numConta = "";
     //Busca se a conta esta aberta ou fechada;
+    //console.log("Nova mesa: "+novaMesa);
     if (arrayContas){
         var tamanho = arrayContas.length;
+        //console.log("Numero de contas: "+tamanho);
         for(var i=0;i<tamanho;i++){
             if (arrayContas[i]["numMesa"] == novaMesa){
-                if((arrayContas[i]["status"] == 1) && (arrayContas[i]["status"] == 2)){
+                //console.log("Conta encontrada para a mesa: "+arrayContas[i]["id"]+" status: "+arrayContas[i]["status"]);
+                if((arrayContas[i]["status"] == 1) || (arrayContas[i]["status"] == 2)){
                     numConta = arrayContas[i]["id"];
                 }
             }
         }
     }
-
+    //console.log("Conta da nova mesa: "+numConta);
     if(numConta == ""){
+        //console.log("trocando mesa: ");
         var variaveis = {"trocarMesa": "1",
                         "id": $("#idConta").val(),
-                        "novaMesa": novaMesa
+                        "novaMesa": novaMesa,
+                        "contaAntiga": ""
                         };
         $.post(urlConta, variaveis,
             function(data) {
@@ -713,7 +718,21 @@ function trocarMesa(){
                 }
             }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
     }else{
-        alert("A mesa '"+novaMesa+"' não está livre.");
+        if(confirm("A mesa '"+novaMesa+"' não está livre, deseja unir as contas?")){
+            var variaveis = {"trocarMesa": "1",
+                            "id": $("#idConta").val(),
+                            "novaMesa": novaMesa,
+                            "contaAntiga": numConta
+                            };
+            $.post(urlConta, variaveis,
+                function(data) {
+                    console.log(data);
+                    if(data.retorno){
+                        fecharPopup("popupTrocarMesa");
+                        alterarTela(data);
+                    }
+                }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});            
+        }
     }
 }
 

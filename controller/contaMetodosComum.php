@@ -364,9 +364,11 @@ function excluirPedido($id,$idConta){
     return $array;
 }
 
-function trocarMesa($idConta,$novaMesa){
+function trocarMesa($idConta,$novaMesa,$contaAntiga){
     $retorno = "";
     try {
+        $conexao = ConexaoSingleton::getConexao();
+        $conexao->startTransaction();
 
         debug(3, "Trocando mesa.");
 
@@ -376,9 +378,29 @@ function trocarMesa($idConta,$novaMesa){
         $objC->__set("numMesa",$novaMesa);
         $ret = $objC->update();
         
+        if($contaAntiga != ""){
+            //Caso seja uma união de mesas, tem que trocar os pedidos
+            $sql = "UPDATE pedido SET contaId = $idConta WHERE contaId = $contaAntiga";
+            $ret = $conexao->executar($sql);
+            if(!$ret) {
+                debug(3, "Erro ao mudar pedidos: ".$ret);
+                throw new Exception ("");
+            }
+            $sql = "DELETE FROM conta WHERE id = $contaAntiga";
+            $ret = $conexao->executar($sql);
+            if(!$ret) {
+                debug(3, "Erro ao remover conta: ".$ret);
+                throw new Exception ("");
+            }
+        }
+
+        $conexao->commit();
+
         $array = desenharArray($objC);
         
     }catch(Exception $e){
+        $conexao->rollback();
+
         debug(1, "Erro ao salvar desconto: ".$e->getMessage());
         $array = array(
                 "retorno"=>false,

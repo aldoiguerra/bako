@@ -27,8 +27,8 @@ if(isset($_POST["buscarContas"])){
     }
     echo json_encode($array);
 }else if(isset($_POST["abrirMesa"])){
-    debug(3, "Recebido pedido para salvar categoria: ".$_POST["id"]);
-    $array = salvar($_POST["id"],$_POST["qtdPessoas"],$_POST["numMesa"],$_POST["dataHora"],$_POST["descricao"],$_POST["taxaServico"],1,"");
+    debug(3, "Recebido pedido para abrir mesa: ".$_POST["id"]);
+    $array = salvar($_POST["id"],$_POST["qtdPessoas"],$_POST["numMesa"],$_POST["dataHora"],$_POST["descricao"],1,1,"");
     echo json_encode($array);
 }else if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar categoria: ".$_POST["id"]);
@@ -64,8 +64,8 @@ if(isset($_POST["buscarContas"])){
     $array = aplicarDesconto($_POST["id"],$_POST["desconto"]);
     echo json_encode($array);
 }else if(isset($_POST["trocarMesa"])){
-    debug(3, "Recebido pedido para inserir novo pagamento: ".$_POST["id"]);
-    $array = trocarMesa($_POST["id"],$_POST["novaMesa"]);
+    debug(3, "Recebido pedido para trocar mesa: ".$_POST["id"]);
+    $array = trocarMesa($_POST["id"],$_POST["novaMesa"],$_POST["contaAntiga"]);
     echo json_encode($array);
 }else if(isset($_POST["excluirPedido"])){
     debug(3, "Recebido pedido para excluir pedido: ".$_POST["id"]);
