@@ -248,8 +248,11 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
     conteudo = conteudo + '</table>';
     conteudo = conteudo + '<div id="divTotal">Total';
     conteudo = conteudo + '<strong>'+numeroLogicalToDisplay(total.toFixed(2))+'</strong>';
+    console.log("Status: "+(pStatus == 1));
     if(total.toFixed(2) == 0){
-        conteudo = conteudo + '<input type="button" value="Liberar mesa" style="display: none;" id="btnExcluir" style="display: none;" class="bt-negative" />';
+        conteudo = conteudo + '<input type="button" value="Liberar mesa" id="btnLiberar" class="bt-negative" />';
+    }else if(pStatus == 1){
+        conteudo = conteudo + '<input type="button" value="Fechar mesa" id="btnFechar" class="bt-negative" />';
     }
     conteudo = conteudo + '</div>';
     totalConta = total.toFixed(2);
@@ -267,7 +270,8 @@ function desenharPedidos(pPedidos,pPagamentos,pStatus,pDesconto,pTaxaServico,pVa
     }*/
     
     document.getElementById("tabelaPedidos").innerHTML = conteudo;
-    $("#btnExcluir").click(function(){liberarMesa();});
+    $("#btnLiberar").click(function(){liberarMesa();});
+    $("#btnFechar").click(function(){fecharConta();});
     //$("a[name='editarPedido']").click(function(){consultarPedido($(this).attr("value"));});
     $("a[name='excluirPedido']").click(function(){excluirPedido($(this).attr("value"),$(this).attr("detalhes"));});
     $("#btnSalvarDesconto").click(function(){aplicarDesconto();});
