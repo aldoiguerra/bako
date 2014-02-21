@@ -40,7 +40,7 @@ function buscarProdutos(){
 function buscarCategorias(){
     debug(3, "Buscando produtos...");
     $connect = ConexaoSingleton::getConexao();
-    $result = $connect->executar("SELECT id, descricao, categoriaPaiId, (SELECT GROUP_CONCAT(adicionalId) FROM categoriaAdicional ca WHERE ca.categoriaId = c.Id) adicionais FROM categoria c WHERE status = 1");
+    $result = $connect->executar("SELECT id, descricao, categoriaPaiId, status, (SELECT GROUP_CONCAT(adicionalId) FROM categoriaAdicional ca WHERE ca.categoriaId = c.Id) adicionais FROM categoria c WHERE status = 1");
     debug(3, "Numero de resultado obtidos: ".$connect->getNumResultados());
     $arraydados = array();
     while($row = mysqli_fetch_array($result)){
@@ -280,7 +280,8 @@ function desenharArray($objC){
         "valorTaxaServico"=>buscarValorTaxaServico(),
         "pedidos"=>buscarPedidos($objC->__get("id")),
         "pagamentos"=>buscarPagamentos($objC->__get("id")),
-        "contas"=>buscarContas()
+        "contas"=>buscarContas(),
+        "categorias"=>  buscarCategorias()
     );
     return $array;
 }

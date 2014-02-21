@@ -7,12 +7,14 @@ if(isset($_POST["buscarContas"])){
     $arrayretorno = array("retorno"=>1,
                             "contas"=>buscarContas(),
                             "produtos"=>buscarProdutos(),
-                            "formapagamentos"=>buscarFormaPagamentos());
+                            "formapagamentos"=>buscarFormaPagamentos(),
+                            "categorias"=>  buscarCategorias());
     echo json_encode($arrayretorno);
 }if(isset($_POST["buscarProdutos"])){
     debug(3, "Recebido pedido para buscar produtos.");
     $arrayretorno = array("retorno"=>1,
-                            "produtos"=>buscarProdutos());
+                            "produtos"=>buscarProdutos(),
+                            "categorias"=>  buscarCategorias());
     echo json_encode($arrayretorno);
 }else if(isset($_POST["consultar"])){
     debug(3, "Recebido pedido para consultar conta: ".$_POST["consultar"]);

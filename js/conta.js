@@ -15,6 +15,7 @@ function buscarContas(){
             if(data.retorno){
                 arrayContas = data.contas;
                 arrayProdutos = data.produtos;
+                arrayCategorias = data.categorias;
                 arrayFormaPagamento = data.formapagamentos;
                 desenharContas();
                 desenharSelectFP();
@@ -31,6 +32,7 @@ function buscarProdutos(){
         function(data) {
             if(data.retorno){
                 arrayProdutos = data.produtos;
+                arrayCategorias = data.categorias;
             }
         },
         "json"
@@ -329,23 +331,43 @@ function inserirPedido(){
 }
 
 function desenharSelectProdutos(){
-    var retorno = "";
-    var produto = -1;
-    retorno = retorno + '<option value="" ></option>';
-    for(produto in arrayProdutos){
-        if(arrayProdutos[produto]["status"] == "1"){
-            retorno = retorno + '<option value="'+arrayProdutos[produto]["id"]+'" >'+arrayProdutos[produto]["nome"]+'</option>';
+    try{
+        var retorno = "";
+        var produto = -1;
+        //console.log("Desenhando select produtos");
+        retorno = retorno + '<option value="" ></option>';
+        for(produto in arrayProdutos){
+            //console.log("categoriaAtiva: "+categoriaAtiva(arrayProdutos[produto]["categoriaId"]));
+            if((arrayProdutos[produto]["status"] == "1") && (categoriaAtiva(arrayProdutos[produto]["categoriaId"]))){
+                retorno = retorno + '<option value="'+arrayProdutos[produto]["id"]+'" >'+arrayProdutos[produto]["nome"]+'</option>';
+            }
+        } 
+        //console.log("retorno: "+retorno)
+        $("#selectProduto").html(retorno);
+        $("#selectProduto").select2({placeholder:'Produto'});
+        $("#selectProduto").change(function(){
+                                     $("#codigoProduto").val($("#selectProduto").val());  
+                                     $("#valorProduto").val(numeroLogicalToDisplay(arrayProdutos[$("#selectProduto").val()]["preco"]));
+                                     desenharSelectAdicionais($("#selectProduto").val());
+                                     calcularPrecoPedido();
+                                  });
+        $("#selectAdicionais").select2({placeholder:'Adicionais'});
+    }catch(ex){
+        console.log("ERRO: "+ex);
+    }
+}
+
+function categoriaAtiva(categoriaId){
+    //console.log("categoriaId: '"+categoriaId+"'")
+    if(categoriaId){
+        //console.log("categoriaId status: '"+arrayCategorias[categoriaId]+"'")
+        if(!arrayCategorias[categoriaId]){
+            return 0;
+        }else{
+            return categoriaAtiva(arrayCategorias[categoriaId]["categoriaPaiId"]);
         }
-    }  
-    $("#selectProduto").html(retorno);
-    $("#selectProduto").select2({placeholder:'Produto'});
-    $("#selectProduto").change(function(){
-                                 $("#codigoProduto").val($("#selectProduto").val());  
-                                 $("#valorProduto").val(numeroLogicalToDisplay(arrayProdutos[$("#selectProduto").val()]["preco"]));
-                                 desenharSelectAdicionais($("#selectProduto").val());
-                                 calcularPrecoPedido();
-                              });
-    $("#selectAdicionais").select2({placeholder:'Adicionais'});
+    }
+    return 1;
 }
 
 function desenharSelectAdicionais(pProdutoSelecionado){
@@ -751,6 +773,7 @@ $(document).ready(function(){
 
     arrayContas = null;
     arrayProdutos = null;
+    arrayCategorias = null;
     arrayFormaPagamento = null;
     totalConta = 0;
     buscarContas();

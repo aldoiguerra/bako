@@ -113,8 +113,10 @@ function popularSelect(){
 
 function listarDados(){
     var variaveis = {"listar": 1};
+    console.log("Listando registros...")
     $.post(urlCategoria, variaveis,
         function(data) {
+            console.log(data)
             if(data.retorno){
                 colunas = data.colunas;
                 dados = data.dados;
