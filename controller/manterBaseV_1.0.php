@@ -2,8 +2,9 @@
 
 function retornarTabelas(){
     
+    $pos = 0;
 
-    $tabelas[0] = "create table usuario(
+    $tabelas[$pos++] = "create table usuario(
                         usuario varchar(20) not null,
                         senha varchar(50) not null,
                         nome varchar(50) not null,
@@ -12,24 +13,34 @@ function retornarTabelas(){
                         primary key (usuario)
                 )engine = InnoDB;";
 
-    $tabelas[1] = "create table adicional(
+    $tabelas[$pos++] = "create table adicional(
                         id integer not null auto_increment,
                         descricao varchar(50) not null,
                         status tinyint not null,
                         primary key (id)
                 )engine = InnoDB;";
 
-    $tabelas[2] = "create table categoria(
+    $tabelas[$pos++] = "create table perfilImpressao(
+                    id integer not null auto_increment,
+                    descricao varchar(50),
+                    layout mediumtext,
+                    tipo tinyint not null, /*1-texto,2-html*/
+                    primary key (id)
+            )engine = InnoDB;";
+    
+    $tabelas[$pos++] = "create table categoria(
                         id integer not null auto_increment,
                         descricao varchar(50) not null,
                         status tinyint not null,
                         categoriaPaiId integer,
-                        primary key (id)
+                        perfilImpressaoId integer,
+                        primary key (id),
+                        foreign key (perfilImpressaoId) references perfilImpressao(id)
                 )engine = InnoDB;";
 
-    $tabelas[3] = "alter table categoria add foreign key (categoriaPaiId) references categoria(id);";
+    $tabelas[$pos++] = "alter table categoria add foreign key (categoriaPaiId) references categoria(id);";
 
-    $tabelas[4] = "create table categoriaAdicional(
+    $tabelas[$pos++] = "create table categoriaAdicional(
                         id integer not null auto_increment,
                         categoriaId integer not null,
                         adicionalId integer not null,
@@ -38,7 +49,7 @@ function retornarTabelas(){
                         foreign key (adicionalId) references adicional(id)
                 )engine = InnoDB;";
 
-    $tabelas[5] = "create table produto(
+    $tabelas[$pos++] = "create table produto(
                         id integer not null auto_increment,
                         codigo varchar(50) not null,
                         nome varchar(50) not null,
@@ -47,11 +58,13 @@ function retornarTabelas(){
                         foto varchar(200),
                         status tinyint not null,
                         categoriaId integer,
+                        perfilImpressaoId integer,
                         primary key (id),
-                        foreign key (categoriaId) references categoria(id)
+                        foreign key (categoriaId) references categoria(id),
+                        foreign key (perfilImpressaoId) references perfilImpressao(id)
                 )engine = InnoDB;";
 
-    $tabelas[6] = "create table conta(
+    $tabelas[$pos++] = "create table conta(
                         id integer not null auto_increment,
                         dataHoraAbertura dateTime,
                         dataHoraFechamento dateTime,
@@ -64,7 +77,7 @@ function retornarTabelas(){
                         primary key (id)
                 )engine = InnoDB;";
 
-    $tabelas[7] = "create table pedido(
+    $tabelas[$pos++] = "create table pedido(
                         id integer not null auto_increment,
                         dataHora dateTime,
                         quantidade integer not null,
@@ -79,7 +92,7 @@ function retornarTabelas(){
                         foreign key (usuarioId) references usuario(usuario)
                 )engine = InnoDB;";
 
-    $tabelas[8] = "create table pedidoAdicional(
+    $tabelas[$pos++] = "create table pedidoAdicional(
                         id integer not null auto_increment,
                         pedidoId integer not null,
                         adicionalId integer not null,
@@ -89,21 +102,21 @@ function retornarTabelas(){
                         foreign key (adicionalId) references adicional(id)
                 )engine = InnoDB;";
 
-    $tabelas[9] = "create table formaPagamento(
+    $tabelas[$pos++] = "create table formaPagamento(
                         id integer not null auto_increment,
                         descricao varchar(50) not null,
                         pedeObservacao tinyint,
                         primary key (id)
                 )engine = InnoDB;";
 
-    $tabelas[10] = "create table parametroSistema(
+    $tabelas[$pos++] = "create table parametroSistema(
                         id integer not null auto_increment,
                         qtdMesas varchar(50),
                         valorTxServico float(5,2),
                         primary key (id)
                 )engine = InnoDB;";
 
-    $tabelas[11] = "create table pagamento(
+    $tabelas[$pos++] = "create table pagamento(
                         id integer not null auto_increment,
                         contaId integer not null,
                         formaPagamentoId integer not null,
@@ -117,12 +130,12 @@ function retornarTabelas(){
                         primary key (id)
                 )engine = InnoDB;";
 
-    $tabelas[12] = "create table mesa(
+    $tabelas[$pos++] = "create table mesa(
                         numMesa integer not null,
                         primary key (numMesa)
                 )engine = InnoDB;";
 
-    $tabelas[13] = "DELIMITER //
+    $tabelas[$pos++] = "DELIMITER //
                 DROP FUNCTION IF EXISTS buscarDescricao//
                 CREATE FUNCTION buscarDescricao(idPai INT)
                     RETURNS VARCHAR(500)
@@ -151,9 +164,9 @@ function retornarTabelas(){
                     END//
                 DELIMITER ; ";
 
-    $tabelas[14] = "insert into usuario (nome,usuario,senha,tipo,status) values ('Administrador','sysadmin','742379261b4ba6149a2c3bc7ca8d1cb31f176642',1,1);";
-    $tabelas[15] = "INSERT INTO parametroSistema (qtdMesas,valorTxServico) VALUES ('','0');";
-    
+    $tabelas[$pos++] = "insert into usuario (nome,usuario,senha,tipo,status) values ('Administrador','sysadmin','742379261b4ba6149a2c3bc7ca8d1cb31f176642',1,1);";
+    $tabelas[$pos++] = "INSERT INTO parametroSistema (qtdMesas,valorTxServico) VALUES ('','0');";
+
     return $tabelas;
 }
 

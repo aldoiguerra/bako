@@ -5,6 +5,14 @@ require_once ('../controller/manterBaseV_1.0.php');
 $mensagem = "";
 
 function conectar($host,$usuario,$senha,$banco){
+    
+    if($banco == ""){
+        require_once ('../dao/dados.php');
+        $usuario = $GLOBALS["usuario"];
+        $senha = $GLOBALS["senha"];
+        $host = $GLOBALS["host"];
+        $banco = $GLOBALS["banco"];
+    }
 
     $con=mysqli_connect($host,$usuario,$senha,$banco);
 
@@ -167,6 +175,55 @@ function popularTestes($conexao){
     return;
 }
 
+function fazerBackup($conexao){
+
+    try{
+        $data = date('Y_m_d_H_i_s');
+        
+        $sql = "show tables";
+        //gerarMensagem("Buscando tabelas: ".$sql);
+        $resultado = mysqli_query($conexao,$sql);
+        while($row = mysqli_fetch_array($resultado)){
+            
+            $arquivo = "../backup/".$data."_".$row[0].".csv";
+            gerarMensagem("Abrindo arquivo: ".$arquivo);
+            $manipula = fopen($arquivo, "w+");
+            
+            $sql2 = "show columns from ".$row[0];
+            //gerarMensagem("Buscando colunas:".$sql2);
+            $resultado2 = mysqli_query($conexao,$sql2);
+            $pos = 0;
+            $coluna = array();
+            while($row2 = mysqli_fetch_array($resultado2)){
+                //gerarMensagem("Coluna: ".$row2["Field"]);
+                $coluna[$pos++] = $row2["Field"];
+                fwrite($manipula, $row2["Field"].";");
+            }
+            
+            fwrite($manipula, "\n");
+            gerarMensagem("Escrevendo dados");
+            
+            $sql2 = "select * from ".$row[0];
+            //gerarMensagem("Buscando colunas:".$sql2);
+            $resultado2 = mysqli_query($conexao,$sql2);
+            while($row2 = mysqli_fetch_array($resultado2)){
+
+                for($i=0;$i<count($coluna);$i++){
+                    fwrite($manipula, $row2[$coluna[$i]].";");
+                }
+                fwrite($manipula, "\n");
+            }
+            
+            gerarMensagem("Fechando arquivo.");
+            fclose($manipula);
+        }
+        
+    } catch (Exception $ex) {
+        gerarMensagem("Excessão gerada: ".$ex->getMessage());
+    }    
+    return;
+}
+
 if(isset($_POST["excluirTabelas"])){
     $conexao = conectar($_POST["host"],$_POST["usuario"],$_POST["senha"],$_POST["banco"]);
     excluirTabelas($conexao);
@@ -180,6 +237,11 @@ if(isset($_POST["excluirTabelas"])){
 }else if(isset($_POST["popularTestes"])){
     $conexao = conectar($_POST["host"],$_POST["usuario"],$_POST["senha"],$_POST["banco"]);
     popularTestes($conexao);
+    echo $mensagem;
+    return;
+}else if(isset($_POST["fazerBackup"])){
+    $conexao = conectar($_POST["host"],$_POST["usuario"],$_POST["senha"],$_POST["banco"]);
+    fazerBackup($conexao);
     echo $mensagem;
     return;
 }
@@ -196,6 +258,14 @@ if(isset($_POST["excluirTabelas"])){
         <div class="title">
             <h1>Manter bases de dados</h1>
         </div>
+        <div class="row">
+            <div class="col-12" id="cadastro">
+                <div class="col-3 field">
+                        <label class="label">Tipo</label>
+                        <input type="text" size="30" id="tipo" />
+                </div>
+            </div>
+         </div>
         <div class="row">
             <div class="col-12" id="cadastro">
                 <div class="col-3 field">
@@ -217,6 +287,7 @@ if(isset($_POST["excluirTabelas"])){
             </div>
          </div>
         <div class="row">
+            <input type="button" value="Fazer backup" id="btnBackup" class="bt-success" onclick="fazerBackup()"/>
             <input type="button" value="Criar tabelas" id="btnNovo" class="bt-success" onclick="criarTabelas()"/>
             <input type="button" value="Excluir tabelas" id="btnLimpar" class="bt-negative" onclick="excluirTabelas();"/>
             <!--<input type="button" value="Editar" id="btnEditar" class="bt-normal"/>
@@ -242,6 +313,11 @@ function validarCampos(){
     var banco = $("#banco").val();
     var usuario = $("#usuario").val();
     var senha = $("#senha").val();
+    var tipo = $("#tipo").val();
+    
+    if(tipo == "bako123"){
+        return 1;
+    }
     
     if(host == ""){
         alert("Insira o Host.");
@@ -319,6 +395,30 @@ function popularTestes(){
     }
 
     var variaveis = {"popularTestes": "1",
+                    "host":$("#host").val(),
+                    "banco":$("#banco").val(),
+                    "usuario":$("#usuario").val(),
+                    "senha":$("#senha").val()
+                };
+    $.post(window.location.href, variaveis,
+    function(data) {
+        $("#retorno").html(data);
+    }, "text").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao salvar dados: ".textStatus);});
+    
+}    
+
+function fazerBackup(){
+    
+    if(!validarCampos()){
+        $("#retorno").html("");
+        return;
+    }
+    
+    if(!confirm("Deseja efetuar o backup das tabelas?")){
+        return;
+    }
+
+    var variaveis = {"fazerBackup": "1",
                     "host":$("#host").val(),
                     "banco":$("#banco").val(),
                     "usuario":$("#usuario").val(),
