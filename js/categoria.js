@@ -9,6 +9,7 @@ function editar(){
                     $("#id").val(data.id);
                     $("#descricao").val(data.descricao);
                     $("#slCategoria").val(data.categoriaPai);
+                    $("#slPerfil").val(data.perfilImpressao);
                     if (data.status == 1){
                         document.getElementById("ckAtivo").checked=true;
                     }else{
@@ -107,6 +108,12 @@ function popularSelect(){
                     var select = select + '<option value="'+dado+'">'+dados[dado]+'</option>'; 
                 }
                 document.getElementById("slCategoria").innerHTML = select;
+                var dados = data.perfis;
+                var select = '<option value=""></option>';
+                for(var dado in dados){
+                    var select = select + '<option value="'+dado+'">'+dados[dado]+'</option>'; 
+                }
+                document.getElementById("slPerfil").innerHTML = select;
             }
         }, "json").fail(function(jqXHR, textStatus, errorThrown){$("#retorno").html("ERRO ao consultar dados: ".textStatus);});                
 }
@@ -149,6 +156,7 @@ function limparCampos(){
     $("#id").val("");
     $("#descricao").val("");
     $("#slCategoria").val("");
+    $("#slPerfil").val("");
     $("#btnExcluir").hide();
     $("#btnSalvar").hide();
     document.getElementById("ckAtivo").checked=true
@@ -231,6 +239,7 @@ $(document).ready(function(){
                         "id": $("#id").val(),
                         "descricao": $("#descricao").val(),
                         "categoriaPai": $("#slCategoria").val(),
+                        "perfilImpressao": $("#slPerfil").val(),
                         "status": status,
                         "adicional": camposMarcados.toString()
                         };

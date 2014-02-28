@@ -48,6 +48,12 @@ require_once ('../controller/categoria.php');
                     </select>
             </div>
             <div class="field">
+                    <label class="label">Perfil de impressão</label>
+                    <select id="slPerfil" onchange="document.getElementById('prefixo').value=this.value;this.title = this.selectedIndex.innerHTML;" style="max-width:280px;">
+
+                    </select>
+            </div>
+            <div class="field">
                 <span class="label">Status</span>
                 <div class="toggle">
                     <label><input type="radio" name="rAI" id="ckAtivo" checked="true" value="1"/><span>Ativo</span></label>

@@ -11,7 +11,7 @@ class Categoria extends DaoPadrao
     private $descricao = null;
     private $categoriaPaiId = null;
     private $status = null;
-    private $adicional = null;
+    private $perfilImpressaoId = null;
     
     public function __construct() {
         
@@ -49,24 +49,30 @@ class Categoria extends DaoPadrao
 
     function getSelectList()
     {
-        return "id,descricao,categoriaPaiId,status";
+        return "id,descricao,categoriaPaiId,status,perfilImpressaoId";
     }
 
     function getInsertList()
     {
+        if($this->perfilImpressaoId == ""){
+            $this->perfilImpressaoId = "NULL";
+        }
         if($this->categoriaPaiId == ""){
-            return "'$this->id','$this->descricao',NULL,'$this->status'";
+            return "'$this->id','$this->descricao',NULL,'$this->status',$this->perfilImpressaoId";
         }else{
-            return "'$this->id','$this->descricao','$this->categoriaPaiId','$this->status'";
+            return "'$this->id','$this->descricao','$this->categoriaPaiId','$this->status','$this->perfilImpressaoId'";
         }
     }
 
     function getUpdateList()
     {
+        if($this->perfilImpressaoId == ""){
+            $this->perfilImpressaoId = "NULL";
+        }
         if($this->categoriaPaiId == ""){
-            return "id='$this->id',descricao='$this->descricao',categoriaPaiId=NULL,status='$this->status'";
+            return "id='$this->id',descricao='$this->descricao',categoriaPaiId=NULL,status='$this->status',perfilImpressaoId=$this->perfilImpressaoId";
         }else{
-            return "id='$this->id',descricao='$this->descricao',categoriaPaiId='$this->categoriaPaiId',status='$this->status'";
+            return "id='$this->id',descricao='$this->descricao',categoriaPaiId='$this->categoriaPaiId',status='$this->status',perfilImpressaoId=$this->perfilImpressaoId";
         }
     }
 
@@ -84,6 +90,7 @@ class Categoria extends DaoPadrao
             $this->descricao = $r[1];
             $this->categoriaPaiId = $r[2];
             $this->status = $r[3];
+            $this->perfilImpressaoId = $r[4];
         }
         return $ret;
     }

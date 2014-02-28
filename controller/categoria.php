@@ -14,15 +14,27 @@ function popularSelect(){
             $arraylinha = $arraydados[$i];
             $arrayFinal[$arraylinha["id"]] = $arraylinha["descricao"];
         }
-        $array = array(
-            "retorno"=>true,
-            "dados"=>$arrayFinal
-        );        
     }else{
-        $array = array(
-            "retorno"=>false
-        );
+        $arrayFinal = array();
     }
+    $result = $connect->executar("SELECT id,descricao AS descricao FROM perfilImpressao WHERE tipoLayout = 2");
+    debug(3, "Numero de perfis obtidas: ".$connect->getNumResultados());
+    if($connect->getNumResultados() > 0){
+        $arraydados = $connect->get_array($result);
+        
+        $tamanho = $connect->getNumResultados();
+        for($i=0;$i<$tamanho;$i++){
+            $arraylinha = $arraydados[$i];
+            $arrayPerfil[$arraylinha["id"]] = $arraylinha["descricao"];
+        }
+    }else{
+        $arrayPerfil = array();
+    }
+    $array = array(
+        "retorno"=>true,
+        "dados"=>$arrayFinal,
+        "perfis"=>$arrayPerfil
+    );        
     debug(3, "Retorno retornarDadosLista categorias: ".$array["retorno"]);
     return $array;
 }
@@ -72,7 +84,7 @@ function retornarDadosLista(){
     return $array;
 }
 
-function salvar($id,$descricao,$categoriaPai,$status,$adicional){
+function salvar($id,$descricao,$categoriaPai,$status,$adicional,$perfilImpressao){
     
     try {
         ConexaoSingleton::getConexao()->startTransaction();
@@ -86,6 +98,7 @@ function salvar($id,$descricao,$categoriaPai,$status,$adicional){
         $objC->__set("id",$id);
         $objC->__set("descricao",$descricao);
         $objC->__set("categoriaPaiId",$categoriaPai);
+        $objC->__set("perfilImpressaoId",$perfilImpressao);
         $objC->__set("status",$status);
 
         if($idAntigo){
@@ -119,7 +132,7 @@ function salvar($id,$descricao,$categoriaPai,$status,$adicional){
 
 if(isset($_POST["salvar"])){
     debug(3, "Recebido pedido para salvar categoria: ".$_POST["id"]);
-    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"],$_POST["status"],$_POST["adicional"]);
+    $ret = salvar($_POST["id"],$_POST["descricao"],$_POST["categoriaPai"],$_POST["status"],$_POST["adicional"],$_POST["perfilImpressao"]);
     if($ret){
         echo json_encode(array(
             "retorno"=>true,
@@ -147,6 +160,7 @@ if(isset($_POST["salvar"])){
             "descricao"=>$objC->__get("descricao"),
             "categoriaPai"=>$objC->__get("categoriaPaiId"),
             "status"=>$objC->__get("status"),
+            "perfilImpressao"=>$objC->__get("perfilImpressaoId"),
             "adicionais"=>$arraydados
             );
     }else{
