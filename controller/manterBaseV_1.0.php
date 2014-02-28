@@ -120,7 +120,7 @@ function retornarTabelas(){
                         perfilImpressaoContaId integer,
                         perfilImpressaoPedidoId integer,
                         primary key (id),
-                        foreign key (perfilImpressaoContaId) references perfilImpressao(id
+                        foreign key (perfilImpressaoContaId) references perfilImpressao(id),
                         foreign key (perfilImpressaoPedidoId) references perfilImpressao(id)
                 )engine = InnoDB;";
 

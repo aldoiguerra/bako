@@ -36,28 +36,36 @@ function excluirTabelas($conexao){
     try{
         gerarMensagem("Abrindo transação.");
         $conexao->autocommit(FALSE);
-
-        $sql = "show tables";
-        //gerarMensagem("Buscando tabelas: ".$sql);
-        $resultado = mysqli_query($conexao,$sql);
-        while($row = mysqli_fetch_array($resultado)){
-            
-            $tabela = $row[0];
-            $sql = "DROP TABLE IF EXISTS ".$tabela;
+        
+        $tabelas[0] = "mesa";
+        $tabelas[1] = "pagamento";
+        $tabelas[2] = "parametroSistema";
+        $tabelas[3] = "formaPagamento";
+        $tabelas[4] = "pedidoAdicional";
+        $tabelas[5] = "pedido";
+        $tabelas[6] = "conta";
+        $tabelas[7] = "produto";
+        $tabelas[8] = "categoriaAdicional";
+        $tabelas[9] = "categoria";
+        $tabelas[10] = "adicional";
+        $tabelas[11] = "usuario";
+        $tabelas[12] = "perfilImpressao";
+                
+        for($i=0;$i<count($tabelas);$i++){
+            $sql = "DROP TABLE IF EXISTS ".$tabelas[$i];
             gerarMensagem("Efetuando consulta: ".$sql);
             $resultado = mysqli_query($conexao,$sql);
             if(!$resultado) {
                 //if($conexao->errno != 1051){
                 //    throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
                 //}else{
-                    gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                    gerarMensagem("<b>ERRO: (". $conexao->errno . ") " . $conexao->error."</b>");
                 //}
             }else{
-                gerarMensagem("Consulta efetuada com sucesso.");
+                gerarMensagem("<b>Consulta efetuada com sucesso.</b>");
             }
-
         }
-                
+        
         $conexao->commit();
         gerarMensagem("Commit efetuado.");
     } catch (Exception $ex) {
@@ -84,10 +92,10 @@ function criarTabelas($conexao){
                 //if($conexao->errno != 1051){
                 //    throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
                 //}else{
-                    gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                    gerarMensagem("<b>ERRO: (". $conexao->errno . ") " . $conexao->error."</b>");
                 //}
             }else{
-                gerarMensagem("Consulta efetuada com sucesso.");
+                gerarMensagem("<b>Consulta efetuada com sucesso.</b>");
             }
         }
         
@@ -113,10 +121,10 @@ function popularTestes($conexao){
            gerarMensagem("Efetuando consulta: ".$sql);
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
-                gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                gerarMensagem("<b>ERRO: (". $conexao->errno . ") " . $conexao->error."</b>");
                 //throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
-                gerarMensagem("Consulta efetuada com sucesso.");
+                gerarMensagem("<b>Consulta efetuada com sucesso.</b>");
             }
        }
 
@@ -126,10 +134,10 @@ function popularTestes($conexao){
            gerarMensagem("Efetuando consulta: ".$sql);
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
-                gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                gerarMensagem("<b>ERRO: (". $conexao->errno . ") " . $conexao->error."</b>");
                 //throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
-                gerarMensagem("Consulta efetuada com sucesso.");
+                gerarMensagem("<b>Consulta efetuada com sucesso.</b>");
             }
        }
 
@@ -139,10 +147,10 @@ function popularTestes($conexao){
            gerarMensagem("Efetuando consulta: ".$sql);
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
-                gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                gerarMensagem("<b>ERRO: (". $conexao->errno . ") " . $conexao->error."</b>");
                 //throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
-                gerarMensagem("Consulta efetuada com sucesso.");
+                gerarMensagem("<b>Consulta efetuada com sucesso.</b>");
             }
        }
 
@@ -151,10 +159,10 @@ function popularTestes($conexao){
            gerarMensagem("Efetuando consulta: ".$sql);
            $ret = mysqli_query($conexao,$sql);
             if(!$ret) {
-                gerarMensagem("ERRO: (". $conexao->errno . ") " . $conexao->error);
+                gerarMensagem("<b>ERRO: (". $conexao->errno . ") " . $conexao->error."</b>");
                 throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);
             }else{
-                gerarMensagem("Consulta efetuada com sucesso.");
+                gerarMensagem("<b>Consulta efetuada com sucesso.</b>");
             }
        }*/       
                
