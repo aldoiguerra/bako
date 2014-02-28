@@ -36,22 +36,14 @@ function excluirTabelas($conexao){
     try{
         gerarMensagem("Abrindo transação.");
         $conexao->autocommit(FALSE);
-        
-        $tabelas[0] = "mesa";
-        $tabelas[1] = "pagamento";
-        $tabelas[2] = "parametroSistema";
-        $tabelas[3] = "formaPagamento";
-        $tabelas[4] = "pedidoAdicional";
-        $tabelas[5] = "pedido";
-        $tabelas[6] = "conta";
-        $tabelas[7] = "produto";
-        $tabelas[8] = "categoriaAdicional";
-        $tabelas[9] = "categoria";
-        $tabelas[10] = "adicional";
-        $tabelas[11] = "usuario";
-                
-        for($i=0;$i<count($tabelas);$i++){
-            $sql = "DROP TABLE IF EXISTS ".$tabelas[$i];
+
+        $sql = "show tables";
+        //gerarMensagem("Buscando tabelas: ".$sql);
+        $resultado = mysqli_query($conexao,$sql);
+        while($row = mysqli_fetch_array($resultado)){
+            
+            $tabela = $row[0];
+            $sql = "DROP TABLE IF EXISTS ".$tabela;
             gerarMensagem("Efetuando consulta: ".$sql);
             $resultado = mysqli_query($conexao,$sql);
             if(!$resultado) {
@@ -63,8 +55,9 @@ function excluirTabelas($conexao){
             }else{
                 gerarMensagem("Consulta efetuada com sucesso.");
             }
+
         }
-        
+                
         $conexao->commit();
         gerarMensagem("Commit efetuado.");
     } catch (Exception $ex) {
@@ -86,7 +79,7 @@ function criarTabelas($conexao){
         for($i=0;$i<count($tabelas);$i++){
             $sql = $tabelas[$i];
             gerarMensagem("Efetuando consulta: ".$sql);
-            $resultado = mysqli_query($conexao,$sql);
+            $resultado = mysqli_multi_query($conexao,$sql);
             if(!$resultado) {
                 //if($conexao->errno != 1051){
                 //    throw new Exception ("ERRO: (". $conexao->errno . ") " . $conexao->error);

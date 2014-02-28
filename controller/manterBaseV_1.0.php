@@ -136,8 +136,8 @@ function retornarTabelas(){
                 )engine = InnoDB;";
 
     $tabelas[$pos++] = "DELIMITER //
-                DROP FUNCTION IF EXISTS buscarDescricao//
-                CREATE FUNCTION buscarDescricao(idPai INT)
+                    DROP FUNCTION IF EXISTS buscarDescricao//
+                    CREATE FUNCTION buscarDescricao(idPai INT)
                     RETURNS VARCHAR(500)
                     DETERMINISTIC
                     BEGIN
@@ -162,7 +162,7 @@ function retornarTabelas(){
                         END LOOP busca1;
                         RETURN  descFinal;
                     END//
-                DELIMITER ; ";
+                    DELIMITER ;";
 
     $tabelas[$pos++] = "insert into usuario (nome,usuario,senha,tipo,status) values ('Administrador','sysadmin','742379261b4ba6149a2c3bc7ca8d1cb31f176642',1,1);";
     $tabelas[$pos++] = "INSERT INTO parametroSistema (qtdMesas,valorTxServico) VALUES ('','0');";

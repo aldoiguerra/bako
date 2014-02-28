@@ -159,7 +159,7 @@ echo "Logar: ".logar("sysadmin", "123456");
 
 //dados de teste
 
-require_once ('../dao/ConexaoSingleton.class.php');
+//require_once ('../dao/ConexaoSingleton.class.php');
 
 //Mesa
 /*for($i=1;$i<50;$i++){
@@ -192,6 +192,6 @@ for($i=1;$i<100;$i++){
     echo $ret."<br />";
 }*/
       
-
+//var_dump ($_COOKIE);
 
 ?>
