@@ -24,7 +24,8 @@ function retornarTabelas(){
                     id integer not null auto_increment,
                     descricao varchar(50),
                     layout mediumtext,
-                    tipo tinyint not null, /*1-texto,2-html*/
+                    tipoTexto tinyint not null, /*1-texto,2-html*/
+                    tipoLayout tinyint not null, /*1-Conta,2-Pedido*/
                     primary key (id)
             )engine = InnoDB;";
     
@@ -86,10 +87,13 @@ function retornarTabelas(){
                         contaId integer not null,
                         usuarioId varchar(20) not null,
                         observacao varchar(250),
+                        perfilImpressaoId integer,
+                        impresso tinyint,
                         primary key (id),
                         foreign key (produtoId) references produto(id),
                         foreign key (contaId) references conta(id),
-                        foreign key (usuarioId) references usuario(usuario)
+                        foreign key (usuarioId) references usuario(usuario),
+                        foreign key (perfilImpressaoId) references perfilImpressao(id)
                 )engine = InnoDB;";
 
     $tabelas[$pos++] = "create table pedidoAdicional(
@@ -113,7 +117,11 @@ function retornarTabelas(){
                         id integer not null auto_increment,
                         qtdMesas varchar(50),
                         valorTxServico float(5,2),
-                        primary key (id)
+                        perfilImpressaoContaId integer,
+                        perfilImpressaoPedidoId integer,
+                        primary key (id),
+                        foreign key (perfilImpressaoContaId) references perfilImpressao(id
+                        foreign key (perfilImpressaoPedidoId) references perfilImpressao(id)
                 )engine = InnoDB;";
 
     $tabelas[$pos++] = "create table pagamento(
