@@ -32,6 +32,7 @@ if (isset($_SESSION["usuario"]) && ($_SESSION["usuario"] != "")) {
                             <li><a href="<?php echo $caminho . "view/cadastro_adicional.php"; ?>">Adicionais</a></li>
                             <li><a href="<?php echo $caminho . "view/cadastro_formaPagamento.php"; ?>">Forma de Pagamento</a></li>
                             <li><a href="<?php echo $caminho . "view/cadastro_parametrosSistema.php"; ?>">Configurações</a></li>
+                            <li><a href="<?php echo $caminho . "view/cadastro_perfilImpressao.php"; ?>">Perfil Impressão</a></li>
                             <li><a href="<?php echo $caminho . "view/relatorio.php"; ?>">Relatorios</a></li>
             <?php } ?>
             <li><a class="icon-logout" href="<?php echo $caminho . "controller/sair.php"; ?>">Sair</a></li>
